@@ -1,0 +1,14 @@
+<app-reg-nav-bar class="navbar pcoded-header navbar-expand-lg navbar-light header-blue headerPos-fixed" style="position: sticky"></app-reg-nav-bar>
+<div class="card">
+    <div class="card-header" style="text-align: center">
+        <h4>Checking status of Application for {{clientLocalData.displayName}}</h4>
+    </div>
+    <div class="card-body" style="text-align: center">
+        <p>The current status of your Application is :</p>
+        <h5>{{statusMsg | uppercase}}</h5>
+        <p>You will receive an email when your application status changes.</p>
+        <p>The email address on file is : {{clientLocalData.email}}</p>
+        <p>You can return here by logging in with your user credentials.</p>
+        <p>When you Application has been approved you will be shown your dashboard when you login.</p>
+    </div>
+</div>

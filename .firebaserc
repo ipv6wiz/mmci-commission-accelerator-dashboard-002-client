@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "comm-acc-demo"
+  },
+  "targets": {
+    "comm-acc-demo": {
+      "hosting": {
+        "full-version": [
+          "comm-acc-dash-001"
+        ]
+      }
+    }
+  }
+}
