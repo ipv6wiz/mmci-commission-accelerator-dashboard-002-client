@@ -1,14 +1,18 @@
 {
-  "hosting": {
-    "source": ".",
+  "hosting":     {
+    "site": "comm-acc-dash-002-client",
+    "public": "dist",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
     ],
-    "frameworksBackend": {
-      "region": "us-west1"
-    }
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
   },
   "storage": {
     "rules": "storage.rules"
