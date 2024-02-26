@@ -859,7 +859,7 @@ export default class WidgetDataComponent {
     {
       name: 'Sofa',
       code: '#PHD001',
-      email: 'abc@gmail.com',
+      email: 'abc&#64;gmail.com',
       background: 'badge-light-danger',
       status: 'Out Stock',
       icon: 'text-c-yellow'
@@ -867,7 +867,7 @@ export default class WidgetDataComponent {
     {
       name: 'Computer',
       code: '#PHD002',
-      email: 'cdc@gmail.com',
+      email: 'cdc&#64;gmail.com',
       background: 'badge-light-success',
       status: 'In Stock',
       icon: 'text-muted'
@@ -875,7 +875,7 @@ export default class WidgetDataComponent {
     {
       name: 'Mobile',
       code: '#PHD003',
-      email: 'pqr@gmail.com',
+      email: 'pqr&#64;gmail.com',
       background: 'badge-light-danger',
       status: 'Out Stock',
       icon: 'text-c-yellow'
@@ -883,7 +883,7 @@ export default class WidgetDataComponent {
     {
       name: 'Coat',
       code: '#PHD004',
-      email: 'bcs@gmail.com',
+      email: 'bcs&#64;gmail.com',
       background: 'badge-light-success',
       status: 'In Stock',
       icon: 'text-muted'
@@ -891,7 +891,7 @@ export default class WidgetDataComponent {
     {
       name: 'Watch',
       code: '#PHD006',
-      email: 'hfg@gmail.com',
+      email: 'hfg&#64;gmail.com',
       background: 'badge-light-danger',
       status: 'Out Stock',
       icon: 'text-c-yellow'
@@ -899,7 +899,7 @@ export default class WidgetDataComponent {
     {
       name: 'Sofa',
       code: '#PHD007',
-      email: 'xyz@gmail.com',
+      email: 'xyz&#64;gmail.com',
       background: 'badge-light-success',
       status: 'In Stock',
       icon: 'text-muted'
@@ -907,7 +907,7 @@ export default class WidgetDataComponent {
     {
       name: 'Watch',
       code: '#PHD009',
-      email: 'opr@gmail.com',
+      email: 'opr&#64;gmail.com',
       background: 'badge-light-danger',
       status: 'Out Stock',
       icon: 'text-c-yellow'

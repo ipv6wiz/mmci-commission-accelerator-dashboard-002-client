@@ -136,6 +136,10 @@ $utilities-border: map-merge(
   )
 );
 $utilities-border-colors: map-loop($utilities-border, rgba-css-var, '$key', 'border');
+$utilities-border-subtle: map-loop($utilities-border, rgba-css-var, '$key', 'border');
+$utilities-text-emphasis-colors: map-loop($utilities-text, rgba-css-var, '$key', 'text');
+$utilities-links-underline: map-loop($utilities-text, rgba-css-var, '$key', 'text');
+$utilities-bg-subtle: map-loop($utilities-bg, rgba-css-var, '$key', 'bg');
 // scss-docs-end utilities-border-colors
 
 // Set a specific jump point for requesting color jumps

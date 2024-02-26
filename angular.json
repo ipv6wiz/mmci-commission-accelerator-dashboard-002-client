@@ -59,7 +59,7 @@
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/quill/dist/quill.js",
-              "node_modules/datatables.net/js/jquery.dataTables.js",
+              "node_modules/datatables.net/js/dataTables.js",
               "node_modules/datatables.net-buttons/js/dataTables.buttons.js",
               "node_modules/datatables.net-buttons/js/buttons.colVis.js",
               "node_modules/datatables.net-buttons/js/buttons.flash.js",
@@ -108,10 +108,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "full-version:build:production"
+              "buildTarget": "full-version:build:production"
             },
             "development": {
-              "browserTarget": "full-version:build:development",
+              "buildTarget": "full-version:build:development",
               "disableHostCheck": true
             }
           },
@@ -123,7 +123,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "full-version:build"
+            "buildTarget": "full-version:build"
           }
         },
         "test": {
@@ -157,7 +157,7 @@
           "builder": "@angular/fire:deploy",
           "options": {
             "version": 2,
-            "browserTarget": "full-version:build:production"
+            "buildTarget": "full-version:build:production"
           }
         }
       }

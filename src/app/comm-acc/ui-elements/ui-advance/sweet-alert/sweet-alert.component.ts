@@ -11,8 +11,8 @@ import Swal from 'sweetalert2';
 })
 export class SweetAlertComponent {
   // public props
-  timerInterval: string | number | NodeJS.Timer | undefined;
-  textContent!: number | string | undefined;
+  timerInterval: any;
+  textContent!: any;
 
   // public Method
   confirmAlert() {
