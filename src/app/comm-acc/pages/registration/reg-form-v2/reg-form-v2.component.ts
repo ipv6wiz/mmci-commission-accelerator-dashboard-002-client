@@ -16,7 +16,7 @@ import {Registrant} from "../../../../theme/shared/dtos/registrant.dto";
 import {BehaviorSubject, Subscription} from "rxjs";
 import {DocUploadFormDto} from "../../../../theme/shared/dtos/doc-upload-form.dto";
 import {FormBuilder, FormControl, Validators} from "@angular/forms";
-import {NgxMaskDirective} from "ngx-mask";
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import {BeforeSendEvent, UploadedEvent} from "devextreme/ui/file_uploader";
 import ExtFileUploadComponent from "../../../extension/file-upload/ext-file-upload.component";
 import {ClientContactDto} from "../../../../theme/shared/dtos/client-contact.dto";
@@ -33,6 +33,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatSelectModule} from "@angular/material/select";
 import {MatProgressSpinnerModule, ProgressSpinnerMode} from "@angular/material/progress-spinner";
 import {ThemePalette} from "@angular/material/core";
+import { HelpersService } from '../../../../theme/shared/service/helpers.service';
 
 
 @Component({
@@ -53,10 +54,13 @@ import {ThemePalette} from "@angular/material/core";
         MatSelectModule,
         MatProgressSpinnerModule
     ],
+    providers: [
+        provideNgxMask()
+    ],
   templateUrl: './reg-form-v2.component.html',
   styleUrls: ['./reg-form-v2.component.scss']
 })
-export default class RegFormV2Component implements OnInit{
+export class RegFormV2Component implements OnInit{
     refreshRequest: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     clientLocalData: ClientLoginResponseDto = {} as ClientLoginResponseDto;
     clientBucketName: string = '';
@@ -137,7 +141,8 @@ export default class RegFormV2Component implements OnInit{
         private storageService: StorageService,
         private dre: DreLookupService,
         private _formBuilder: FormBuilder,
-        public dialog: MatDialog
+        public dialog: MatDialog,
+        private helpers: HelpersService
     ) {
         this.populateSteps();
         this.clientLocalData = this.authService.getLocalClientData();
@@ -714,7 +719,7 @@ export default class RegFormV2Component implements OnInit{
                         if(typeof formDate === 'object') {
                             const localDate = formDate.toLocaleDateString();
                             // console.log('******* >>> onDateChange - date: ', localDate);
-                            const isoDate = this.makeIsoDate(localDate);
+                            const isoDate = this.helpers.makeIsoDate(localDate);
                             // console.log('******* >>> onDateChange - isoDate: ', isoDate);
                             // @ts-ignore
                             this.registrant[objKeyToUse][keyToUse] = isoDate.split('T')[0];
@@ -724,7 +729,7 @@ export default class RegFormV2Component implements OnInit{
                         }
                     } else if(field.type === 'text' && !!field.autoCapitalize && field.autoCapitalize === 'words') {
                         // @ts-ignore
-                        this.registrant[objKeyToUse][keyToUse] = this.autoCapitalize(controls[keyToUse].value.trim());
+                        this.registrant[objKeyToUse][keyToUse] = this.helpers.autoCapitalize(controls[keyToUse].value.trim());
                     } else if(field.type === 'select') {
                         // @ts-ignore
                         this.registrant[objKeyToUse][keyToUse] = controls[keyToUse].value;
@@ -746,7 +751,7 @@ export default class RegFormV2Component implements OnInit{
                         this.steps[step].formGroup.controls[keyToUse].setValue(dateValue);
                     } else if(field.type === 'text' && !!field.autoCapitalize && field.autoCapitalize === 'words'){
                         // @ts-ignore
-                        this.steps[step].formGroup.controls[keyToUse].setValue(this.autoCapitalize(this.registrant[objKeyToUse][keyToUse]));
+                        this.steps[step].formGroup.controls[keyToUse].setValue(this.helpers.autoCapitalize(this.registrant[objKeyToUse][keyToUse]));
                     } else if(field.type === 'select') {
                         // @ts-ignore
                         this.steps[step].formGroup.controls[keyToUse].setValue(this.registrant[objKeyToUse][keyToUse]);
@@ -980,7 +985,7 @@ export default class RegFormV2Component implements OnInit{
                 const doAutoCap: boolean = (!!this.steps[stepIndex].fields[fieldIndex].autoCapitalize);
                 console.log('***** >>>>> fieldChange - doAutoCap: ', doAutoCap);
                 if(doAutoCap) {
-                    const capFirst = this.autoCapitalize(text);
+                    const capFirst = this.helpers.autoCapitalize(text);
                     this.steps[stepIndex].formGroup.controls[formControlName].setValue(capFirst);
                 }
             }
@@ -1003,29 +1008,11 @@ export default class RegFormV2Component implements OnInit{
         if(stepIndex !== -1) {
             const localDate = date.toLocaleDateString();
             // console.log('******* >>> onDateChange - date: ', localDate);
-            const isoDate = this.makeIsoDate(localDate);
+            const isoDate = this.helpers.makeIsoDate(localDate);
             // console.log('******* >>> onDateChange - isoDate: ', isoDate);
             this.steps[stepIndex].formGroup.controls[formControlName].setValue(isoDate);
             // console.log('onDateChange controls: ', this.f(stepIndex));
         }
-    }
-
-    private makeIsoDate(localDate: string, withTime: boolean = true): string {
-        const dateParts = localDate.split('/'); // 0=month, 1=day, 2=year
-        const isoParts: string[] = [];
-        isoParts.push(dateParts[2]);
-        isoParts.push(dateParts[0].padStart(2, '0'));
-        isoParts.push(dateParts[1].padStart(2, '0'));
-        return isoParts.join('-')+(withTime ? 'T00:00:00' : '');
-    }
-
-    private autoCapitalize(text: string): string {
-        const words: string[] = text.split(' ');
-        for(let w = 0; w < words.length; w++){
-            words[w] = words[w].charAt(0).toUpperCase()+words[w].slice(1);
-        }
-        const newTxt: string = words.join(' ');
-        return newTxt;
     }
 
 }

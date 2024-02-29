@@ -80,8 +80,6 @@ export const httpInterceptorProviders = [
         AngularFireStorageModule,
         AppRoutingModule,
         SharedModule,
-        FormsModule,
-        ReactiveFormsModule,
         BrowserAnimationsModule,
         ToastrModule.forRoot(),
         HttpClientModule,

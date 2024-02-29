@@ -14,7 +14,7 @@ import {Client} from "../../../../theme/shared/entities/client.interface";
   templateUrl: './reg-pending.component.html',
   styleUrls: ['./reg-pending.component.scss']
 })
-export default class RegPendingComponent implements OnInit{
+export class RegPendingComponent implements OnInit{
     // @ts-ignore
     public clientDocData: Client;
     public clientLocalData: Client;

@@ -56,6 +56,8 @@ import { FileUploadComponent } from './components/file-upload/file-upload.compon
 
 
 
+
+
 const bootstrap = [
   NgbDropdownModule,
   NgbNavModule,
@@ -77,6 +79,7 @@ const bootstrap = [
         MatInputModule,
         MatDatepickerModule,
         MatNativeDateModule,
+        MatButtonModule,
         FormsModule,
         ReactiveFormsModule,
         CardComponent,
@@ -88,6 +91,7 @@ const bootstrap = [
         AlertComponent,
         bootstrap,
         NgClickOutsideDirective,
+
         DxCheckBoxModule,
         DxSelectBoxModule,
         DxNumberBoxModule,
@@ -98,7 +102,7 @@ const bootstrap = [
         DxFileUploaderModule,
         DxFileManagerModule,
         DxAccordionModule,
-        MatButtonModule
+
     ],
     exports: [
         CommonModule,
@@ -125,6 +129,9 @@ const bootstrap = [
         AlertComponent,
         bootstrap,
         NgClickOutsideDirective,
+        RegNavBarRightComponent,
+        FooterComponent,
+        FileUploadComponent,
         DxCheckBoxModule,
         DxSelectBoxModule,
         DxNumberBoxModule,
@@ -135,9 +142,7 @@ const bootstrap = [
         DxFileUploaderModule,
         DxFileManagerModule,
         DxAccordionModule,
-        RegNavBarRightComponent,
-        FooterComponent,
-        FileUploadComponent,
+
     ],
   declarations: [
       DataFilterPipe,

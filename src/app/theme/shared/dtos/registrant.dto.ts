@@ -4,6 +4,7 @@ import {ClientDreInfoDto} from "./client-dre-info.dto";
 import {AddressDto} from "./address.dto";
 import {BrokerageDto} from "./brokerage.dto";
 import {AgentPerformanceDto} from "./agent-performance.dto";
+import { DocUploadInfoDto } from './doc-upload-info.dto';
 
 export class Registrant {
     uid: string = '';
@@ -12,7 +13,7 @@ export class Registrant {
     homeAddress: AddressDto;
     brokerageInfo: BrokerageDto;
     performanceInfo: AgentPerformanceDto;
-    docUploadInfo: any;
+    docUploadInfo: DocUploadInfoDto;
     agentDreData: any;
     regSteps: RegStep[] = [];
 
@@ -23,6 +24,6 @@ export class Registrant {
         this.homeAddress = {};
         this.brokerageInfo = {};
         this.performanceInfo = {};
-        this.docUploadInfo = {};
+        this.docUploadInfo = {} as DocUploadInfoDto;
     }
 }

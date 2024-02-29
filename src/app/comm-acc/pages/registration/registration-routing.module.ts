@@ -10,20 +10,19 @@ const routes: Routes = [
             {
                 path: 'reg-form',
                 title: AppSiteConfig.siteName,
-                loadComponent: () => import('./reg-form-v2/reg-form-v2.component'),
+                loadComponent: () => import('./reg-form-v2/reg-form-v2.component').then(mod => mod.RegFormV2Component),
                 canActivate: [AuthGuard],
                 data: {roles: ['CLIENT-PENDING-REGISTRATION']}
             },
             {
                 path: 'pending-verification',
                 title: AppSiteConfig.siteName,
-                loadComponent: () => import('./reg-pending/reg-pending.component'),
+                loadComponent: () => import('./reg-pending/reg-pending.component').then(mod => mod.RegPendingComponent),
                 canActivate: [AuthGuard],
                 data: {roles: ['CLIENT-PENDING-VERIFICATION']}
             },
         ]
-    },
-
+    }
 ];
 
 @NgModule({

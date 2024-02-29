@@ -1,6 +1,6 @@
 {
   "name": "commision-accelerator-dashboard-001",
-  "version": "0.0.255",
+  "version": "0.0.256",
   "author": "MMCI - John Page",
   "scripts": {
     "ng": "ng",
