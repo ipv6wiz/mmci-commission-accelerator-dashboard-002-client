@@ -3,8 +3,6 @@ import {CommonModule} from "@angular/common";
 import {Router, RouterModule} from "@angular/router";
 import {SharedModule} from "../../../../theme/shared/shared.module";
 import {RegNavBarComponent} from "../../../../theme/shared/components/reg-nav-bar/reg-nav-bar.component";
-import {DxFileUploaderModule} from "devextreme-angular";
-import {FileListComponent} from "../../../../theme/shared/components/file-list/file-list.component";
 import {AuthenticationService} from "../../../../theme/shared/service";
 import {ClientService} from "../../../../theme/shared/service/client.service";
 import {RegistrationService} from "../../../../theme/shared/service/registration.service";
@@ -34,33 +32,35 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatProgressSpinnerModule, ProgressSpinnerMode} from "@angular/material/progress-spinner";
 import {ThemePalette} from "@angular/material/core";
 import { HelpersService } from '../../../../theme/shared/service/helpers.service';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { FileManagerComponent } from '../../../../theme/shared/components/file-manager/file-manager.component';
 
 
 @Component({
-  selector: 'app-reg-form-v2',
+  selector: 'app-reg-form-v2-mat',
   standalone: true,
     imports: [
         CommonModule,
         RouterModule,
         SharedModule,
         RegNavBarComponent,
-        DxFileUploaderModule,
-        FileListComponent,
         NgxMaskDirective,
         ExtFileUploadComponent,
         MatIconModule,
         MatButtonModule,
         MatDialogModule,
         MatSelectModule,
-        MatProgressSpinnerModule
+        MatExpansionModule,
+        MatProgressSpinnerModule,
+        FileManagerComponent
     ],
     providers: [
         provideNgxMask()
     ],
-  templateUrl: './reg-form-v2.component.html',
-  styleUrls: ['./reg-form-v2.component.scss']
+  templateUrl: './reg-form-v2-mat.component.html',
+  styleUrls: ['./reg-form-v2-mat.component.scss']
 })
-export class RegFormV2Component implements OnInit{
+export class RegFormV2MatComponent implements OnInit{
     refreshRequest: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     clientLocalData: ClientLoginResponseDto = {} as ClientLoginResponseDto;
     clientBucketName: string = '';
@@ -72,6 +72,8 @@ export class RegFormV2Component implements OnInit{
     public loadSpinnerColor: ThemePalette = 'primary';
     public loadSpinnerMode: ProgressSpinnerMode = 'indeterminate';
     public loadSpinnerDiameter: string = '50';
+    stepOverflow: string = 'visible';
+
 
     docUploadMap: Map<string, DocUploadInfoDto> = new Map<string, DocUploadInfoDto>();
 
@@ -126,7 +128,7 @@ export class RegFormV2Component implements OnInit{
         }
     ]
 
-    isLinear = true; // @TODO set isLinear to true for production
+    isLinear = false; // @TODO set isLinear to true for production
 
     steps: any[] = [];
     docUploadComplete: boolean = false;
@@ -174,6 +176,7 @@ export class RegFormV2Component implements OnInit{
             });
         });
         console.log('ngOnInit - docUploadControls: ', docUploadControls);
+        console.log('ngOnInit - docUploadMap: ', this.docUploadMap);
         // this.docUploadGroup.controls = docUploadControls;
         // this.docUploadGroup.setErrors({noUploads: true});
         this.docUploadGroup = this._formBuilder.group(docUploadControls);
@@ -806,8 +809,10 @@ export class RegFormV2Component implements OnInit{
             console.log(`>>>>>>> onFileUploaded - ctrlName: ${ctrlName}`);
             // @ts-ignore
             this.docUploadGroup.controls[ctrlName].setValue('true');
+            console.log('>>>>>>> onFileUploaded - docUploadMap: ', this.docUploadMap);
             const item = this.docUploadMap.get(ctrlName);
-            if(!!item) {
+            console.log('>>>>>>> onFileUploaded - BEFORE - item: ', item);
+            if(item) {
                 item.uploaded = true;
                 item.fullFileName = response.data.fileName;
                 console.log('>>>>>>> onFileUploaded - item: ', item);

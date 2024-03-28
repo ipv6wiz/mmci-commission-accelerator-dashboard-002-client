@@ -15,6 +15,7 @@ export class NavigationComponent {
 
   // constructor
   constructor() {
+    console.log('NavigationComponent');
     this.gradientConfig = GradientConfig;
     this.windowWidth = window.innerWidth;
   }

@@ -24,10 +24,10 @@ export class AuthGuard  {
         } else {
             const clientData = this.authService.getLocalClientData();
             if(!!clientData) {
-                const roles = await this.authService.getLocalClientRoles(clientData);
+                const roles = await this.authService.getCurrentClientRoles(clientData.uid);
                 console.log('User Roles: ', roles);
                 console.log('Page roles: ', route.data['roles']);
-                okRole = (!!route.data['roles']) ? route.data['roles'].some((r: string) => roles.includes(r)) : false;
+                okRole = (route.data['roles']) ? route.data['roles'].some((r: string) => roles.includes(r)) : false;
                 console.log('okRole: ', okRole);
             }
             if(okRole) {

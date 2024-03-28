@@ -9,11 +9,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SharedModule } from 'src/app/theme/shared/shared.module';
 import { AuthenticationService } from 'src/app/theme/shared/service/authentication.service';
 import {LoginFormDataDto} from "../../../../theme/shared/dtos/login-form-data.dto";
+import { ThemePalette } from '@angular/material/core';
+import { MatProgressSpinner, ProgressSpinnerMode } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-auth-signin-v2',
   standalone: true,
-  imports: [CommonModule, RouterModule, SharedModule],
+  imports: [CommonModule, RouterModule, SharedModule, MatProgressSpinner],
   templateUrl: './auth-signin-v2.component.html',
   styleUrls: ['./auth-signin-v2.component.scss']
 })
@@ -24,6 +26,9 @@ export default class AuthSigninV2Component implements OnInit {
 
   loginForm!: FormGroup;
   loading = false;
+  loadSpinnerColor: ThemePalette = 'primary';
+  loadSpinnerMode: ProgressSpinnerMode = 'indeterminate';
+  loadSpinnerDiameter: string = '50';
   submitted = false;
   error = '';
   alertType = '';
@@ -54,14 +59,18 @@ export default class AuthSigninV2Component implements OnInit {
 
     const togglePassword = document.querySelector('#togglePassword');
     const password = document.querySelector('#password');
-
-    togglePassword?.addEventListener('click', () => {
-      // toggle the type attribute
-      const type = password?.getAttribute('type') === 'password' ? 'text' : 'password';
-      password?.setAttribute('type', type);
+    if(togglePassword) {
+      togglePassword.addEventListener('click', () => {
+        // toggle the type attribute
+        const type = password?.getAttribute('type') === 'password' ? 'text' : 'password';
+        password!.setAttribute('type', type);
         // toggle the icon
-      togglePassword.classList.toggle('fa-eye-slash');
-   });
+        if ('classList' in togglePassword) {
+          togglePassword.classList.toggle('fa-eye-slash');
+        }
+      });
+    }
+
   }
 
   // convenience getter for easy access to form fields
@@ -88,9 +97,11 @@ export default class AuthSigninV2Component implements OnInit {
         email: this.f?.['username']?.value,
         password: this.f?.['password']?.value
     }
-    this.authenticationService.loginViaApi( loginFormData, returnUrl)
+    this.authenticationService.login( loginFormData, returnUrl)
         .then(() => {
-            console.log('return from authService - login');
+            console.log('return from authService - loginViaApi - returnUrl: ', returnUrl);
+            this.loading = false;
+          // this.router.navigate([returnUrl]).then();
         })
         .catch((err) => {
             throw new Error(err.message);

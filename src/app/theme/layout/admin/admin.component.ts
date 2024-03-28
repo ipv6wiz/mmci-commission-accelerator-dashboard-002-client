@@ -17,6 +17,7 @@ export class AdminComponent implements OnInit {
 
   // constructor
   constructor(private zone: NgZone, private location: Location, private locationStrategy: LocationStrategy) {
+    console.log('AdminComponent - constructor');
     this.gradientConfig = GradientConfig;
     let current_url = this.location.path();
     const baseHref = this.locationStrategy.getBaseHref();
@@ -40,6 +41,7 @@ export class AdminComponent implements OnInit {
 
   // life cycle event
   ngOnInit() {
+    console.log('AdminComponent - ngOnInit');
     if (this.windowWidth < 992) {
       GradientConfig.layout = 'vertical';
       setTimeout(() => {

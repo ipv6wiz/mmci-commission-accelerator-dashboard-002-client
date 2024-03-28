@@ -58,6 +58,7 @@ export default class DashAnalyticsComponent {
 
   // constructor
   constructor() {
+    console.log('DashAnalyticsComponent - constructor')
     this.chartOptions = {
       chart: {
         height: 205,
@@ -108,7 +109,6 @@ export default class DashAnalyticsComponent {
           type: 'horizontal',
           opacityFrom: 1,
           opacityTo: 1,
-          // stops: [0, 100]
         }
       },
       grid: {
@@ -214,7 +214,6 @@ export default class DashAnalyticsComponent {
           type: 'horizontal',
           opacityFrom: 1,
           opacityTo: 0.8,
-          // stops: [0, 100, 100, 100]
         }
       },
       stroke: {
@@ -247,7 +246,7 @@ export default class DashAnalyticsComponent {
     {
       background: 'bg-c-blue',
       title: 'Orders Received',
-      icon: 'icon-shopping-cart',
+      icon: 'shopping-cart',
       text: 'Completed Orders',
       number: '486',
       no: '351'
@@ -255,7 +254,7 @@ export default class DashAnalyticsComponent {
     {
       background: 'bg-c-green',
       title: 'Total Sales',
-      icon: 'icon-tag',
+      icon: 'tag',
       text: 'This Month',
       number: '1641',
       no: '213'
@@ -263,7 +262,7 @@ export default class DashAnalyticsComponent {
     {
       background: 'bg-c-yellow',
       title: 'Revenue',
-      icon: 'icon-repeat',
+      icon: 'repeat',
       text: 'This Month',
       number: '$42,56',
       no: '$5,032'
@@ -271,7 +270,7 @@ export default class DashAnalyticsComponent {
     {
       background: 'bg-c-red',
       title: 'Total Profit',
-      icon: 'icon-shopping-cart',
+      icon: 'shopping-cart',
       text: 'This Month',
       number: '$9,562',
       no: '$542'

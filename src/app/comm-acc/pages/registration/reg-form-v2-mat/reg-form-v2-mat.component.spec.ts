@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RegFormV2Component } from './reg-form-v2.component';
+import { RegFormV2MatComponent } from './reg-form-v2-mat.component';
 
 describe('RegFormV2Component', () => {
-  let component: RegFormV2Component;
-  let fixture: ComponentFixture<RegFormV2Component>;
+  let component: RegFormV2MatComponent;
+  let fixture: ComponentFixture<RegFormV2MatComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [RegFormV2Component]
+      declarations: [RegFormV2MatComponent]
     });
-    fixture = TestBed.createComponent(RegFormV2Component);
+    fixture = TestBed.createComponent(RegFormV2MatComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

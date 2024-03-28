@@ -13,12 +13,12 @@ const routes: Routes = [
     path: 'admin',
     component: AdminComponent,
     children: [
-      // {
-      //   path: '',
-      //   redirectTo: '/auth/signin-v2',
-      //   pathMatch: 'full',
-      //   title: AppSiteConfig.siteName
-      // },
+      {
+        path: '',
+        redirectTo: '/auth/signin-v2',
+        pathMatch: 'full',
+        title: AppSiteConfig.siteName
+      },
       {
         path: 'dashboard',
         loadChildren: () => import('./comm-acc/dashboard/dashboard.module').then((module) => module.DashboardModule),
@@ -59,12 +59,6 @@ const routes: Routes = [
         path: 'tbl-bootstrap',
         loadChildren: () => import('./comm-acc/table/tbl-bootstrap/tbl-bootstrap.module').then((module) => module.TblBootstrapModule),
           canActivate: [AuthGuard]
-      },
-      {
-        path: 'tbl-datatable',
-        loadComponent: () => import('./comm-acc/table/tbl-datatable/tbl-datatable.component'),
-          canActivate: [AuthGuard],
-          data: {roles: ['SuperAdmin']}
       },
       {
         path: 'charts',
@@ -127,18 +121,7 @@ const routes: Routes = [
           canActivate: [AuthGuard],
           data: {roles: ['SuperAdmin']}
       },
-      {
-        path: 'file-upload',
-        loadComponent: () => import('./comm-acc/extension/file-upload/ext-file-upload.component'),
-          canActivate: [AuthGuard],
-          data: {roles: ['SuperAdmin']}
-      },
-      {
-        path: 'sample-page',
-        loadComponent: () => import('./comm-acc/other/sample-page/sample-page.component'),
-          canActivate: [AuthGuard],
-          data: {roles: ['SuperAdmin']}
-      }
+
     ]
   },
   {

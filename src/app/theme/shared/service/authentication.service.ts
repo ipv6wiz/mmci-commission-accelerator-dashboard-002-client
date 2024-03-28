@@ -75,11 +75,11 @@ export class AuthenticationService {
       try {
         const response: ApiResponse = await lastValueFrom(this.loginClient(loginFormData));
         if(response.statusCode === 200) {
-            await this.setApiClientData(response.data.client);
+            const data = await this.setApiClientData(response.data.client);
             if(!this.returnUrl) {
                 this.returnUrl = response.data.client.defaultPage;
             }
-            console.log(`Login - returnUrl = ${this.returnUrl}`);
+            console.log(`loginViaApi - returnUrl = ${this.returnUrl}`);
             return this.router.navigate([this.returnUrl]);
         } else {
             if(response.statusCode === 499) {
@@ -88,7 +88,7 @@ export class AuthenticationService {
             throw new Error(`Login failed for ${loginFormData.email}`);
         }
       } catch (err: any) {
-          const msg: string = `Dash001 - Login - error - msg: ${err.message}`;
+          const msg: string = `Dash002-Client - loginViaApi - error - msg: ${err.message}`;
             this.logger.log(msg);
             throw new Error(msg);
       }
@@ -98,54 +98,57 @@ export class AuthenticationService {
       return this.http.post<any>(`${this.apiUrl}/auth/login`, loginFormData);
   }
 
-  async login(email: string, password: string, returnUrl: string) {
-      this.signUpAction = false;
-      return this.afAuth
-          .signInWithEmailAndPassword(email, password)
-          .then(async (result) => {
-              console.log('login client - user result: ', result);
-              const user = result.user;
-              if(!user) {
-                  throw new Error('Invalid User');
-              } else {
-                  if(!user.emailVerified) {
-                      throw new Error('Please verify your email address, check the email account you used for signup');
-                  } else {
-                      return this.SetClientData(user)
-                          .then((data: any) => {
-                              this.getCurrentClientDocument(data.clientId)
-                                  .then((clientDoc) => {
-                                      console.log('login - before - clientData:', this.clientData);
-                                      console.log('login -  doc:', clientDoc);
-                                      // @TODO Handle missing returnUrl and/or defaultPage
-                                      // const clientDoc = doc;
-                                      const {defaultPage, dreNumber, firstName, lastName} = clientDoc;
-                                      this.clientData.dreNumber = dreNumber;
-                                      this.clientData.firstName = firstName;
-                                      this.clientData.lastName = lastName;
-                                      console.log('login - After - clientData:', this.clientData);
-                                      // localStorage.setItem('client', JSON.stringify(this.clientData));
-                                      sessionStorage.setItem('client', JSON.stringify(this.clientData))
-                                      if(!this.returnUrl) {
-                                          this.returnUrl = defaultPage;
-                                      }
-                                      console.log(`Login - returnUrl = ${this.returnUrl}`);
-                                      return this.router.navigate([this.returnUrl]);
-                                  })
-                                  .catch((err) => {
-                                      throw new Error('login - getCurrentClientDocument - error:' + err.message);
-                                  })
-                          })
-                          .catch((err) => {
-                              throw new Error('login - catch - ' + err.message);
-                          });
-                  }
-              }
-          })
-          .catch((error) => {
-              console.log('Caught Login Error: ', error.message);
-              throw new Error(error.message);
-          });
+  async login(loginFormData: LoginFormDataDto, returnUrl: string = '') {
+     const {email, password} = loginFormData;
+     if(email && password) {
+       this.signUpAction = false;
+       return this.afAuth
+         .signInWithEmailAndPassword(email, password)
+         .then(async (result) => {
+           console.log('login client - user result: ', result);
+           const user = result.user;
+           if (!user) {
+             throw new Error('Invalid User');
+           } else {
+             if (!user.emailVerified) {
+               throw new Error('Please verify your email address, check the email account you used for signup');
+             } else {
+               return this.SetClientData(user)
+                 .then((data: any) => {
+                   this.getCurrentClientDocument(data.clientId)
+                     .then((clientDoc) => {
+                       console.log('login - before - clientData:', this.clientData);
+                       console.log('login -  doc:', clientDoc);
+                       // @TODO Handle missing returnUrl and/or defaultPage
+                       // const clientDoc = doc;
+                       const { defaultPage, dreNumber, firstName, lastName } = clientDoc;
+                       this.clientData.dreNumber = dreNumber;
+                       this.clientData.firstName = firstName;
+                       this.clientData.lastName = lastName;
+                       console.log('login - After - clientData:', this.clientData);
+                       // localStorage.setItem('client', JSON.stringify(this.clientData));
+                       sessionStorage.setItem('client', JSON.stringify(this.clientData))
+                       if (!this.returnUrl) {
+                         this.returnUrl = defaultPage;
+                       }
+                       console.log(`Login - returnUrl = ${this.returnUrl}`);
+                       return this.router.navigate([this.returnUrl]);
+                     })
+                     .catch((err) => {
+                       throw new Error('login - getCurrentClientDocument - error:' + err.message);
+                     })
+                 })
+                 .catch((err) => {
+                   throw new Error('login - catch - ' + err.message);
+                 });
+             }
+           }
+         })
+         .catch((error) => {
+           console.log('Caught Login Error: ', error.message);
+           throw new Error(error.message);
+         });
+     }
   }
 
   async logoutViaApi(): Promise<any> {
@@ -159,7 +162,7 @@ export class AuthenticationService {
               const uid = this.getLocalClientDataProp('uid');
               console.log('UID from Session Data: ', uid);
               this.cookieService.delete(`secureCookie-${uid}`,'/', this.cookieDomain, true, 'None');
-              await this.router.navigate(['/auth/signin-v2']);
+              return await this.router.navigate(['/auth/signin-v2']);
           } else {
               throw new Error('Error while logging out client');
           }
@@ -194,9 +197,9 @@ export class AuthenticationService {
 
     // Returns true when client is logged in and email is verified
     isLoggedIn(): boolean {
-        // const client = JSON.parse(localStorage.getItem('client')!);
         const client = JSON.parse(sessionStorage.getItem('client')!);
-        return !!client && client.emailVerified !== false;
+        console.log('isLoggedIn - client: ', client);
+        return client && client.emailVerified !== false;
     }
 
     /**

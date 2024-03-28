@@ -24,7 +24,6 @@ import { NavGroupComponent } from './theme/layout/admin/navigation/nav-content/n
 import { NavItemComponent } from './theme/layout/admin/navigation/nav-content/nav-item/nav-item.component';
 import { SharedModule } from './theme/shared/shared.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { fakeBackendProvider } from 'src/app/theme/shared/_helpers';
 import { JwtInterceptor, ErrorInterceptor } from 'src/app/theme/shared/_helpers';
 
 // third party
@@ -102,7 +101,6 @@ export const httpInterceptorProviders = [
         httpInterceptorProviders,
         {provide: ErrorHandler, useClass: GlobalErrorHandler},
         provideEnvironmentNgxMask(),
-        fakeBackendProvider,
         AuthenticationService,
         JwtService
     ],

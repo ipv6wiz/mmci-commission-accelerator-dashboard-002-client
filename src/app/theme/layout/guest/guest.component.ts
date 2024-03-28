@@ -7,7 +7,13 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./guest.component.scss']
 })
 export class GuestComponent implements OnInit{
-    ngOnInit() {
-        console.log('>>>>>>>>>>>>>>>>> GuestComponent <<<<<<<<<<<<<<<<<<<<<<<<')
+
+  constructor() {
+    // console.log('>>>>>>>>>>>>>>>>> GuestComponent <<<<<<<<<<<<<<<<<<<<<<<<');
+  }
+
+
+  ngOnInit() {
+        console.log('>>>>>>>>>>>>>>>>> GuestComponent <<<<<<<<<<<<<<<<<<<<<<<<');
     }
 }

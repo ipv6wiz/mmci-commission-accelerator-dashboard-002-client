@@ -1,69 +1,36 @@
 import { Injectable } from '@angular/core';
 import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/compat/firestore";
 import {NavigationItem} from "../entities/navigation-item.interface";
-import {arrayUnion} from "@angular/fire/firestore";
+import { environment } from '../../../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { lastValueFrom, Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class NavigationService {
-    private dbPath = '/navigation';
-    navRef: AngularFirestoreCollection<NavigationItem>;
-  constructor(private afs: AngularFirestore) {
-      this.navRef = afs.collection(this.dbPath);
-  }
+  private apiUrl = environment.gcpCommAccApiUrl;
+  constructor(private http: HttpClient) {}
 
   async getAllFilteredByRole(userRoles: string[]) {
-      // console.log('userRoles: ', userRoles);
-    const res = await this.navRef.ref
-        .where('roles', "array-contains-any", userRoles).get();
-    let data: any[] = [];
-    res.docs.forEach(doc => {
-        const navTree = doc.data();
-        const cleanTree = this.cleanNavTree(navTree, userRoles);
-        // console.log('cleanTree: ', cleanTree);
-        data.push(cleanTree)
-    });
-    return data;
+    console.log('NavigationService - userRoles: ', userRoles);
+    return lastValueFrom(this.getAllByRole(userRoles), {defaultValue: []})
+      .then((response: any) => {
+        if(response.statusCode === 200) {
+          return response.data.items;
+        } else {
+          throw new Error(`Did not find navigation`);
+        }
+      }).catch((err) => {
+        console.log('Dash002 - Navigation Service - getAllFilteredByRole- error: ', err.message);
+        return null;
+      })
   }
 
-  createMenuSection(section: NavigationItem) {
-      section.children = [];
-      return this.navRef.add({...section});
+  getAllByRole(roles: string[]): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/navigation/client`, {roles});
   }
 
-  updateParent(parentId: string, data: any) {
-      return this.navRef.doc(parentId).update(data);
-  }
 
-  createMenuChild(parentId: string, childItem: NavigationItem) {
-      const addArrayItem = {children: arrayUnion(childItem)};
-      return this.updateParent(parentId, addArrayItem);
-  }
-
-  cleanNavTree(navTreeItem: NavigationItem, userRoles: string[]) {
-      // console.log('navTreeItem: ', navTreeItem);
-      // console.log('userRoles: ', userRoles);
-      const okRole = (!!navTreeItem.roles) ? navTreeItem.roles.some((r: string) => userRoles.includes(r)) : false;
-      // console.log('okRole: ', okRole);
-      if(!okRole) {
-          return null;
-      }
-      if(okRole && navTreeItem.children && navTreeItem.children.length > 0) {
-          let i = 0;
-          while (i < navTreeItem.children.length) {
-              let res = this.cleanNavTree(navTreeItem.children[i], userRoles)
-              if (res === null) {
-                  navTreeItem.children.splice(i, 1);
-              } else {
-                  i++;
-              }
-          }
-      }
-      if(okRole) {
-          return navTreeItem;
-      } else {
-          return null;
-      }
-  }
 }

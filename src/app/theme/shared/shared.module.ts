@@ -32,15 +32,6 @@ import {
   NgbProgressbarModule
 } from '@ng-bootstrap/ng-bootstrap';
 import {AlertComponent} from "./_helpers/alert/alert.component";
-import {
-    DxAccordionModule,
-    DxAutocompleteModule,
-    DxButtonModule,
-    DxCheckBoxModule, DxFileManagerModule, DxFileUploaderModule,
-    DxFormModule,
-    DxNumberBoxModule,
-    DxSelectBoxModule, DxTreeViewModule
-} from "devextreme-angular";
 
 import { RegNavBarRightComponent } from './components/reg-nav-bar/reg-nav-bar-right/reg-nav-bar-right.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -50,7 +41,7 @@ import {MatStepperModule} from "@angular/material/stepper";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {DisableControlDirective} from "./directive/disable-control.directive";
-import {MatDatepicker, MatDatepickerModule} from "@angular/material/datepicker";
+import { MatDatepickerModule} from "@angular/material/datepicker";
 import { MatNativeDateModule } from "@angular/material/core";
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 
@@ -92,16 +83,6 @@ const bootstrap = [
         bootstrap,
         NgClickOutsideDirective,
 
-        DxCheckBoxModule,
-        DxSelectBoxModule,
-        DxNumberBoxModule,
-        DxButtonModule,
-        DxFormModule,
-        DxAutocompleteModule,
-        DxTreeViewModule,
-        DxFileUploaderModule,
-        DxFileManagerModule,
-        DxAccordionModule,
 
     ],
     exports: [
@@ -132,16 +113,7 @@ const bootstrap = [
         RegNavBarRightComponent,
         FooterComponent,
         FileUploadComponent,
-        DxCheckBoxModule,
-        DxSelectBoxModule,
-        DxNumberBoxModule,
-        DxButtonModule,
-        DxFormModule,
-        DxAutocompleteModule,
-        DxTreeViewModule,
-        DxFileUploaderModule,
-        DxFileManagerModule,
-        DxAccordionModule,
+
 
     ],
   declarations: [

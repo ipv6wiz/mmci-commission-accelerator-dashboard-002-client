@@ -39,6 +39,7 @@ export class NavContentComponent implements OnInit, AfterViewInit {
       private navService: NavigationService,
       private authAService: AuthenticationService
   ) {
+    console.log('NavContentComponent')
       this.authAService.getCurrentClientRoles().then(roles => {
           this.currentUserRoles = roles;
           this.navService.getAllFilteredByRole(this.currentUserRoles).then(nav => this.navigations = nav);
@@ -122,11 +123,17 @@ export class NavContentComponent implements OnInit, AfterViewInit {
       const up_parent = parent?.parentElement?.parentElement;
       const last_parent = up_parent?.parentElement;
       if (parent?.classList.contains('pcoded-hasmenu')) {
-        parent.classList.add('active');
+        if ('classList' in parent) {
+          parent.classList.add('active');
+        }
       } else if (up_parent?.classList.contains('pcoded-hasmenu')) {
-        up_parent.classList.add('active');
+        if ('classList' in up_parent) {
+          up_parent.classList.add('active');
+        }
       } else if (last_parent?.classList.contains('pcoded-hasmenu')) {
-        last_parent.classList.add('active');
+        if ('classList' in last_parent) {
+          last_parent.classList.add('active');
+        }
       }
     }
   }
@@ -151,19 +158,31 @@ export class NavContentComponent implements OnInit, AfterViewInit {
       const last_parent = up_parent?.parentElement;
       if (parent?.classList.contains('pcoded-hasmenu')) {
         if (GradientConfig.layout === 'vertical') {
-          parent.classList.add('pcoded-trigger');
+          if ('classList' in parent) {
+            parent.classList.add('pcoded-trigger');
+          }
         }
-        parent.classList.add('active');
+        if ('classList' in parent) {
+          parent.classList.add('active');
+        }
       } else if (up_parent?.classList.contains('pcoded-hasmenu')) {
         if (GradientConfig.layout === 'vertical') {
-          up_parent.classList.add('pcoded-trigger');
+          if ('classList' in up_parent) {
+            up_parent.classList.add('pcoded-trigger');
+          }
         }
-        up_parent.classList.add('active');
+        if ('classList' in up_parent) {
+          up_parent.classList.add('active');
+        }
       } else if (last_parent?.classList.contains('pcoded-hasmenu')) {
         if (GradientConfig.layout === 'vertical') {
-          last_parent.classList.add('pcoded-trigger');
+          if ('classList' in last_parent) {
+            last_parent.classList.add('pcoded-trigger');
+          }
         }
-        last_parent.classList.add('active');
+        if ('classList' in last_parent) {
+          last_parent.classList.add('active');
+        }
       }
     }
   }

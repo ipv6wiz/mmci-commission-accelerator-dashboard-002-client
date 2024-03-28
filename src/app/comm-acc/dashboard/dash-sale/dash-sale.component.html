@@ -44,7 +44,7 @@
           <div class="col">
             <a href="javascript:">
               <h6 class="m-b-5"
-                >{{ list.title }} <span class="text-muted float-end f-14">{{ list.time }}</span></h6
+              >{{ list.title }} <span class="text-muted float-end f-14">{{ list.time }}</span></h6
               >
             </a>
           </div>
@@ -61,29 +61,29 @@
         <div class="table-responsive">
           <table class="table table-hover m-b-0">
             <thead>
-              <tr>
-                <th>Product Name</th>
-                <th>Image</th>
-                <th>Status</th>
-                <th>Price</th>
-                <th>Action</th>
-              </tr>
+            <tr>
+              <th>Product Name</th>
+              <th>Image</th>
+              <th>Status</th>
+              <th>Price</th>
+              <th>Action</th>
+            </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let list of new_product">
-                <td>{{ list.name }}</td>
-                <td><img src="{{ list.src }}" alt="product-img" class="img-20" /></td>
-                <td>
-                  <div
-                    ><label class="badge {{ list.background }}">{{ list.status }}</label></div
-                  >
-                </td>
-                <td>{{ list.price }}</td>
-                <td
-                  ><a href="javascript:" title="Edit"><i class="icon feather-edit f-16 text-c-green"></i></a
-                  ><a href="javascript:" title="Delete"><i class="feather-trash-2 ms-3 f-16 text-c-red"></i></a
-                ></td>
-              </tr>
+            <tr *ngFor="let list of new_product">
+              <td>{{ list.name }}</td>
+              <td><img src="{{ list.src }}" alt="product-img" class="img-20" /></td>
+              <td>
+                <div
+                ><label class="badge {{ list.background }}">{{ list.status }}</label></div
+                >
+              </td>
+              <td>{{ list.price }}</td>
+              <td
+              ><a href="javascript:" title="Edit"><i class="icon feather-edit f-16 text-c-green"></i></a
+              ><a href="javascript:" title="Delete"><i class="feather-trash-2 ms-3 f-16 text-c-red"></i></a
+              ></td>
+            </tr>
             </tbody>
           </table>
         </div>
@@ -94,7 +94,7 @@
     <app-card [hidHeader]="true">
       <h6>Customer Satisfaction</h6>
       <span
-        >It takes continuous effort to maintain high customer satisfaction levels.Internal and external quality measures are often tied
+      >It takes continuous effort to maintain high customer satisfaction levels.Internal and external quality measures are often tied
         together.,as the opinion...</span
       >
       <span class="text-c-blue d-block">Learn more..</span>

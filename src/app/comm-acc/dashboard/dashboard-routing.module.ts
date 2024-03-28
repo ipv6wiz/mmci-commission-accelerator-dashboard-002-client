@@ -11,13 +11,13 @@ const routes: Routes = [
         path: 'analytics',
         loadComponent: () => import('./dash-analytics/dash-analytics.component'),
           canActivate: [AuthGuard],
-          data: {roles: ['Client']}
+          data: {roles: ['CLIENT-VERIFIED']}
       },
       {
         path: 'sale',
         loadComponent: () => import('./dash-sale/dash-sale.component'),
           canActivate: [AuthGuard],
-          data: {roles: ['Client']}
+          data: {roles: ['CLIENT-VERIFIED']}
       }
     ]
   }

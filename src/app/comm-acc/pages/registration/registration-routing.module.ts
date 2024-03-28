@@ -10,7 +10,7 @@ const routes: Routes = [
             {
                 path: 'reg-form',
                 title: AppSiteConfig.siteName,
-                loadComponent: () => import('./reg-form-v2/reg-form-v2.component').then(mod => mod.RegFormV2Component),
+                loadComponent: () => import('./reg-form-v2-mat/reg-form-v2-mat.component').then(mod => mod.RegFormV2MatComponent),
                 canActivate: [AuthGuard],
                 data: {roles: ['CLIENT-PENDING-REGISTRATION']}
             },

@@ -45,13 +45,13 @@ export default class AuthSignupV2Component implements OnInit{
         const togglePassword = document.querySelector('#togglePassword');
         const password = document.querySelector('#password');
 
-        togglePassword?.addEventListener('click', () => {
+        togglePassword!.addEventListener('click', () => {
             console.log('togglePassword - clicked');
             // toggle the type attribute
             const type = password?.getAttribute('type') === 'password' ? 'text' : 'password';
             password?.setAttribute('type', type);
             // toggle the icon
-            togglePassword.classList.toggle('fa-eye-slash');
+            togglePassword!.classList.toggle('fa-eye-slash');
         });
     }
 

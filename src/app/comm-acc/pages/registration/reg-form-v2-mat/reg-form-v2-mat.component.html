@@ -101,7 +101,8 @@
                     </form>
                 </mat-step>
             </div>
-            <mat-step [completed]="docUploadComplete" [stepControl]="docUploadGroup">
+          <div id="docUploads">
+            <mat-step [completed]="docUploadComplete" [stepControl]="docUploadGroup"  >
                 <form [formGroup]="docUploadGroup" (submit)="onDocSubmit($event)">
                     <ng-template matStepLabel>Documents Upload</ng-template>
                     <div class="row">
@@ -110,52 +111,51 @@
                         </div>
                     </div>
                     <div id="accordion">
-                        <dx-accordion
-                            #accordion
-                            [dataSource]="docUploads"
-                            [collapsible]="true"
-                            [multiple]="false"
-                            [animationDuration]="300"
-                            [selectedItems]="[]"
-
-                            id="accordion-container"
-                            itemTemplate="item"
-                            itemTitleTemplate="title"
-                        >
-                            <div *dxTemplate="let doc of 'title'" style="height: 42px">
+                      <mat-accordion class="example-headers-align">
+                        @for(doc of docUploads; track $index){
+                          <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>
                                 <h4>{{ doc.title }}
-                                    <span *ngIf="doc.uploaded" style="float: right">
-                                        <mat-icon aria-hidden="false" aria-label="File Uploaded" fontIcon="check_circle" [ngStyle]="{'color': 'green'}"></mat-icon>
+                                  @if(doc.uploaded) {
+                                    <span style="float: right">
+                                          <mat-icon aria-hidden="false" aria-label="File Uploaded" fontIcon="check_circle" [ngStyle]="{'color': 'green'}"></mat-icon>
                                     </span>
-                                    <span *ngIf="!doc.uploaded" style="float: right">
-                                        <mat-icon aria-hidden="false" aria-label="Upload File" fontIcon="file_upload" [ngStyle]="{'color': 'red'}"></mat-icon>
+                                  } @else {
+                                    <span  style="float: right">
+                                          <mat-icon aria-hidden="false" aria-label="Upload File" fontIcon="file_upload" [ngStyle]="{'color': 'red'}"></mat-icon>
                                     </span>
+                                  }
                                 </h4>
+                              </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            @if(doc.text) {
+                              <p>{{doc.text}}</p>
+                            }
+                            <div class="file-uploader-block" >
+                              <app-reg-file-upload
+                                (fileUploaded)="onFileUploaded($event)"
+                                [bucket]="clientBucketName"
+                                folder="{{doc.folder}}"
+                                newFileName="{{doc.newFileName}}"
+                                ctrlName="{{doc.ctrlName}}"
+                                title="{{doc.title}}"
+                                [accept]="doc.accept"
+                              ></app-reg-file-upload>
+                              @if(doc.uploaded) {
+                                <p>
+                                  <span class="note">File Successfully Uploaded</span>
+                                </p>
+                              }
+                              <p><span class="note">Maximum file size: <span>4 MB</span>.</span></p>
+                              <p><span class="note">Allowed file extensions: <span>{{doc.allowedExts.join(',')}}</span>.</span></p>
                             </div>
-                            <div *dxTemplate="let doc of 'item'">
-                                <p *ngIf="doc.text" >{{doc.text}}</p>
-                                <div class="file-uploader-block" >
-                                    <app-reg-file-upload
-                                        (fileUploaded)="onFileUploaded($event)"
-                                        [bucket]="clientBucketName"
-                                        folder="{{doc.folder}}"
-                                        newFileName="{{doc.newFileName}}"
-                                        ctrlName="{{doc.ctrlName}}"
-                                        title="{{doc.title}}"
-                                        [accept]="doc.accept"
-                                    ></app-reg-file-upload>
-                                    <p *ngIf="doc.uploaded">
-                                        <span class="note">File Successfully Uploaded</span>
-                                    </p>
-                                    <p><span class="note">Maximum file size: <span>4 MB</span>.</span></p>
-                                    <p><span class="note">Allowed file extensions: <span>{{doc.allowedExts.join(',')}}</span>.</span></p>
-                                </div>
-                            </div>
-                        </dx-accordion>
-                        <div *ngIf="clientBucketName">
-                            <app-file-list [needRefresh]="refreshRequest"></app-file-list>
-                        </div>
-
+                          </mat-expansion-panel>
+                        }
+                      </mat-accordion>
+                      @if(clientBucketName) {
+                        <app-file-manager fmType="client" [needRefresh]="refreshRequest" [docInfo]="" [clientId]="clientLocalData.uid" [bucket]="clientBucketName"></app-file-manager>
+                      }
                     </div>
                     <div>
                         <button  mat-button matStepperPrevious id="docUpload-prev">Back</button>
@@ -163,13 +163,14 @@
                     </div>
                 </form>
             </mat-step>
+          </div>
             <mat-step [stepControl]="regFormDoneGroup">
                 <form [formGroup]="regFormDoneGroup" (submit)="onSubmit($event)">
                     <ng-template matStepLabel>Done</ng-template>
                     <p>To complete your application please click SAVE.</p>
                     <div>
                         <button mat-button matStepperPrevious>Back</button>
-                        <button mat-button matStepperNext id="reg-form-save" >Save</button>
+                        <button mat-button matStepperNext id="reg-form-save" color="primary" >Save</button>
                     </div>
                 </form>
             </mat-step>
