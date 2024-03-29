@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {  FormControl, Validators } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -6,6 +7,22 @@ import { Injectable } from '@angular/core';
 export class HelpersService {
 
   constructor() { }
+
+  isColumnTypeBool(data: any): boolean {
+    if(typeof data === 'string') {
+      const dx: string = data;
+      if(dx.toLowerCase() === 'true' || dx.toLowerCase() === 'false') {
+        return true;
+      }
+    }
+    return (typeof data === 'boolean');
+  }
+
+  isColumnTypeBoolNested(item: any, column: string): boolean {
+    const colParts = column.split('.');
+    const data = item[colParts[0]][colParts[1]];
+    return this.isColumnTypeBool(data);
+  }
 
   convertToCamelCase(str: string, sep: string = '-'): string {
     const newStr = this.autoCapitalize(str, sep, '', true);
@@ -29,5 +46,75 @@ export class HelpersService {
     isoParts.push(dateParts[0].padStart(2, '0'));
     isoParts.push(dateParts[1].padStart(2, '0'));
     return isoParts.join('-')+(withTime ? 'T00:00:00' : '');
+  }
+
+  checkRoles(allowed: string[], userRoles: string[]): boolean {
+    return userRoles.some(value => allowed.includes(value));
+  }
+
+  createControls(fields: Map<string, any>, obj: any, objType: string = 'item'): {[p: string]: FormControl} {
+    let controls: Map<string, any> = new Map<string, any>();
+    if (obj && objType === 'item') {
+      obj = obj.item;
+    }
+    // console.log('createControls - obj:', obj);
+    controls = this.processFields(fields, obj, controls);
+    // return controls;
+    return Object.fromEntries(controls.entries());
+  }
+
+  processFields(fields: Map<string, any>, obj: any, controls: Map<string, any>): Map<string, any> {
+    console.log('processFields - obj: ', obj);
+    fields.forEach((field: any) => {
+      if(['address'].includes(field['type'])) {
+        // console.log('processFields - address - field.fcn: ', field.fcn);
+        // console.log('processFields - address - addrObj: ', field.addrObj);
+        controls.set(field.fcn, field.addrObj.getFormGroup());
+      } else {
+        const control: FormControl = new FormControl();
+        const validators: any[] = [];
+        // const  valueObj: any = {};
+        // console.log('createControls - value: ',obj[field.fcn as keyof typeof obj]);
+        if(obj) {
+          control.setValue(obj[field.fcn as keyof typeof obj])
+          // valueObj['value'] = obj[field.fcn as keyof typeof obj];
+        } else {
+          control.setValue('');
+        }
+        if(field.disabled) {
+          control.disable() ;
+          // valueObj['disabled'] = true;
+        }
+        // console.log('createControls - valueObj: ', valueObj);
+
+        if(field.required) {
+          validators.push(Validators.required);
+
+        }
+        if(field.validators &&  field.validators.length > 0) {
+          field.validators.forEach((val: any) => {
+            // console.log('createControls - validators val: ', val);
+            switch (val[0]) {
+              case 'pattern':
+                validators.push(Validators.pattern(val[1]));
+                break;
+              case 'minLength':
+                validators.push(Validators.minLength(val[1]));
+                break;
+              case 'maxLength':
+                validators.push(Validators.maxLength(val[1]));
+                break;
+              case 'email':
+                validators.push(Validators.email);
+                break;
+            }
+          });
+        }
+        // console.log('createControls - validators: ', validators);
+        control.setValidators(validators)
+        controls.set(field.fcn, control);
+      }
+    });
+    return controls;
   }
 }

@@ -23,6 +23,10 @@ import {
   ApexTooltip,
   ApexMarkers
 } from 'ng-apexcharts';
+import { AdvancesDgComponent } from '../../../theme/shared/components/advances-dg/advances-dg.component';
+import { ClientService } from '../../../theme/shared/service/client.service';
+import { AdvanceService } from '../../../theme/shared/service/advance.service';
+import { HelpersService } from '../../../theme/shared/service/helpers.service';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries | ApexNonAxisChartSeries;
@@ -44,7 +48,7 @@ export type ChartOptions = {
 @Component({
   selector: 'app-dash-analytics',
   standalone: true,
-  imports: [CommonModule, ProductSaleComponent, SharedModule, NgApexchartsModule],
+  imports: [CommonModule, ProductSaleComponent, SharedModule, NgApexchartsModule, AdvancesDgComponent],
   templateUrl: './dash-analytics.component.html',
   styleUrls: ['./dash-analytics.component.scss']
 })
@@ -56,8 +60,13 @@ export default class DashAnalyticsComponent {
   chartOptions_2!: Partial<ChartOptions>;
   chartOptions_3!: Partial<ChartOptions>;
 
+  cards: any[] = [];
   // constructor
-  constructor() {
+  constructor(
+    private clientService: ClientService,
+    private advanceService: AdvanceService,
+    public helpers: HelpersService
+  ) {
     console.log('DashAnalyticsComponent - constructor')
     this.chartOptions = {
       chart: {
@@ -241,41 +250,47 @@ export default class DashAnalyticsComponent {
         }
       }
     };
+    this.cards = this.populateCards();
   }
-  cards = [
-    {
-      background: 'bg-c-blue',
-      title: 'Orders Received',
-      icon: 'shopping-cart',
-      text: 'Completed Orders',
-      number: '486',
-      no: '351'
-    },
-    {
-      background: 'bg-c-green',
-      title: 'Total Sales',
-      icon: 'tag',
-      text: 'This Month',
-      number: '1641',
-      no: '213'
-    },
-    {
-      background: 'bg-c-yellow',
-      title: 'Revenue',
-      icon: 'repeat',
-      text: 'This Month',
-      number: '$42,56',
-      no: '$5,032'
-    },
-    {
-      background: 'bg-c-red',
-      title: 'Total Profit',
-      icon: 'shopping-cart',
-      text: 'This Month',
-      number: '$9,562',
-      no: '$542'
-    }
-  ];
+
+  populateCards(): any[] {
+    const cards = [
+      {
+        background: 'bg-c-blue',
+        title: 'Credit',
+        icon: 'dollar',
+        text: 'Completed Orders',
+        number: '486',
+        no: '351'
+      },
+      {
+        background: 'bg-c-green',
+        title: 'Total Sales',
+        icon: 'tag',
+        text: 'This Month',
+        number: '1641',
+        no: '213'
+      },
+      {
+        background: 'bg-c-yellow',
+        title: 'Revenue',
+        icon: 'repeat',
+        text: 'This Month',
+        number: '$42,56',
+        no: '$5,032'
+      },
+      {
+        background: 'bg-c-red',
+        title: 'Total Profit',
+        icon: 'shopping-cart',
+        text: 'This Month',
+        number: '$9,562',
+        no: '$542'
+      }
+    ];
+
+    return cards;
+  }
 
   images = [
     {

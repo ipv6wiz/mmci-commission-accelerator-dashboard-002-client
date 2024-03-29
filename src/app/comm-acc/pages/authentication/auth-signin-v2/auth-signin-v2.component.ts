@@ -11,6 +11,7 @@ import { AuthenticationService } from 'src/app/theme/shared/service/authenticati
 import {LoginFormDataDto} from "../../../../theme/shared/dtos/login-form-data.dto";
 import { ThemePalette } from '@angular/material/core';
 import { MatProgressSpinner, ProgressSpinnerMode } from '@angular/material/progress-spinner';
+import { ClientService } from '../../../../theme/shared/service/client.service';
 
 @Component({
   selector: 'app-auth-signin-v2',
@@ -39,6 +40,7 @@ export default class AuthSigninV2Component implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     public authenticationService: AuthenticationService,
+    private clientService: ClientService
   ) {
     // redirect to home if already logged in
     if (this.authenticationService.isLoggedIn() && !this.authenticationService.signUpAction) {
@@ -101,6 +103,8 @@ export default class AuthSigninV2Component implements OnInit {
         .then(() => {
             console.log('return from authService - loginViaApi - returnUrl: ', returnUrl);
             this.loading = false;
+            this.clientService.setClientId(this.authenticationService.getLocalClientDataProp('uid'));
+            console.log('return from authService - clientId: ', this.clientService.getClientId());
           // this.router.navigate([returnUrl]).then();
         })
         .catch((err) => {

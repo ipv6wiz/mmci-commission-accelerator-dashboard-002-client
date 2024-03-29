@@ -5,33 +5,58 @@ import {ApiResponse} from "../dtos/api-response.dto";
 import {lastValueFrom, Observable} from "rxjs";
 import {NGXLogger} from "ngx-logger";
 import {SignupFormDataDto} from "../dtos/signup-form-data.dto";
+import { Client } from '../entities/client.interface';
 
 @Injectable({ providedIn: 'root' })
 export class ClientService {
     private apiUrl = environment.gcpCommAccApiUrl;
+    private client!: Client;
+    private clientId!: string;
 
     constructor( private http: HttpClient, private logger: NGXLogger,) {}
+
+    setClientId(clientId: string){
+        this.clientId = clientId;
+    }
+
+    getClientId() {
+        return this.clientId;
+    }
 
     /**
      * Replace with API call to retrieve as if for Verify (Clean)
      * @param uid : string
      */
     getOne(uid: string): any {
-        return lastValueFrom(this.getOneClient(uid), {defaultValue: {}})
-            .then((response: any) => {
-                if(response.statusCode === 200) {
-                    return response.data.client;
-                } else {
-                    throw new Error(`Did not find client with id: ${uid}`);
-                }
-            }).catch((err) => {
-                this.logger.log('Dash001 - Client Service - getOne- error: ', err.message);
-                return null;
-            })
+        if(this.client) {
+            return this.client;
+        } else {
+            return lastValueFrom(this.getOneClient(uid), {defaultValue: {}})
+              .then((response: any) => {
+                  if(response.statusCode === 200) {
+                      this.client = response.data.client;
+                      return this.client;
+                  } else {
+                      throw new Error(`Did not find client with id: ${uid}`);
+                  }
+              }).catch((err) => {
+                  this.logger.log('Dash001 - Client Service - getOne- error: ', err.message);
+                  return null;
+              })
+        }
     }
 
     getOneClient(clientId: string): Observable<any> {
         return this.http.get<any>(`${this.apiUrl}/client/${clientId}`, {withCredentials: true});
+    }
+
+    getCurrentCreditLimit(): number {
+        const client = this.getOne(this.clientId);
+        if(client.creditLimit.active) {
+            return client.creditLimit.limit;
+        } else {
+            return 0;
+        }
     }
 
     async signUpClient(clientFormData: SignupFormDataDto): Promise<any> {

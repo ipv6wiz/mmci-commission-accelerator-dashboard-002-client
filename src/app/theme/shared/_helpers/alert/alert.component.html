@@ -1,6 +1,6 @@
 <div *ngIf="!!alert" class="mt-4">
-    <div [ngClass]="alert.cssClass">
+    <div class="alert-class" [ngClass]="alert.cssClass">
         <span>{{alert.message}}</span>
-        <span style="float: right"><button type="button" (click)="close()"><mat-icon fontIcon="close"></mat-icon></button></span>
+        <span style="float: right; padding-left: 10px"><button type="button" (click)="close()"><mat-icon fontIcon="close"></mat-icon></button></span>
     </div>
 </div>
