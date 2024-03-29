@@ -1,7 +1,7 @@
 <div class="row">
   <!-- tabs card start -->
   <div class="col-sm-12">
-    <app-card [hidHeader]="true" cardClass="tab-card" blockClass="nav-fill">
+    <app-card [hideHeader]="true" cardClass="tab-card" blockClass="nav-fill">
       <ul ngbNav aria-busy="true" #nav="ngbNav" class="nav-pills">
         <li [ngbNavItem]="1">
           <a ngbNavLink><i class="fa fa-home m-r-10"></i>Home</a>
@@ -187,7 +187,7 @@
   </div>
   <div class="col-lg-4 col-md-12">
     <!-- social statistic start -->
-    <app-card [hidHeader]="true" cardClass="bg-facebook social-card">
+    <app-card [hideHeader]="true" cardClass="bg-facebook social-card">
       <ngb-carousel [showNavigationArrows]="false">
         <ng-template ngbSlide>
           <div class="row">
@@ -228,7 +228,7 @@
       </ngb-carousel>
     </app-card>
 
-    <app-card [hidHeader]="true" cardClass="bg-twitter social-card">
+    <app-card [hideHeader]="true" cardClass="bg-twitter social-card">
       <ngb-carousel [showNavigationArrows]="false">
         <ng-template ngbSlide>
           <div class="row">
@@ -269,7 +269,7 @@
       </ngb-carousel>
     </app-card>
 
-    <app-card [hidHeader]="true" cardClass="bg-dribbble social-card">
+    <app-card [hideHeader]="true" cardClass="bg-dribbble social-card">
       <ngb-carousel [showNavigationArrows]="false">
         <ng-template ngbSlide>
           <div class="row">
@@ -436,7 +436,7 @@
 
   <!-- expansions-section start -->
   <div class="col-xl-4 col-md-6" *ngFor="let design of designs">
-    <app-card [hidHeader]="true">
+    <app-card [hideHeader]="true">
       <h6 class="mb-0"
         ><i class="feather {{ design.icon }}"></i>{{ design.amount
         }}<span class="float-end"><i class="feather {{ design.icon2 }}"></i>{{ design.amount2 }}</span></h6
@@ -868,7 +868,7 @@
 
   <!-- feed, project,chat start -->
   <div class="col-md-12 col-xl-4">
-    <app-card cardClass="widget-chat-box" [hidHeader]="true" blockClass="scrollable-body" [options]="false">
+    <app-card cardClass="widget-chat-box" [hideHeader]="true" blockClass="scrollable-body" [options]="false">
       <div class="row m-15">
         <div class="col-sm-2">
           <i class="fas fa-bars pop-up"></i>
@@ -1137,7 +1137,7 @@
     </app-card>
   </div>
   <div class="col-xl-5 col-md-12 m-b-30">
-    <app-card [hidHeader]="true" cardClass="pill-card" [options]="false">
+    <app-card [hideHeader]="true" cardClass="pill-card" [options]="false">
       <ul ngbNav #nav1="ngbNav" aria-busy="true" class="nav-pills">
         <li [ngbNavItem]="1">
           <a ngbNavLink>Developer</a>

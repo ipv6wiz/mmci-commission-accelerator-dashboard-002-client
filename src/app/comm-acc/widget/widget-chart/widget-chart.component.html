@@ -31,7 +31,7 @@
   <!-- users visits and profile start -->
   <div class="col-md-12 col-xl-4">
     <app-card
-      [hidHeader]="true"
+      [hideHeader]="true"
       [options]="false"
       cardClass="seo-card"
       blockClass="seo-statustic"
@@ -55,7 +55,7 @@
       </div>
     </app-card>
     <app-card
-      [hidHeader]="true"
+      [hideHeader]="true"
       cardClass="seo-card"
       blockClass="seo-statustic"
       footerClass="seo-chart border border-top-0 p-0 overflow-hidden"
@@ -212,7 +212,7 @@
   <!-- amount-card start -->
   <div class="col-md-6 col-xl-3">
     <app-card
-      [hidHeader]="true"
+      [hideHeader]="true"
       [isCardFooter]="true"
       footerClass="p-0 border border-0"
       cardClass="bg-c-blue overflow-hidden amount-card"
@@ -237,7 +237,7 @@
   </div>
   <div class="col-md-6 col-xl-3">
     <app-card
-      [hidHeader]="true"
+      [hideHeader]="true"
       [isCardFooter]="true"
       footerClass="p-0 border border-0"
       cardClass="bg-c-green overflow-hidden amount-card"
@@ -262,7 +262,7 @@
   </div>
   <div class="col-md-6 col-xl-3">
     <app-card
-      [hidHeader]="true"
+      [hideHeader]="true"
       [isCardFooter]="true"
       footerClass="p-0 border border-0"
       cardClass="bg-c-yellow overflow-hidden amount-card"
@@ -287,7 +287,7 @@
   </div>
   <div class="col-md-6 col-xl-3">
     <app-card
-      [hidHeader]="true"
+      [hideHeader]="true"
       [isCardFooter]="true"
       footerClass="p-0 border border-0"
       cardClass="bg-c-red overflow-hidden amount-card"
@@ -314,7 +314,7 @@
 
   <!-- support-tracker start -->
   <div class="col-xl-4 col-md-6">
-    <app-card [hidHeader]="true">
+    <app-card [hideHeader]="true">
       <div class="row">
         <div class="col-6">
           <h6>Support Analytics</h6>
@@ -353,7 +353,7 @@
   <!-- support-tracker end -->
   <!-- session-device start -->
   <div class="col-xl-4 col-md-6">
-    <app-card [hidHeader]="true">
+    <app-card [hideHeader]="true">
       <h6>Traffic tracker</h6>
       <div class="row mt-2">
         <div class="col-6">
@@ -395,7 +395,7 @@
   <!-- storage-activity start -->
   <div class="col-xl-4 col-md-12">
     <div class="marge-card">
-      <app-card [hidHeader]="true" cardClass="mb-0" blockClass="pb-0">
+      <app-card [hideHeader]="true" cardClass="mb-0" blockClass="pb-0">
         <div class="row">
           <div class="col-auto">
             <h6>Cloud Computing</h6>
@@ -422,7 +422,7 @@
           </div>
         </div>
       </app-card>
-      <app-card [hidHeader]="true" blockClass="p-0">
+      <app-card [hideHeader]="true" blockClass="p-0">
         <apx-chart
           [dataLabels]="storageCAC.dataLabels"
           [chart]="storageCAC.chart"
@@ -439,7 +439,7 @@
   <!-- account-section start -->
   <div class="col-xl-8">
     <div class="marge-card">
-      <app-card [hidHeader]="true" cardClass="mb-0" blockClass="pb-0">
+      <app-card [hideHeader]="true" cardClass="mb-0" blockClass="pb-0">
         <h6 class="text-c-blue mb-3">Department wise annual recurring and profit</h6>
         <div class="row">
           <div class="col-auto">
@@ -454,7 +454,7 @@
           </div>
         </div>
       </app-card>
-      <app-card [hidHeader]="true" blockClass="p-0 m-t-15">
+      <app-card [hideHeader]="true" blockClass="p-0 m-t-15">
         <apx-chart
           [dataLabels]="accountCAC.dataLabels"
           [chart]="accountCAC.chart"
@@ -472,7 +472,7 @@
   <div class="col-xl-4">
     <div class="row">
       <div class="col-xl-12 col-md-6">
-        <app-card [hidHeader]="true">
+        <app-card [hideHeader]="true">
           <div class="row">
             <div class="col-auto">
               <h6>Page view by device</h6>
@@ -523,7 +523,7 @@
         </app-card>
       </div>
       <div class="col-xl-12 col-md-6">
-        <app-card [hidHeader]="true">
+        <app-card [hideHeader]="true">
           <div class="row d-flex align-items-center">
             <div class="col-6 pr-0">
               <span class="d-block mb-1"><i class="fas fa-circle f-10 m-r-5 text-primary"></i>Desktop [66.6%]</span>
@@ -552,7 +552,7 @@
   <div class="col-sm-12">
     <div class="row no-gutters">
       <div class="col-md-4 col-xl-2 col-sm-6">
-        <app-card [hidHeader]="true">
+        <app-card [hideHeader]="true">
           <span>Transactions</span>
           <h3>61</h3>
           <apx-chart
@@ -568,7 +568,7 @@
         </app-card>
       </div>
       <div class="col-md-4 col-xl-2 col-sm-6">
-        <app-card [hidHeader]="true">
+        <app-card [hideHeader]="true">
           <span>Current stock</span>
           <h3>50</h3>
           <apx-chart
@@ -584,7 +584,7 @@
         </app-card>
       </div>
       <div class="col-md-4 col-xl-2 col-sm-6">
-        <app-card [hidHeader]="true">
+        <app-card [hideHeader]="true">
           <span>Page bounce rate</span>
           <h3>0.50%</h3>
           <apx-chart
@@ -600,7 +600,7 @@
         </app-card>
       </div>
       <div class="col-md-4 col-xl-2 col-sm-6">
-        <app-card [hidHeader]="true">
+        <app-card [hideHeader]="true">
           <span>Total order value</span>
           <h3>$203.20</h3>
           <apx-chart
@@ -616,7 +616,7 @@
         </app-card>
       </div>
       <div class="col-md-4 col-xl-2 col-sm-6">
-        <app-card [hidHeader]="true">
+        <app-card [hideHeader]="true">
           <span>Revenue</span>
           <h3>$2,45,789</h3>
           <apx-chart
@@ -632,7 +632,7 @@
         </app-card>
       </div>
       <div class="col-md-4 col-xl-2 col-sm-6">
-        <app-card [hidHeader]="true">
+        <app-card [hideHeader]="true">
           <span>New Purchases</span>
           <h3>45</h3>
           <apx-chart
@@ -653,7 +653,7 @@
 
   <!-- moderate start -->
   <div class="col-xl-4 col-md-5">
-    <app-card [hidHeader]="true" cardClass="rating-bar">
+    <app-card [hideHeader]="true" cardClass="rating-bar">
       <div class="row mb-3">
         <div class="col-6">
           <h6 class="m-0">Task Completed</h6>
@@ -692,14 +692,14 @@
     <div class="row">
       <div class="col-xl-6 col-md-12">
         <div class="marge-card">
-          <app-card [hidHeader]="true" cardClass="mb-0" blockClass="pb-0">
+          <app-card [hideHeader]="true" cardClass="mb-0" blockClass="pb-0">
             <h6>Conversions</h6>
             <h4 class="m-0"
               >0.85%<span class="text-c-blue ms-2"><i class="feather-arrow-up"></i>0.50%</span></h4
             >
             <span>Purchased</span>
           </app-card>
-          <app-card [hidHeader]="true" blockClass="p-0 m-t-15">
+          <app-card [hideHeader]="true" blockClass="p-0 m-t-15">
             <apx-chart
               [dataLabels]="conversionsBarCAC.dataLabels"
               [chart]="conversionsBarCAC.chart"
@@ -713,7 +713,7 @@
         </div>
       </div>
       <div class="col-xl-6 col-md-12">
-        <app-card [hidHeader]="true">
+        <app-card [hideHeader]="true">
           <div class="row d-flex align-items-center">
             <div class="col-6">
               <h6>Active customer <span class="d-block">on site</span></h6>
@@ -739,7 +739,7 @@
 
   <!-- customer-section start -->
   <div class="col-lg-6">
-    <app-card [hidHeader]="true">
+    <app-card [hideHeader]="true">
       <h6>Customer Satisfaction</h6>
       <span
         >It takes continuous effort to maintain high customer satisfaction levels.Internal and external quality measures are often tied
@@ -781,7 +781,7 @@
   <!-- view-section start -->
   <div class="col-md-4">
     <div class="marge-card">
-      <app-card [hidHeader]="true" cardClass="mb-0" blockClass="pb-0">
+      <app-card [hideHeader]="true" cardClass="mb-0" blockClass="pb-0">
         <div class="row">
           <div class="col-6">
             <h3>4856</h3>
@@ -791,7 +791,7 @@
           </div>
         </div>
       </app-card>
-      <app-card [hidHeader]="true" blockClass="p-0 m-t-15">
+      <app-card [hideHeader]="true" blockClass="p-0 m-t-15">
         <apx-chart
           [dataLabels]="view1CAC.dataLabels"
           [chart]="view1CAC.chart"
@@ -803,7 +803,7 @@
       </app-card>
     </div>
     <div class="marge-card">
-      <app-card [hidHeader]="true" cardClass="mb-0" blockClass="pb-0">
+      <app-card [hideHeader]="true" cardClass="mb-0" blockClass="pb-0">
         <div class="row">
           <div class="col-6">
             <h3>678</h3>
@@ -813,7 +813,7 @@
           </div>
         </div>
       </app-card>
-      <app-card [hidHeader]="true" blockClass="p-0 m-t-15">
+      <app-card [hideHeader]="true" blockClass="p-0 m-t-15">
         <apx-chart
           [dataLabels]="view2CAC.dataLabels"
           [chart]="view2CAC.chart"
@@ -921,7 +921,7 @@
 
   <!-- visit-section start -->
   <div class="col-xl-5 col-md-12">
-    <app-card [hidHeader]="true">
+    <app-card [hideHeader]="true">
       <div class="row">
         <div class="col-auto">
           <span>Customers</span>
@@ -971,13 +971,13 @@
           >
         </app-card>
         <div class="marge-card">
-          <app-card [hidHeader]="true" cardClass="mb-0" blockClass="pb-0">
+          <app-card [hideHeader]="true" cardClass="mb-0" blockClass="pb-0">
             <h6>New stock <span class="text-muted">( purchased )</span></h6>
             <h4 class="m-0"
               >0.85%<span class="text-info ms-2"><i class="feather-arrow-up"></i>0.50%</span></h4
             >
           </app-card>
-          <app-card [hidHeader]="true" blockClass="p-0 m-t-15">
+          <app-card [hideHeader]="true" blockClass="p-0 m-t-15">
             <apx-chart
               [dataLabels]="conversionsCAC.dataLabels"
               [chart]="conversionsCAC.chart"
@@ -1031,7 +1031,7 @@
       ></apx-chart>
       <span class="text-center text-muted d-block">Total sales made today</span>
     </app-card>
-    <app-card [hidHeader]="true" blockClass="p-10">
+    <app-card [hideHeader]="true" blockClass="p-10">
       <div class="row d-flex align-items-center text-center">
         <div class="col">
           <h6>$1258</h6>
@@ -1129,12 +1129,12 @@
   <!-- support-section start -->
   <div class="col-xl-4 col-md-12">
     <div class="marge-card support-bar">
-      <app-card [hidHeader]="true" cardClass="mb-0" blockClass="pb-0">
+      <app-card [hideHeader]="true" cardClass="mb-0" blockClass="pb-0">
         <h2 class="m-0">350</h2>
         <span class="text-c-blue">Support Requests</span>
         <p class="mb-3 mt-3">Total number of support requests that come in.</p>
       </app-card>
-      <app-card [hidHeader]="true" cardClass="mb-0" blockClass="p-0">
+      <app-card [hideHeader]="true" cardClass="mb-0" blockClass="p-0">
         <apx-chart
           [dataLabels]="supportCAC.dataLabels"
           [chart]="supportCAC.chart"
@@ -1144,7 +1144,7 @@
           [tooltip]="supportCAC.tooltip"
         ></apx-chart>
       </app-card>
-      <app-card [hidHeader]="true" cardClass="bg-primary text-white" blockClass="p-10">
+      <app-card [hideHeader]="true" cardClass="bg-primary text-white" blockClass="p-10">
         <div class="row text-center">
           <div class="col">
             <h4 class="m-0 text-white">10</h4>

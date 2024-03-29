@@ -1,5 +1,5 @@
 <div class="merge-card">
-  <app-card [hidHeader]="true" cardClass="mb-0" blockClass="d-flex align-items-center justify-content-between">
+  <app-card [hideHeader]="true" cardClass="mb-0" blockClass="d-flex align-items-center justify-content-between">
     <h5 class="mb-0">Personal details</h5>
     <button
       type="button"
@@ -11,7 +11,7 @@
       <i class="feather" [ngClass]="editProfileIcon"></i>
     </button>
   </app-card>
-  <app-card [hidHeader]="true" blockClass="border-top pro-det-edit collapse show" *ngIf="!editProfile">
+  <app-card [hideHeader]="true" blockClass="border-top pro-det-edit collapse show" *ngIf="!editProfile">
     <div class="row mb-3" *ngFor="let list of details">
       <label class="col-sm-3 col-form-label fw-bolder">{{ list.title }}</label>
       <div class="col-sm-9">{{ list.name }} </div>
@@ -25,7 +25,7 @@
       </div>
     </div>
   </app-card>
-  <app-card [hidHeader]="true" blockClass="border-top pro-det-edit collapse show" *ngIf="editProfile">
+  <app-card [hideHeader]="true" blockClass="border-top pro-det-edit collapse show" *ngIf="editProfile">
     <div class="row mb-3">
       <label class="col-sm-3 col-form-label fw-bolder">Full Name</label>
       <div class="col-sm-9">
@@ -76,7 +76,7 @@
   </app-card>
 </div>
 <div class="merge-card">
-  <app-card [hidHeader]="true" cardClass="mb-0" blockClass="d-flex align-items-center justify-content-between">
+  <app-card [hideHeader]="true" cardClass="mb-0" blockClass="d-flex align-items-center justify-content-between">
     <h5 class="mb-0">Contact Information</h5>
     <button
       type="button"
@@ -88,13 +88,13 @@
       <i class="feather" [ngClass]="editContactIcon"></i>
     </button>
   </app-card>
-  <app-card [hidHeader]="true" blockClass="border-top pro-det-edit collapse show" *ngIf="!editContact">
+  <app-card [hideHeader]="true" blockClass="border-top pro-det-edit collapse show" *ngIf="!editContact">
     <div class="row mb-3" *ngFor="let list of information">
       <label class="col-sm-3 col-form-label fw-bolder">{{ list.title }}</label>
       <div class="col-sm-9">{{ list.name }} </div>
     </div>
   </app-card>
-  <app-card [hidHeader]="true" blockClass="border-top pro-det-edit collapse show" *ngIf="editContact">
+  <app-card [hideHeader]="true" blockClass="border-top pro-det-edit collapse show" *ngIf="editContact">
     <div class="row mb-3" *ngFor="let list of contact_information">
       <label class="col-sm-3 col-form-label fw-bolder">{{ list.title }}</label>
       <div class="col-sm-9">
@@ -110,7 +110,7 @@
   </app-card>
 </div>
 <div class="merge-card">
-  <app-card [hidHeader]="true" cardClass="mb-0" blockClass="d-flex align-items-center justify-content-between">
+  <app-card [hideHeader]="true" cardClass="mb-0" blockClass="d-flex align-items-center justify-content-between">
     <h5 class="mb-0">Other Information</h5>
     <button
       type="button"
@@ -122,13 +122,13 @@
       <i class="feather" [ngClass]="editOtherInfoIcon"></i>
     </button>
   </app-card>
-  <app-card [hidHeader]="true" blockClass="border-top pro-det-edit collapse show" *ngIf="!editOtherInfo">
+  <app-card [hideHeader]="true" blockClass="border-top pro-det-edit collapse show" *ngIf="!editOtherInfo">
     <div class="row mb-3" *ngFor="let list of other_information">
       <label class="col-sm-3 col-form-label fw-bolder">{{ list.title }}</label>
       <div class="col-sm-9"> {{ list.name }} </div>
     </div>
   </app-card>
-  <app-card [hidHeader]="true" blockClass="border-top pro-det-edit collapse show" *ngIf="editOtherInfo">
+  <app-card [hideHeader]="true" blockClass="border-top pro-det-edit collapse show" *ngIf="editOtherInfo">
     <div class="row mb-3">
       <label class="col-sm-3 col-form-label fw-bolder">Occupation</label>
       <div class="col-sm-9">

@@ -1,5 +1,5 @@
 // angular import
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // project import
@@ -27,6 +27,10 @@ import { AdvancesDgComponent } from '../../../theme/shared/components/advances-d
 import { ClientService } from '../../../theme/shared/service/client.service';
 import { AdvanceService } from '../../../theme/shared/service/advance.service';
 import { HelpersService } from '../../../theme/shared/service/helpers.service';
+import { LedgerService } from '../../../theme/shared/service/ledger.service';
+import { AuthenticationService } from '../../../theme/shared/service';
+import { LedgerBalanceDto } from '../../../theme/shared/dtos/ledger-balance.dto';
+import { NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries | ApexNonAxisChartSeries;
@@ -48,11 +52,21 @@ export type ChartOptions = {
 @Component({
   selector: 'app-dash-analytics',
   standalone: true,
-  imports: [CommonModule, ProductSaleComponent, SharedModule, NgApexchartsModule, AdvancesDgComponent],
+  imports: [
+    CommonModule, 
+    ProductSaleComponent, 
+    SharedModule, 
+    NgApexchartsModule, 
+    AdvancesDgComponent, 
+    NgxMaskPipe
+  ],
+  providers: [
+    provideNgxMask()
+  ],
   templateUrl: './dash-analytics.component.html',
   styleUrls: ['./dash-analytics.component.scss']
 })
-export default class DashAnalyticsComponent {
+export default class DashAnalyticsComponent implements OnInit{
   // public props
   @ViewChild('chart') chart!: ChartComponent;
   chartOptions!: Partial<ChartOptions>;
@@ -61,13 +75,21 @@ export default class DashAnalyticsComponent {
   chartOptions_3!: Partial<ChartOptions>;
 
   cards: any[] = [];
+
+  balance: number = 0;
+  availableCredit: number = 0;
+  creditLimit: number = 0;
+  private currClient: any;
+
   // constructor
   constructor(
+    private authService: AuthenticationService,
     private clientService: ClientService,
     private advanceService: AdvanceService,
+    private ledgerService: LedgerService,
     public helpers: HelpersService
   ) {
-    console.log('DashAnalyticsComponent - constructor')
+    console.log('DashAnalyticsComponent - constructor');
     this.chartOptions = {
       chart: {
         height: 205,
@@ -250,6 +272,16 @@ export default class DashAnalyticsComponent {
         }
       }
     };
+
+  }
+
+  async ngOnInit() {
+    this.currClient = this.authService.getLocalClientData();
+    const balanceObj: LedgerBalanceDto = await this.ledgerService.getClientBalance(this.currClient.uid);
+    console.log('dash analytics - balanceObj: ',  balanceObj);
+    this.balance = balanceObj.balance;
+    this.availableCredit = balanceObj.availableCredit;
+    this.creditLimit = balanceObj.creditLimit;
     this.cards = this.populateCards();
   }
 
@@ -258,34 +290,42 @@ export default class DashAnalyticsComponent {
       {
         background: 'bg-c-blue',
         title: 'Credit',
-        icon: 'dollar',
-        text: 'Completed Orders',
-        number: '486',
-        no: '351'
+        icon: 'bi-currency-dollar',
+        iconType: 'bi',
+        cardLines: [
+          {text: 'Available Credit', type: 'currency', value: this.availableCredit},
+          {text: 'Credit Limit', type: 'currency', value: this.creditLimit}
+        ]
       },
       {
         background: 'bg-c-green',
-        title: 'Total Sales',
-        icon: 'tag',
-        text: 'This Month',
-        number: '1641',
-        no: '213'
+        title: 'Advances Summary',
+        icon: 'bi-tag',
+        iconType: 'bi',
+        cardLines: [
+          {text: 'Paid Value', type: 'currency', value: 10000},
+          {text: 'Pending Value', type: 'currency', value: 8000}
+        ]
       },
       {
         background: 'bg-c-yellow',
-        title: 'Revenue',
-        icon: 'repeat',
-        text: 'This Month',
-        number: '$42,56',
-        no: '$5,032'
+        title: 'Escrows this month',
+        icon: 'bi-arrow-repeat',
+        iconType: 'bi',
+        cardLines: [
+          {text: 'Gross', type: 'currency', value: 50000},
+          {text: 'Estimated Net', type: 'currency', value: 25000}
+        ]
       },
       {
         background: 'bg-c-red',
-        title: 'Total Profit',
-        icon: 'shopping-cart',
-        text: 'This Month',
-        number: '$9,562',
-        no: '$542'
+        title: 'Escrows next month',
+        icon: 'bi-repeat',
+        iconType: 'bi',
+        cardLines: [
+          {text: 'Gross', type: 'currency', value: 75000},
+          {text: 'Estimated Net', type: 'currency', value: 50000}
+        ]
       }
     ];
 

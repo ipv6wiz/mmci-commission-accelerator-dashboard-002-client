@@ -1,7 +1,7 @@
 <div class="row">
   <!-- notification counter start -->
   <div class="col-md-6 col-xl-3" *ngFor="let task of tasks">
-    <app-card [hidHeader]="true" cardClass="{{ task.bg }} notification-card">
+    <app-card [hideHeader]="true" cardClass="{{ task.bg }} notification-card">
       <div class="row align-items-center">
         <div class="col-4 notify-icon"><i class="{{ task.icon }}"></i></div>
         <div class="col-8 notify-cont">
@@ -15,7 +15,7 @@
 
   <!-- order-card start -->
   <div class="col-md-6 col-xl-3" *ngFor="let order of order_card">
-    <app-card [hidHeader]="true" cardClass="{{ order.bg }} order-card">
+    <app-card [hideHeader]="true" cardClass="{{ order.bg }} order-card">
       <h6 class="text-white">{{ order.message }}</h6>
       <h2 class="text-end text-white"
         ><i class="feather {{ order.icon }} float-start"></i><span>{{ order.number }}</span></h2
@@ -98,7 +98,7 @@
 
   <!-- user start -->
   <div class="col-md-6 col-lg-3" *ngFor="let card of user_card">
-    <app-card [hidHeader]="true" blockClass="user-radial-card">
+    <app-card [hideHeader]="true" blockClass="user-radial-card">
       <div data-label="50%" class="radial-bar radial-bar-90 radial-bar-lg radial-bar-danger">
         <img src="{{ card.img }}" class="img-radius wid-70" alt="User-Image" />
       </div>
@@ -110,7 +110,7 @@
 
   <!-- social statistic start -->
   <div class="col-md-12 col-lg-4">
-    <app-card [hidHeader]="true" blockClass="text-center">
+    <app-card [hideHeader]="true" blockClass="text-center">
       <i class="fa fa-envelope-open text-c-blue d-block f-40"></i>
       <h4 class="m-t-20"><span class="text-c-blue">8.62k</span> Subscribers</h4>
       <p class="m-b-20">Your main list is growing</p>
@@ -118,7 +118,7 @@
     </app-card>
   </div>
   <div class="col-md-6 col-lg-4" *ngFor="let card of social_card">
-    <app-card [hidHeader]="true" blockClass="text-center">
+    <app-card [hideHeader]="true" blockClass="text-center">
       <i class="fab {{ card.icon }} d-block f-40"></i>
       <i class="fa {{ card.icon1 }} d-block f-40"></i>
       <h4 class="m-t-20"
@@ -191,7 +191,7 @@
 
   <!-- live-view start -->
   <div class="col-xl-4 col-md-6">
-    <app-card [hidHeader]="true">
+    <app-card [hideHeader]="true">
       <h6 class="mb-0 float-end">New York , NY</h6>
       <span class="d-block mb-1">Monday 2:00 PM</span>
       <div class="row align-items-center justify-content-center">
@@ -232,7 +232,7 @@
 
   <!-- Revenue-section start -->
   <div class="col-xl-4 col-md-12">
-    <app-card [hidHeader]="true" blockClass="p-0">
+    <app-card [hideHeader]="true" blockClass="p-0">
       <div class="row d-flex align-items-center m-0">
         <div class="col-6 text-center">
           <div class="py-4">
@@ -253,7 +253,7 @@
 
   <!-- impression, goal, impact start -->
   <div class="col-xl-4 col-md-12" *ngFor="let task of goal">
-    <app-card [hidHeader]="true" cardClass="comp-card">
+    <app-card [hideHeader]="true" cardClass="comp-card">
       <div class="row align-items-center">
         <div class="col">
           <h6 class="m-b-20">{{ task.title }}</h6>
@@ -270,7 +270,7 @@
 
   <!-- product profit start -->
   <div class="col-xl-3 col-md-6" *ngFor="let card of product">
-    <app-card [hidHeader]="true" cardClass="prod-p-card {{ card.bg }}">
+    <app-card [hideHeader]="true" cardClass="prod-p-card {{ card.bg }}">
       <div class="row align-items-center m-b-25">
         <div class="col">
           <h6 class="m-b-5 text-white">{{ card.title }}</h6>
@@ -290,7 +290,7 @@
 
   <!-- project-ticket start -->
   <div class="col-xl-4 col-md-12" *ngFor="let card of project_ticket">
-    <app-card [hidHeader]="true" cardClass="proj-t-card">
+    <app-card [hideHeader]="true" cardClass="proj-t-card">
       <div class="row align-items-center m-b-30">
         <div class="col-auto">
           <i class="{{ card.icon }} {{ card.color }} f-30"></i>
@@ -316,7 +316,7 @@
 
   <!-- ticket, project, client start -->
   <div class="col-xl-3 col-md-6" *ngFor="let card of client_start">
-    <app-card [hidHeader]="true" cardClass="ticket-card">
+    <app-card [hideHeader]="true" cardClass="ticket-card">
       <p class="m-b-25 {{ card.background }} lbl-card"><i class="{{ card.icon }} m-r-5"></i> {{ card.title }}</p>
       <div class="text-center">
         <h2 class="m-b-0 d-inline-block {{ card.color }}">{{ card.amount }}</h2>
@@ -329,7 +329,7 @@
 
   <!-- analytic card start -->
   <div class="col-xl-4 col-md-12" *ngFor="let card of analytic_card">
-    <app-card [hidHeader]="true" cardClass="analytic-card {{ card.background }}">
+    <app-card [hideHeader]="true" cardClass="analytic-card {{ card.background }}">
       <div class="row align-items-center m-b-25">
         <div class="col-auto">
           <i class="{{ card.icon }} f-18 analytic-icon"></i>

@@ -1,7 +1,7 @@
 <div class="row">
   <!-- product profit start -->
   <div class="col-xl-3 col-md-6" *ngFor="let card of cards">
-    <app-card [hidHeader]="true" cardClass="prod-p-card {{ card.background }}">
+    <app-card [hideHeader]="true" cardClass="prod-p-card {{ card.background }}">
       <div class="row align-items-center m-b-0">
         <div class="col">
           <h6 class="m-b-5 text-white">{{ card.title }}</h6>
@@ -91,7 +91,7 @@
     </app-card>
   </div>
   <div class="col-xl-6 col-md-12">
-    <app-card [hidHeader]="true">
+    <app-card [hideHeader]="true">
       <h6>Customer Satisfaction</h6>
       <span
       >It takes continuous effort to maintain high customer satisfaction levels.Internal and external quality measures are often tied

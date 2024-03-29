@@ -2,16 +2,44 @@
   <!-- order-card start -->
   @for(card of cards; track $index){
     <div class="col-md-6 col-xl-3">
-        <app-card [hidHeader]="true" cardClass="{{ card.background }} order-card">
-          <h6 class="text-white">{{ card.title }}</h6>
-          <h2 class="text-end text-white"
-          ><i class="feather-{{ card.icon }} float-start"></i><span>{{ card.number }}</span></h2
-          >
-          <p class="m-b-0"
-          >{{ card.text }}<span class="float-end">{{ card.no }}</span></p
-          >
+        <app-card [hideHeader]="true" cardClass="{{ card.background }} order-card">
+          <h5 class="text-white">{{ card.title }}<i class="{{card.iconType}} {{ card.icon }} float-end"></i></h5>
+          @for(line of card.cardLines; track $index) {
+            @if($index === 0) {
+              <div class="row">
+                <h4 class="text-end text-white">
+                  <span class="float-start">
+                    {{line.text}}
+                  </span>
+                  <span class="float-end">
+                    @if(line.type === 'currency'){
+                      {{ (line.value | mask: 'separator' : {thousandSeparator: ',', prefix: '$'}) || 'Not set yet' }}
+                    } @else {
+                      {{ line.value || 'Not set yet' }}
+                    }
+                  </span>
+                </h4>
+              </div>
+            } @else {
+              <div class="row">
+                <p class="m-b-0">
+                  <span class="float-start">
+                    {{ line.text }}
+                  </span>
+                  <span class="float-end">
+                    @if(line.type === 'currency'){
+                      {{ (line.value | mask: 'separator' : {thousandSeparator: ',', prefix: '$'}) || 'Not set yet' }}
+                    } @else {
+                      {{ line.value || 'Not set yet' }}
+                    }
+                  </span>
+                </p>
+              </div>
+            }
+          }
         </app-card>
     </div>
+
   }
   <!-- order-card end -->
   <div class="col-md-12">
@@ -71,7 +99,7 @@
   <div class="col-xl-6 col-md-12">
     <div class="row">
       <div class="col-md-6">
-        <app-card [hidHeader]="true">
+        <app-card [hideHeader]="true">
           <div class="row">
             <div class="col-auto">
               <span>Customers</span>
@@ -108,7 +136,7 @@
         </app-card>
       </div>
       <div class="col-md-6">
-        <app-card [hidHeader]="true" cardClass="bg-primary text-white">
+        <app-card [hideHeader]="true" cardClass="bg-primary text-white">
           <div class="row">
             <div class="col-auto">
               <span>Customers</span>
@@ -149,7 +177,7 @@
 
   <div class="col-md-12 col-lg-4">
     <app-card
-      [hidHeader]="true"
+      [hideHeader]="true"
       cardClass="seo-card"
       blockClass="seo-statustic"
       footerClass="seo-chart border border-top-0 p-0 overflow-hidden"
@@ -174,7 +202,7 @@
     </app-card>
   </div>
   <div class="col-md-6 col-lg-4">
-    <app-card [hidHeader]="true" blockClass="text-center">
+    <app-card [hideHeader]="true" blockClass="text-center">
       <i class="fa fa-envelope-open text-c-blue d-block f-40"></i>
       <h4 class="m-t-20"><span class="text-c-blue">8.62k</span> Subscribers</h4>
       <p class="m-b-20">Your main list is growing</p>
@@ -182,7 +210,7 @@
     </app-card>
   </div>
   <div class="col-md-6 col-lg-4">
-    <app-card [hidHeader]="true" blockClass="text-center">
+    <app-card [hideHeader]="true" blockClass="text-center">
       <i class="fab fa-twitter text-c-green d-block f-40"></i>
       <h4 class="m-t-20"><span class="text-c-green">+40</span> Followers</h4>
       <p class="m-b-20">Your main list is growing</p>
@@ -244,7 +272,7 @@
   </div>
   <!-- conversion-section end -->
   <div class="col-lg-4 col-md-12">
-    <app-card [hidHeader]="true" footerClass="border border-top-0 p-0 overflow-hidden" [isCardFooter]="true">
+    <app-card [hideHeader]="true" footerClass="border border-top-0 p-0 overflow-hidden" [isCardFooter]="true">
       <h6>Conversions</h6>
       <h4 class="m-0"
       >0.85%<span class="text-c-blue ms-2"><i class="feather-arrow-up"></i>0.50%</span></h4
@@ -254,7 +282,7 @@
         <!-- <app-apex-chart chartID="analytics-conversions-chart-1" [chartConfig]="this.chartDB.analyticsConversions1"></app-apex-chart> -->
       </div>
     </app-card>
-    <app-card [hidHeader]="true" footerClass="border border-top-0 p-0 overflow-hidden" [isCardFooter]="true">
+    <app-card [hideHeader]="true" footerClass="border border-top-0 p-0 overflow-hidden" [isCardFooter]="true">
       <h6>Conversions</h6>
       <h4 class="m-0"
       >0.85%<span class="text-c-red ms-2"><i class="feather-arrow-up"></i>0.50%</span></h4
@@ -264,7 +292,7 @@
         <!-- <app-apex-chart chartID="analytics-conversions-chart-2" [chartConfig]="this.chartDB.analyticsConversions2"></app-apex-chart> -->
       </div>
     </app-card>
-    <app-card [hidHeader]="true" footerClass="border border-top-0 p-0 overflow-hidden" [isCardFooter]="true">
+    <app-card [hideHeader]="true" footerClass="border border-top-0 p-0 overflow-hidden" [isCardFooter]="true">
       <h6>Conversions</h6>
       <h4 class="m-0"
       >0.85%<span class="text-c-green ms-2"><i class="feather-arrow-up"></i>0.50%</span></h4

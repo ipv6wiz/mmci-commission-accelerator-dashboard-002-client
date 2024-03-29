@@ -4,12 +4,12 @@ import { Component, Input, OnInit } from '@angular/core';
 import { animate, AUTO_STYLE, state, style, transition, trigger } from '@angular/animations';
 
 // bootstrap import
-import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdown, NgbDropdownConfig, NgbDropdownMenu, NgbDropdownToggle } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu],
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss'],
   providers: [NgbDropdownConfig],
@@ -56,7 +56,7 @@ export class CardComponent implements OnInit {
   @Input() blockClass!: string;
   @Input() headerClass!: string;
   @Input() options = false;
-  @Input() hidHeader: boolean;
+  @Input() hideHeader: boolean;
   @Input() customHeader: boolean;
   @Input() customDate: boolean;
   @Input() CardDate!: string;
@@ -77,7 +77,7 @@ export class CardComponent implements OnInit {
     this.customHeader = false;
     this.customDate = false;
     this.options = true;
-    this.hidHeader = false;
+    this.hideHeader = false;
     this.cardTitle = 'Card Title';
     this.fullIcon = 'icon-maximize';
     this.isAnimating = false;
@@ -93,10 +93,10 @@ export class CardComponent implements OnInit {
 
   // life cycle event
   ngOnInit() {
-    if (!this.options || this.hidHeader || this.customHeader) {
+    if (!this.options || this.hideHeader || this.customHeader) {
       this.collapsedCard = 'false';
     }
-    if (!this.options || this.hidHeader || this.customDate) {
+    if (!this.options || this.hideHeader || this.customDate) {
       this.collapsedCard = 'false';
     }
   }
