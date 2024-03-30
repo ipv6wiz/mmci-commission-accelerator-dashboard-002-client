@@ -99,7 +99,7 @@ export default class AuthSigninV2Component implements OnInit {
         email: this.f?.['username']?.value,
         password: this.f?.['password']?.value
     }
-    this.authenticationService.login( loginFormData, returnUrl)
+    this.authenticationService.loginViaApi( loginFormData, returnUrl)
         .then(() => {
             console.log('return from authService - loginViaApi - returnUrl: ', returnUrl);
             this.loading = false;

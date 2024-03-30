@@ -74,10 +74,13 @@ export class AuthenticationService {
       console.log('loginViaApi - entered');
       try {
         const response: ApiResponse = await lastValueFrom(this.loginClient(loginFormData));
+        console.log('loginViaApi - response: ', response);
         if(response.statusCode === 200) {
-            const data = await this.setApiClientData(response.data.client);
+            this.setApiClientData(response.data.client);
+            const data = response.data.client;
+          console.log('loginViaApi - data: ', data);
             if(!this.returnUrl) {
-                this.returnUrl = response.data.client.defaultPage;
+                this.returnUrl = data.defaultPage;
             }
             console.log(`loginViaApi - returnUrl = ${this.returnUrl}`);
             return this.router.navigate([this.returnUrl]);
@@ -213,7 +216,7 @@ export class AuthenticationService {
         });
     }
 
-    async setApiClientData(clientData: ClientLoginResponseDto): Promise<any> {
+     setApiClientData(clientData: ClientLoginResponseDto) {
         this.setLocalClientData(clientData);
     }
 
@@ -332,7 +335,7 @@ export class AuthenticationService {
             return response;
         } else {
             console.log('getCurrentClientDocument - Client not found in LocalData');
-            this.logoutViaApi().then();
+            // this.logoutViaApi().then();
         }
 
     }

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AdvanceRequestFormComponent } from './advance-request-form.component';
+import { AdvanceRequestFormDialogComponent } from './advance-request-form-dialog.component';
 
 describe('AdvanceRequestFormComponent', () => {
-  let component: AdvanceRequestFormComponent;
-  let fixture: ComponentFixture<AdvanceRequestFormComponent>;
+  let component: AdvanceRequestFormDialogComponent;
+  let fixture: ComponentFixture<AdvanceRequestFormDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AdvanceRequestFormComponent]
+      imports: [AdvanceRequestFormDialogComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(AdvanceRequestFormComponent);
+    fixture = TestBed.createComponent(AdvanceRequestFormDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

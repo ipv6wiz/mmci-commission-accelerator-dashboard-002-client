@@ -5,5 +5,4 @@ export class AddressDto {
     State?: string;
     Zip5?: string;
     Zip4?: string;
-    verified?: boolean = false;
 }

@@ -22,11 +22,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { dataGridRefreshSignal } from '../../signals/data-grid-refresh.signal';
 import { ListWithCountDto } from '../../dtos/list-with-count.dto';
 import { AdvanceService } from '../../service/advance.service';
-import { AdvanceRequestFormComponent } from './advance-request-form/advance-request-form.component';
+import { AdvanceRequestFormDialogComponent } from './advance-request-form-dialog/advance-request-form-dialog.component';
 import { AuthenticationService } from '../../service';
 import { HelpersService } from '../../service/helpers.service';
 import { MatBoolDisplayPipe } from '../../pipes/mat-bool-display.pipe';
 import { ClientService } from '../../service/client.service';
+import { EscrowCompanyDto } from '../../dtos/escrow-company.dto';
+import { MlsListDto } from '../../dtos/mls-list.dto';
+import { MlsListService } from '../../service/mls-list.service';
+import { EscrowCompanyService } from '../../service/escrow-company.service';
 
 @Component({
   selector: 'app-advances-dg',
@@ -94,11 +98,16 @@ export class AdvancesDgComponent implements OnInit, AfterViewChecked{
     ['amountApproved', {type: 'currency', mask: 'separator', thousandSeparator: ',', prefix: '$'}]
   ]);
 
+  escrow!: EscrowCompanyDto[];
+  mls!: MlsListDto[];
+
   constructor(
     public modal: MatDialog,
     public helpers: HelpersService,
     private authService: AuthenticationService,
     private clientService: ClientService,
+    private mlsService: MlsListService,
+    private escrowService: EscrowCompanyService,
     private service: AdvanceService
   ) {
     effect(() => {
@@ -107,6 +116,9 @@ export class AdvancesDgComponent implements OnInit, AfterViewChecked{
         this.refreshItemsList().then();
       }
     });
+    this.loadMlsList().then(() => {
+      this.loadEscrowCompanies().then()
+    })
   }
 
   async ngOnInit() {
@@ -118,6 +130,16 @@ export class AdvancesDgComponent implements OnInit, AfterViewChecked{
     if(!this.loadingItems && !this.dataSource.paginator) {
       this.dataSource.paginator = this.paginator;
     }
+  }
+
+  async loadEscrowCompanies() {
+    const response = await this.escrowService.loadItemsForSelect();
+    this.escrow = response.items;
+  }
+
+  async loadMlsList() {
+    const response = await this.mlsService.loadItemsForSelect();
+    this.mls = response.items;
   }
 
   async refreshItemsList(sortBy: string = 'dateRequested', filter: string = '') {
@@ -143,9 +165,11 @@ export class AdvancesDgComponent implements OnInit, AfterViewChecked{
   }
 
   openItemUpdateFormModal(item: AdvanceEntity, index: number) {
-    this.modal.open(AdvanceRequestFormComponent, {
+    this.modal.open(AdvanceRequestFormDialogComponent, {
       data: {
         type: 'update',
+        escrow: this.escrow,
+        mls: this.mls,
         item,
         index
       }
@@ -153,9 +177,11 @@ export class AdvancesDgComponent implements OnInit, AfterViewChecked{
   }
 
   openItemCreateFormModal() {
-    this.modal.open(AdvanceRequestFormComponent, {
+    this.modal.open(AdvanceRequestFormDialogComponent, {
       data: {
-        type: 'new'
+        type: 'new',
+        escrow: this.escrow,
+        mls: this.mls,
       }
     });
   }

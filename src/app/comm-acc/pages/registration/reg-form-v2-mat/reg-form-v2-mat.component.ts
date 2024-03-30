@@ -15,7 +15,6 @@ import {BehaviorSubject, Subscription} from "rxjs";
 import {DocUploadFormDto} from "../../../../theme/shared/dtos/doc-upload-form.dto";
 import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
-import {BeforeSendEvent, UploadedEvent} from "devextreme/ui/file_uploader";
 import ExtFileUploadComponent from "../../../extension/file-upload/ext-file-upload.component";
 import {ClientContactDto} from "../../../../theme/shared/dtos/client-contact.dto";
 import {ClientDreInfoDto} from "../../../../theme/shared/dtos/client-dre-info.dto";
@@ -182,12 +181,6 @@ export class RegFormV2MatComponent implements OnInit{
         this.docUploadGroup = this._formBuilder.group(docUploadControls);
         console.log('ngOnInit - docUploadGroup: ', this.docUploadGroup);
         this.regFormDoneGroup = this._formBuilder.group({done: ['', Validators.required]});
-    }
-
-    docsOnBeforeSend(e: BeforeSendEvent) {
-        // const client = this.authService.getLocalClientData();
-        // e.request.withCredentials = true;
-        // e.request.setRequestHeader('Authorization', `Bearer ${client.idToken}`);
     }
 
     async setup(): Promise<any> {
