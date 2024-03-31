@@ -14,8 +14,6 @@ export class AdvanceEntity extends AuditTrail {
     agentCommission!: number; // whole $$
     grossCommission!: number; // whole $$
     escrowData!: AdvanceEscrowDto;
-    estimatedClosingDate!: string; // ISO format date
-    actualClosingDate!: string; // ISO format date
     advanceStatus!: string; // pending, current, paid, rejected
     rejectedReason?: string;
     remainingContingencies!: boolean;

@@ -1,4 +1,5 @@
-import { Address } from '../entities/address.class';
+import { AddressClass } from '../entities/address.class';
+import { AdvanceEscrowDetailsClass } from '../entities/advance-escrow-details.class';
 
 export interface FormFieldDto {
   fieldLabel: string;
@@ -10,9 +11,11 @@ export interface FormFieldDto {
   validators: any[];
   width: number; // percentage
   rowCol: string;
+  default?: any;
   autoCapitalize?: string;
   mask?: string;
-  addrObj?: Address;
+  addrObj?: AddressClass;
+  escrowObj?: AdvanceEscrowDetailsClass;
   pickerId?: string;
   startView?: 'month' | 'year' | 'multi-year';
   storedFormat?: string;
@@ -29,6 +32,7 @@ export interface FormFieldDto {
   validators: [],
   width: 0, // percentage
   rowCol: '',
+  default?: null,
   autoCapitalize?: '',
   mask?: '',
   addrObj?: null,

@@ -100,12 +100,12 @@ export default class AuthSigninV2Component implements OnInit {
         password: this.f?.['password']?.value
     }
     this.authenticationService.loginViaApi( loginFormData, returnUrl)
-        .then(() => {
-            console.log('return from authService - loginViaApi - returnUrl: ', returnUrl);
+        .then((defaultPage: string) => {
+            console.log('AuthSigninV2Component - return from authService - loginViaApi - returnUrl: ', defaultPage);
             this.loading = false;
             this.clientService.setClientId(this.authenticationService.getLocalClientDataProp('uid'));
-            console.log('return from authService - clientId: ', this.clientService.getClientId());
-          // this.router.navigate([returnUrl]).then();
+            console.log('AuthSigninV2Component - return from authService - clientId: ', this.clientService.getClientId());
+            this.router.navigate([defaultPage]).then();
         })
         .catch((err) => {
             throw new Error(err.message);

@@ -9,10 +9,10 @@ import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field'
 import { MatInput } from '@angular/material/input';
 import { MatOption } from '@angular/material/autocomplete';
 import { MatProgressSpinner, ProgressSpinnerMode } from '@angular/material/progress-spinner';
-import { MatSelect } from '@angular/material/select';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { MatToolbar } from '@angular/material/toolbar';
 import { NgForOf, NgStyle } from '@angular/common';
-import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { FormFieldDto } from '../../dtos/form-field.dto';
 import { ThemePalette } from '@angular/material/core';
 import { HelpersService } from '../../service/helpers.service';
@@ -39,11 +39,12 @@ import { SelectDto } from '../../dtos/select.dto';
     MatLabel,
     MatOption,
     MatProgressSpinner,
-    MatSelect,
+    MatSelectModule,
     MatSuffix,
     MatToolbar,
     NgForOf,
     NgxMaskDirective,
+    NgxMaskPipe,
     ReactiveFormsModule,
     MatDialogContent,
     NgStyle,
@@ -81,18 +82,15 @@ export class MmciFormMatComponent implements OnInit{
     private formBuilder: FormBuilder,
     private helpers: HelpersService,
     private optionsService: OptionsService,
-  ) {
-
-  }
-
+  ) {}
 
   ngOnInit() {
-    console.log('MmciFormMatComponent - ngOnInit - data: ', this.data);
-    console.log('MmciFormMatComponent - ngOnInit - config: ', this.config);
+    // console.log('MmciFormMatComponent - ngOnInit - data: ', this.data);
+    // console.log('MmciFormMatComponent - ngOnInit - config: ', this.config);
     this.unpackConfig();
     // const fieldsArr: FormFieldDto[] = this.populateFormFields();
-    console.log('MmciFormMatComponent - ngOnInit - fieldsArr: ', this.fieldsArr);
-    this.populateRows(this.fieldsArr);
+    // console.log('MmciFormMatComponent - ngOnInit - fieldsArr: ', this.fieldsArr);
+    this.rows = this.helpers.populateRows(this.fieldsArr);
     this.fields = new Map<string, FormFieldDto>(this.fieldsArr.map((obj: FormFieldDto) => [obj.fcn, obj]));
     this.controls = this.helpers.createControls(this.fields, this.data);
     // console.log('Escrow Form - constructor - controls: ', this.controls);
@@ -126,40 +124,6 @@ export class MmciFormMatComponent implements OnInit{
     }
   }
 
-  populateRows(fieldsArr: FormFieldDto[]) {
-    // console.log('populateRows - fieldsArr: ', fieldsArr);
-    fieldsArr.sort((a: FormFieldDto,b: FormFieldDto): number => {
-      if(!a.rowCol || !b.rowCol) {
-        return 0;
-      }
-      if(a.rowCol < b.rowCol) {
-        return -1;
-      } else if(a.rowCol > b.rowCol) {
-        return 1;
-      }
-      return 0;
-    })
-    fieldsArr.forEach((field: FormFieldDto) => {
-      let row: number = 0;
-      let col: number = 0;
-      if(field.rowCol) {
-        const rowColParts = field.rowCol.split('.');
-        row = parseInt(rowColParts[0], 10);
-        col = parseInt(rowColParts[1], 10);
-      } else {
-        row++;
-      }
-      // const col: number = parseInt(rowColParts[1], 10);
-      console.log(`row: ${row} col: ${col} rows.length: ${this.rows.length}`);
-      if(row === this.rows.length + 1) {
-        console.log('>>>>>>> populateRows - make a slot');
-        this.rows.push([]);
-      }
-      this.rows[row - 1].push(field);
-    });
-    // console.log('populateRows - rows: ', this.rows);
-  }
-
   chipListChange(event: {key: string, value: any} ) {
     // console.log('chipListChange - event: ', event);
     this.formGroup.controls[event.key].setValue(event.value);
@@ -174,14 +138,31 @@ export class MmciFormMatComponent implements OnInit{
     mmciFormSubmitSignal.set({action: 'submit', formType: this.data.type, formData: this.formGroup.value});
   }
 
+  selectionChange(event: MatSelectChange) {
+    // console.log('selectionChange - event: ', event);
+    // console.log('selectionChange - source: ', event.source);
+    // console.log('selectionChange - value: ', event.value);
+    // const ctrlName: string | number | null = event.source.ngControl.name;
+    // console.log('selectionChange - ctrlName: ', ctrlName);
+    // if(ctrlName) {
+    //   this.formGroup.controls[ctrlName].setValue('FRED');
+    //   const ctrlValue = this.formGroup.controls[ctrlName].value;
+    //   console.log('selectionChange - ctrlValue: ', ctrlValue);
+    // }
+  }
+
+  selectValueChange(event: any){
+    console.log('selectValueChange - event: ', event);
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onDateChange(event: any) {
     console.log('onDateChange');
   }
 
   onFieldChange(event: any) {
-    console.log('***** >>>>> fieldChange - event: ', event);
-    console.log(`***** >>>>> fieldChange - id: ${event.target.id} - value: ${event.target.value}`);
+    // console.log('***** >>>>> fieldChange - event: ', event);
+    // console.log(`***** >>>>> fieldChange - id: ${event.target.id} - value: ${event.target.value}`);
     const text = event.target.value;
     const ctrlId = event.target.id;
     const ctrlNameParts = ctrlId.split('-');
@@ -192,7 +173,7 @@ export class MmciFormMatComponent implements OnInit{
       const field: FormFieldDto | undefined = this.fields.get(fcn);
       if(field) {
         const doAutoCap: boolean = !!field.autoCapitalize;
-        console.log('***** >>>>> fieldChange - doAutoCap: ', doAutoCap);
+        // console.log('***** >>>>> fieldChange - doAutoCap: ', doAutoCap);
         if(doAutoCap) {
           const capFirst = this.helpers.autoCapitalize(text);
           this.formGroup.controls[fcn].setValue(capFirst);

@@ -76,14 +76,16 @@ export class AuthenticationService {
         const response: ApiResponse = await lastValueFrom(this.loginClient(loginFormData));
         console.log('loginViaApi - response: ', response);
         if(response.statusCode === 200) {
-            this.setApiClientData(response.data.client);
+            this.setApiClientData(response.data);
             const data = response.data.client;
           console.log('loginViaApi - data: ', data);
+          this.returnUrl = data.defaultPage;
             if(!this.returnUrl) {
                 this.returnUrl = data.defaultPage;
             }
             console.log(`loginViaApi - returnUrl = ${this.returnUrl}`);
-            return this.router.navigate([this.returnUrl]);
+            // return this.router.navigate([this.returnUrl]);
+          return this.returnUrl;
         } else {
             if(response.statusCode === 499) {
                 throw new Error(response.msg);
@@ -157,9 +159,8 @@ export class AuthenticationService {
   async logoutViaApi(): Promise<any> {
       console.log('logoutViaApi called');
       try {
-          // localStorage.removeItem('client');
-          // const sessionClient = JSON.parse(sessionStorage.getItem('client'))
-          sessionStorage.removeItem('client');
+        sessionStorage.removeItem('client');
+        sessionStorage.removeItem('idToken');
           const response: ApiResponse = await lastValueFrom(this.logoutClient());
           if(response.statusCode === 200) {
               const uid = this.getLocalClientDataProp('uid');
@@ -259,7 +260,7 @@ export class AuthenticationService {
             lastLogin: new Date(parseInt(client.metadata.lastLoginAt)).toString(),
         };
         this.setLocalClientData(this.clientData);
-        // console.log('SetClientData - clientData.uid: ', this.clientData.uid);
+        console.log('SetClientData - clientData.uid: ', this.clientData.uid);
         try {
             clientDoc = await this.clientService.getOne(client.uid);
         } catch (err: any) {
@@ -298,9 +299,14 @@ export class AuthenticationService {
         }
     }
 
+    getLocalIdToken(): string | null {
+      return sessionStorage.getItem('idToken');
+    }
+
     setLocalClientData(data: any) {
         // localStorage.setItem('client', JSON.stringify(data));
-        sessionStorage.setItem('client', JSON.stringify(data));
+      sessionStorage.setItem('client', JSON.stringify(data.client));
+      sessionStorage.setItem('idToken', JSON.stringify(data.idToken));
     }
 
     setLocalClientDataProp(prop: string, value: any) {

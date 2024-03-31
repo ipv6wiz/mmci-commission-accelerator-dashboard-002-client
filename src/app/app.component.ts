@@ -10,6 +10,7 @@ import {ConsoleToggleService} from "./theme/shared/service/console-toggle.servic
 })
 export class AppComponent implements OnInit {
   // constructor
+  title: string = 'Some Title';
   constructor(private router: Router, private consoleToggleService: ConsoleToggleService) {
       this.consoleToggleService.disableConsoleInProduction();
   }

@@ -1,6 +1,6 @@
 {
   "name": "commision-accelerator-dashboard-001",
-  "version": "0.0.260",
+  "version": "0.0.261",
   "author": "MMCI - John Page",
   "scripts": {
     "ng": "ng",
@@ -80,7 +80,7 @@
     "ngx-cookie-service": "^17.1.0",
     "ngx-editor": "^16.0.1",
     "ngx-logger": "^5.0.12",
-    "ngx-mask": "^17.0.4",
+    "ngx-mask": "^17.0.7",
     "ngx-quill": "^25.0.3",
     "ngx-scrollbar": "^13.0.3",
     "ngx-slider-v2": "^17.0.0",

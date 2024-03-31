@@ -8,7 +8,7 @@ import { EscrowCompanyDto } from '../../../dtos/escrow-company.dto';
 import { MlsListDto } from '../../../dtos/mls-list.dto';
 import { HelpersService } from '../../../service/helpers.service';
 import { FormBuilder } from '@angular/forms';
-import { Address } from '../../../entities/address.class';
+import { AddressClass } from '../../../entities/address.class';
 import { MmciFormMatComponent } from '../../mmci-form-mat/mmci-form-mat.component';
 import { dataGridRefreshSignal } from '../../../signals/data-grid-refresh.signal';
 import { mmciFormSubmitSignal } from '../../mmci-form-mat/signals/mmci-form-submit.signal';
@@ -125,7 +125,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       validators: [],
       width: 100, // percentage
       rowCol: '2.1',
-      addrObj: new Address(this.formBuilder, this.helpers)
+      addrObj: new AddressClass(this.formBuilder, this.helpers)
     });
 
     fields.push({
@@ -169,13 +169,13 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
 
   async onSubmit(event: any) {
     console.log('onSubmit - event: ', event);
-    let response;
-    if(event.formType === 'new') {
-      response = await this.service.createItem(event.formData);
-    } else if(event.formType === 'update') {
-      response = await this.service.updateItem(event.formData.uid, event.formData);
-    }
-    dataGridRefreshSignal.set({refresh: true, dataType: this.dataTypeTag })
-    console.log('onSubmit - response: ', response);
+    // let response;
+    // if(event.formType === 'new') {
+    //   response = await this.service.createItem(event.formData);
+    // } else if(event.formType === 'update') {
+    //   response = await this.service.updateItem(event.formData.uid, event.formData);
+    // }
+    // dataGridRefreshSignal.set({refresh: true, dataType: this.dataTypeTag })
+    // console.log('onSubmit - response: ', response);
   }
 }

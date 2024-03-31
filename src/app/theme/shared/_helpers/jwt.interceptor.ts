@@ -18,25 +18,35 @@ export class JwtInterceptor implements HttpInterceptor {
             needsJwt = true;
           }
       });
-    // console.log('JWT Intercept - needsJwt: ', needsJwt);
-    //   console.log('JWT Intercept - isLoggedIn: ', this.authService.isLoggedIn());
-    //   console.log('JWT Intercept - signUpAction: ', this.authService.signUpAction);
+    console.log('JWT Intercept - needsJwt: ', needsJwt);
+      console.log('JWT Intercept - isLoggedIn: ', this.authService.isLoggedIn());
+      console.log('JWT Intercept - signUpAction: ', this.authService.signUpAction);
       if((this.authService.isLoggedIn() || this.authService.signUpAction) && needsJwt) {
           const clientData = this.authService.getLocalClientData();
-          const token = clientData.idToken;
-          const bearer = `Bearer ${token}`;
-        // console.log('JWT Intercept - bearer: ', bearer);
+          const token = this.authService.getLocalIdToken();
+
+        console.log('JWT Intercept - token: ', token);
         const uid = this.authService.getLocalClientDataProp('uid');
-          // console.log('Bearer: ', bearer);
-          request = request.clone({
-            reportProgress: true,
-            withCredentials: true,
-                  setHeaders: {
-                    'Authorization': `Bearer ${token}`,
-                    'Cache-Control': 'no-cache',
-                    'x-csrf-token': uid
-                  }
-                });
+          if(token) {
+            request = request.clone({
+              reportProgress: true,
+              withCredentials: true,
+              setHeaders: {
+                'Authorization': `Bearer ${token}`,
+                'Cache-Control': 'no-cache',
+                'x-csrf-token': uid
+              }
+            });
+          } else {
+            request = request.clone({
+              reportProgress: true,
+              withCredentials: true,
+              setHeaders: {
+                'Cache-Control': 'no-cache',
+                'x-csrf-token': uid
+              }
+            });
+          }
       }
       console.log('Should be using HTTP Only Cookie and Bearer Token');
 

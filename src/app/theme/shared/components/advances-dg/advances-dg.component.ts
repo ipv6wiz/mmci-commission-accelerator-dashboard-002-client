@@ -89,7 +89,7 @@ export class AdvancesDgComponent implements OnInit, AfterViewChecked{
     'amountRequested',
     'dateRequested',
     'amountApproved',
-    'estimatedClosingDate'
+    'escrowData.estimatedClosingDate'
   ];
   columnsToDisplayWithActions: string[] = [...this.columnsToDisplay];
   columnNamesToDisplay: string[] = ['Status','Property', 'MLS #', 'MLS System', 'Requested', 'Date Requested', 'Approved', 'Est Closing'];
@@ -117,7 +117,9 @@ export class AdvancesDgComponent implements OnInit, AfterViewChecked{
       }
     });
     this.loadMlsList().then(() => {
-      this.loadEscrowCompanies().then()
+      this.loadEscrowCompanies().then(() => {
+        console.log('Advance DG constructor - mls: ', this.mls);
+      });
     })
   }
 

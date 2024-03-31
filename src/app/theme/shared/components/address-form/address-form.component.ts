@@ -34,26 +34,27 @@ import { FormFieldDto } from '../../dtos/form-field.dto';
 })
 export class AddressFormComponent implements OnInit{
   @Input() addressFormGroup!: any;
-  @Input() addrField!: any
-  fields!: Map<string, FormFieldDto>
+  @Input() addrField!: any;
+  fields!: Map<string, FormFieldDto>;
   fieldIdPrefix: string = 'addr';
+  rows: any[] = [];
 
-  constructor(private formBuilder: FormBuilder, private helpers: HelpersService) {
-
-  }
+  constructor(private formBuilder: FormBuilder, private helpers: HelpersService) {}
 
   ngOnInit() {
     console.log('AddressFormComponent - addressFormGroup: ', this.addressFormGroup);
     this.fields = this.addrField.addrObj.fields;
     console.log('AddressFormComponent - addressFormFields: ', this.fields);
+    this.popAddrRows(this.fields);
   }
 
-  onFieldChange(event:any) {
-
+  popAddrRows(fieldsMap: Map<string, FormFieldDto>) {
+    const fieldsArr = this.helpers.mapToArray(fieldsMap);
+    this.rows = this.helpers.populateRows(fieldsArr);
   }
 
-  onDateChange(event: any) {
+  onFieldChange(event:any) {}
 
-  }
+  onDateChange(event: any) {}
 
 }

@@ -2,12 +2,13 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { HelpersService } from '../service/helpers.service';
 import { AddressDto } from '../dtos/address.dto';
 import { FormFieldDto } from '../dtos/form-field.dto';
+import { EscrowCompanyDto } from '../dtos/escrow-company.dto';
 
-export class Address {
+export class AddressClass {
   Address1!: string;
   Address2!: string;
   City!: string;
-  State!: string;
+  State: string;
   Zip5!: string;
   Zip4!: string;
 
@@ -17,11 +18,13 @@ export class Address {
   constructor(
     private fb: FormBuilder,
     private helpers: HelpersService,
-    addrObj: AddressDto = {} as AddressDto) {
-    console.log('constructor - addrObj: ', addrObj);
-    this.populateProps(addrObj);
+    private dataObj: AddressDto = {} as AddressDto,
+  ) {
+    this.State = 'CA';
+    console.log('constructor - dataObj: ', dataObj);
+    this.populateProps(dataObj);
     // this.fields = this.populateAddressFormFields();
-    this.fields = new Map<string, FormFieldDto>(this.populateAddressFormFields().map((obj: FormFieldDto) => [obj.fcn, obj]));
+    this.fields = new Map<string, FormFieldDto>(this.populateFormFields().map((obj: FormFieldDto) => [obj.fcn, obj]));
     console.log('constructor - this: ', this);
     const controls = helpers.createControls(this.fields, this, 'object');
     this.addressFormGroup = this.fb.group(controls);
@@ -49,8 +52,8 @@ export class Address {
     }
   }
 
-  populateAddressFormFields(): any[] {
-    const fields: any[] = [];
+  populateFormFields(): FormFieldDto[] {
+    const fields: FormFieldDto[] = [];
     fields.push({
       fieldLabel: 'Address Line 1',
       placeholder: 'Street Address',
@@ -59,7 +62,9 @@ export class Address {
       autoCapitalize: 'words',
       required: true,
       disabled: false,
-      validators: []
+      validators: [],
+      width: 50,
+      rowCol: '1.1'
     });
     fields.push({
       fieldLabel: 'Address Line 2',
@@ -69,7 +74,9 @@ export class Address {
       type: 'text',
       required: false,
       disabled: false,
-      validators: []
+      validators: [],
+      width: 50,
+      rowCol: '1.2'
     });
     fields.push({
       fieldLabel: 'City',
@@ -79,7 +86,9 @@ export class Address {
       type: 'text',
       required: true,
       disabled: false,
-      validators: []
+      validators: [],
+      width: 33,
+      rowCol: '2.1'
     });
     fields.push({
       fieldLabel: 'State',
@@ -89,24 +98,31 @@ export class Address {
       required: true,
       disabled: true,
       default: 'CA',
-      validators: []
+      validators: [],
+      width: 33,
+      rowCol: '2.2'
     });
     fields.push({
       fieldLabel: 'Zip Code ',
-      placeholder: 'Your 5 digit Zip code',
+      placeholder: '5 digit Zip code',
       fcn: 'Zip5',
       type: 'text',
       required: true,
       disabled: false,
-      validators: [['pattern', "^[0-9]{5}?$"], ['minLength', 5], ['maxLength', 5]]
+      validators: [['pattern', "^[0-9]{5}?$"], ['minLength', 5], ['maxLength', 5]],
+      width: 17,
+      rowCol: '2.3'
     });
     fields.push({
       fieldLabel: 'Zip Code extension',
-      placeholder: 'Optional Your 4 digit zip extension',
+      placeholder: '4 digit Zip ',
       fcn: 'Zip4',
+      type: 'text',
       required: false,
       disabled: false,
-      validators: [['pattern', "^[0-9]{4}?$"], ['minLength', 4], ['maxLength', 4]]
+      validators: [['pattern', "^[0-9]{4}?$"], ['minLength', 4], ['maxLength', 4]],
+      width: 16,
+      rowCol: '2.4'
     });
     return fields;
   }
