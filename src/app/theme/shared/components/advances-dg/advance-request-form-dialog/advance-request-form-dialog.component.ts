@@ -164,6 +164,31 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       rowCol: '3.3',
     });
 
+    fields.push({
+      fieldLabel: 'Escrow Company',
+      placeholder: 'Choose the Escrow Company',
+      fcn: 'escrowCompany',
+      type: 'select',
+      required: true,
+      disabled: false,
+      validators: [],
+      width: 33, // percentage
+      rowCol: '4.1',
+      options: this.escrow
+    });
+
+    fields.push({
+      fieldLabel: 'Escrow Officer',
+      placeholder: 'Escrow Officer for this escrow',
+      fcn: 'escrowOfficer',
+      type: 'text',
+      required: true,
+      disabled: false,
+      validators: [],
+      width: 33, // percentage
+      rowCol: '4.2',
+      autoCapitalize: 'words',
+    });
     return fields;
   }
 

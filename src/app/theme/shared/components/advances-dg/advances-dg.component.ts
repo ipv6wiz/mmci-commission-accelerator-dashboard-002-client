@@ -89,7 +89,7 @@ export class AdvancesDgComponent implements OnInit, AfterViewChecked{
     'amountRequested',
     'dateRequested',
     'amountApproved',
-    'escrowData.estimatedClosingDate'
+    'estimatedClosingDate'
   ];
   columnsToDisplayWithActions: string[] = [...this.columnsToDisplay];
   columnNamesToDisplay: string[] = ['Status','Property', 'MLS #', 'MLS System', 'Requested', 'Date Requested', 'Approved', 'Est Closing'];
