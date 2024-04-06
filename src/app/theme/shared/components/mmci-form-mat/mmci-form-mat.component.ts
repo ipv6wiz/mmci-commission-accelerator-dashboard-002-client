@@ -138,7 +138,7 @@ export class MmciFormMatComponent implements OnInit{
     mmciFormSubmitSignal.set({action: 'submit', formType: this.data.type, formData: this.formGroup.value});
   }
 
-  selectionChange(event: MatSelectChange) {
+  // selectionChange(event: MatSelectChange) {
     // console.log('selectionChange - event: ', event);
     // console.log('selectionChange - source: ', event.source);
     // console.log('selectionChange - value: ', event.value);
@@ -149,17 +149,27 @@ export class MmciFormMatComponent implements OnInit{
     //   const ctrlValue = this.formGroup.controls[ctrlName].value;
     //   console.log('selectionChange - ctrlValue: ', ctrlValue);
     // }
-  }
+  // }
 
-  selectValueChange(event: any){
-    console.log('selectValueChange - event: ', event);
-  }
+  // selectValueChange(event: any){
+  //   console.log('selectValueChange - event: ', event);
+  // }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onDateChange(event: any) {
-    console.log('onDateChange');
+    console.log('onDateChange - event: ', event);
     const date = event.value;
     console.log('onDateChange - date: ', date);
+    const ctrlId: string = event.targetElement.id;
+    console.log('******* >>> onDateChange - ctrlId: ', ctrlId);
+    const ctrlNameParts = ctrlId.split('-');
+    const formGroup = ctrlNameParts[0];
+    const fcn = ctrlNameParts[1];
+    console.log(`******* >>> onDateChange - formGroup: ${formGroup} - control: ${fcn}`);
+    const localDate = date.toLocaleDateString();
+    // console.log('******* >>> onDateChange - date: ', localDate);
+    const isoDate = this.helpers.makeIsoDate(localDate);
+    // console.log('******* >>> onDateChange - isoDate: ', isoDate);
+    this.formGroup.controls[fcn].setValue(isoDate);
   }
 
   onFieldChange(event: any) {

@@ -88,7 +88,6 @@
                         placeholder="{{field.placeholder}}"
                         formControlName="{{field.fcn}}"
                         [required]="field.required"
-                        (selectionChange)="selectionChange($event)"
                       >
                           @for(option of field.options; track $index) {
                             <mat-option
