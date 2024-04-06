@@ -251,7 +251,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       placeholder: 'Actual Closing Date',
       fcn: 'actualClosingDate',
       type: 'date',
-      required: true,
+      required: false,
       disabled: false,
       width: 50, // percentage
       rowCol: '6.2',

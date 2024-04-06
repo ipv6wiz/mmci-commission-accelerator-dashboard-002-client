@@ -158,6 +158,8 @@ export class MmciFormMatComponent implements OnInit{
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onDateChange(event: any) {
     console.log('onDateChange');
+    const date = event.value;
+    console.log('onDateChange - date: ', date);
   }
 
   onFieldChange(event: any) {
