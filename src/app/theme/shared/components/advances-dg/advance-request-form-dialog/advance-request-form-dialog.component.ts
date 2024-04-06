@@ -71,24 +71,24 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
 
   populateFormFields(): FormFieldDto[] {
     const fields: any[] = [];
-      // fields.push({
-      //   fieldLabel: '',
-      //   placeholder: '',
-      //   fcn: '',
-      //   type: '',
-      //   required: true,
-      //   disabled: false,
-      //   validators: [],
-      //   width: 0, // percentage
-      //   rowCol: '',
-      //   autoCapitalize: '',
-      //   mask: '',
-      //   addrObj: null,
-      //   pickerId: '',
-      //   startView: 'month',
-      //   storedFormat: '',
-      //   options: []
-      // });
+      fields.push({
+        fieldLabel: '',
+        placeholder: '',
+        fcn: '',
+        type: '',
+        required: true,
+        disabled: false,
+        validators: [],
+        width: 0, // percentage
+        rowCol: '',
+        autoCapitalize: '',
+        mask: '',
+        addrObj: null,
+        pickerId: '',
+        startView: 'month',
+        storedFormat: '',
+        options: []
+      });
 
     fields.push({
       fieldLabel: 'MLS #',
@@ -188,6 +188,48 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       width: 33, // percentage
       rowCol: '4.2',
       autoCapitalize: 'words',
+    });
+
+    fields.push({
+      fieldLabel: 'Escrow Officer Phone',
+      placeholder: 'Escrow Officer Phone Number',
+      fcn: 'escrowPhone',
+      type: 'text',
+      required: true,
+      disabled: false,
+      validators: [],
+      width: 33, // percentage
+      rowCol: '4.3',
+      mask: '(000) 000-0000',
+      options: [
+        ['pattern', '^[0-9]*$'],
+        ['minLength', 10],
+        ['maxlength', 10]
+      ]
+    });
+
+    fields.push({
+      fieldLabel: 'Escrow Officer Email',
+      placeholder: 'Escrow Officer Email Address',
+      fcn: 'escrowEmail',
+      type: 'text',
+      required: true,
+      disabled: false,
+      validators: [['email']],
+      width: 50, // percentage
+      rowCol: '5.1',
+    });
+
+    fields.push({
+      fieldLabel: 'Escrow Transaction #',
+      placeholder: 'Escrow Transaction Number',
+      fcn: 'escrowTransactionNumber',
+      type: 'text',
+      required: true,
+      disabled: false,
+      validators: [],
+      width: 50, // percentage
+      rowCol: '5.2',
     });
     return fields;
   }

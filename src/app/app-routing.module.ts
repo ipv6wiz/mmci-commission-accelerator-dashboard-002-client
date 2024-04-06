@@ -19,12 +19,7 @@ const routes: Routes = [
         pathMatch: 'full',
         title: AppSiteConfig.siteName
       },
-      {
-        path: 'dashboard',
-        loadChildren: () => import('./comm-acc/dashboard/dashboard.module').then((module) => module.DashboardModule),
-          canActivate: [AuthGuard],
-          data: {roles: ['CLIENT-VERIFIED']}
-      },
+
       {
         path: 'layout',
         loadChildren: () => import('./comm-acc/pages/layout/layout.module').then((module) => module.LayoutModule),
@@ -146,7 +141,12 @@ const routes: Routes = [
         path: 'maintenance',
         loadChildren: () => import('./comm-acc/pages/maintenance/maintenance.module').then((module) => module.MaintenanceModule)
       },
-
+      {
+        path: 'dashboard',
+        loadChildren: () => import('./comm-acc/dashboard/dashboard.module').then((module) => module.DashboardModule),
+        canActivate: [AuthGuard],
+        data: {roles: ['CLIENT-VERIFIED']}
+      },
     ]
   },
     {
