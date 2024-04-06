@@ -71,24 +71,24 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
 
   populateFormFields(): FormFieldDto[] {
     const fields: any[] = [];
-      fields.push({
-        fieldLabel: '',
-        placeholder: '',
-        fcn: '',
-        type: '',
-        required: true,
-        disabled: false,
-        validators: [],
-        width: 0, // percentage
-        rowCol: '',
-        autoCapitalize: '',
-        mask: '',
-        addrObj: null,
-        pickerId: '',
-        startView: 'month',
-        storedFormat: '',
-        options: []
-      });
+      // fields.push({
+      //   fieldLabel: '',
+      //   placeholder: '',
+      //   fcn: '',
+      //   type: '',
+      //   required: true,
+      //   disabled: false,
+      //   validators: [],
+      //   width: 0, // percentage
+      //   rowCol: '',
+      //   autoCapitalize: '',
+      //   mask: '',
+      //   addrObj: null,
+      //   pickerId: '',
+      //   startView: 'month',
+      //   storedFormat: '',
+      //   options: []
+      // });
 
     fields.push({
       fieldLabel: 'MLS #',
@@ -230,6 +230,46 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       validators: [],
       width: 50, // percentage
       rowCol: '5.2',
+    });
+
+    fields.push({
+      fieldLabel: 'Escrow Estimated Closing',
+      placeholder: 'Estimated Closing Date',
+      fcn: 'estimatedClosingDate',
+      type: 'date',
+      required: true,
+      disabled: false,
+      width: 50, // percentage
+      rowCol: '6.1',
+      pickerId: 'est-closing-date',
+      startView: 'month',
+      storedFormat: 'ISO Local',
+    });
+
+    fields.push({
+      fieldLabel: 'Escrow Actual Closing',
+      placeholder: 'Actual Closing Date',
+      fcn: 'actualClosingDate',
+      type: 'date',
+      required: true,
+      disabled: false,
+      width: 50, // percentage
+      rowCol: '6.2',
+      pickerId: 'act-closing-date',
+      startView: 'month',
+      storedFormat: 'ISO Local',
+    });
+
+    fields.push({
+      fieldLabel: 'Remaining Contingencies',
+      placeholder: 'Are there remaining Contingencies',
+      fcn: 'remainingContingencies',
+      type: 'boolean',
+      required: true,
+      disabled: false,
+      validators: [],
+      width: 50, // percentage
+      rowCol: '7.1',
     });
     return fields;
   }
