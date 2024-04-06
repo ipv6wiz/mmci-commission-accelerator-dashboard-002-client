@@ -241,7 +241,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       disabled: false,
       width: 50, // percentage
       rowCol: '6.1',
-      pickerId: 'est-closing-date',
+      pickerId: 'escrow-estimatedClosingDate',
       startView: 'month',
       storedFormat: 'ISO Local',
     });
@@ -255,7 +255,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       disabled: false,
       width: 50, // percentage
       rowCol: '6.2',
-      pickerId: 'act-closing-date',
+      pickerId: 'escrow-actualClosingDate',
       startView: 'month',
       storedFormat: 'ISO Local',
     });
