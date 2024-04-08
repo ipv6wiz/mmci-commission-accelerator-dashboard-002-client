@@ -29,7 +29,20 @@
             @for(field of row; track $index) {
               <div class="col" [style.width]="'{{field.width}}%'">
                 @if(!['address'].includes(field.type)){
-                  <mat-form-field [ngStyle]="">
+                  @if(field.conditional) {
+                    <mat-form-field>
+                      <mat-label [ngStyle]="{'margin-left.px': 40, 'margin-top.px': 15}" >{{field.condFieldLabel}}</mat-label>
+                      <input hidden="hidden" matInput />
+                      <mat-checkbox
+                        (change)="checkboxChange($event)"
+                        formControlName="{{field.condFcn}}"
+                        [required]="field.condRequired"
+                        name="{{field.condFcn}}.{{field.fcn}}"
+                      ></mat-checkbox>
+                    </mat-form-field>
+                  }
+
+                  <mat-form-field [ngStyle]="{'visibility': fields.get(field.fcn)!.hide ? 'hidden': 'visible'}">
                     <mat-label>{{field.fieldLabel}}</mat-label>
                     @if(!field.type || field.type === 'text') {
                       <input
@@ -115,13 +128,14 @@
                       ></app-chip-list>
                     }
                   </mat-form-field>
-                }
-                @if(field.type === 'address' && field.required){
-                  <app-address-form
-                    [addressFormGroup]="controls[field.fcn]"
-                    [addrField]="fields.get(field['fcn'])"
-                  ></app-address-form>
-                }
+                    }
+                    @if(field.type === 'address' && field.required){
+                      <app-address-form
+                        [addressFormGroup]="controls[field.fcn]"
+                        [addrField]="fields.get(field['fcn'])"
+                      ></app-address-form>
+                    }
+
               </div>
             }
           </div>

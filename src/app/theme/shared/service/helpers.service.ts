@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {  FormControl, Validators } from '@angular/forms';
+import { Form, FormControl, Validators } from '@angular/forms';
 import { SelectDto } from '../dtos/select.dto';
 import { FormFieldDto } from '../dtos/form-field.dto';
 
@@ -143,12 +143,21 @@ export class HelpersService {
         // console.log('processFields - address - addrObj: ', field.addrObj);
         controls.set(field.fcn, field.addrObj.getFormGroup());
       } else {
+        if(field.conditional) {
+          const condControl: FormControl = new FormControl();
+          if(obj) {
+            condControl.setValue(obj[field.condFcn as keyof typeof obj]);
+          } else {
+            condControl.setValue(field.defaultCondition);
+          }
+          controls.set(field.condFcn, condControl);
+        }
         const control: FormControl = new FormControl();
         const validators: any[] = [];
         // const  valueObj: any = {};
         // console.log('createControls - value: ',obj[field.fcn as keyof typeof obj]);
         if(obj) {
-          control.setValue(obj[field.fcn as keyof typeof obj])
+          control.setValue(obj[field.fcn as keyof typeof obj]);
           // valueObj['value'] = obj[field.fcn as keyof typeof obj];
         } else {
           control.setValue('');

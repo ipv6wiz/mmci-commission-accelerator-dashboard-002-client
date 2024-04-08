@@ -2,8 +2,6 @@ import { Component, effect, Inject, OnInit } from '@angular/core';
 import { provideNgxMask } from 'ngx-mask';
 import { FormFieldDto } from '../../../dtos/form-field.dto';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { MlsListService } from '../../../service/mls-list.service';
-import { EscrowCompanyService } from '../../../service/escrow-company.service';
 import { EscrowCompanyDto } from '../../../dtos/escrow-company.dto';
 import { MlsListDto } from '../../../dtos/mls-list.dto';
 import { HelpersService } from '../../../service/helpers.service';
@@ -14,6 +12,7 @@ import { dataGridRefreshSignal } from '../../../signals/data-grid-refresh.signal
 import { mmciFormSubmitSignal } from '../../mmci-form-mat/signals/mmci-form-submit.signal';
 import { AdvanceService } from '../../../service/advance.service';
 import { SelectDto } from '../../../dtos/select.dto';
+import { AuthenticationService } from '../../../service';
 
 @Component({
   selector: 'app-advance-request-form',
@@ -40,8 +39,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
     private formBuilder: FormBuilder,
     private helpers: HelpersService,
     private service: AdvanceService,
-    private mlsService: MlsListService,
-    private escrowService: EscrowCompanyService,
+    private authService: AuthenticationService,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     effect(() => {
@@ -55,10 +53,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       {key: 'dataTypeTag', value: 'advances'},
       {key: 'formTag', value: 'Commission Advance'},
     ];
-
     this.chipListArr = [];
-
-
   }
 
   ngOnInit() {
@@ -70,7 +65,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
   }
 
   populateFormFields(): FormFieldDto[] {
-    const fields: any[] = [];
+    const fields: FormFieldDto[] = [];
       // fields.push({
       //   fieldLabel: '',
       //   placeholder: '',
@@ -87,7 +82,12 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       //   pickerId: '',
       //   startView: 'month',
       //   storedFormat: '',
-      //   options: []
+      //   options: [],
+      //   conditional: false, // if true precede the field with a checkbox
+      //   defaultCondition: true, // render the field
+      //   condFieldLabel: '',
+      //   condPlaceholder: '',
+      //   condFcn: '',
       // });
 
     fields.push({
@@ -244,6 +244,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       pickerId: 'escrow-estimatedClosingDate',
       startView: 'month',
       storedFormat: 'ISO Local',
+      validators: []
     });
 
     fields.push({
@@ -258,31 +259,45 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       pickerId: 'escrow-actualClosingDate',
       startView: 'month',
       storedFormat: 'ISO Local',
+      validators: []
     });
 
     fields.push({
-      fieldLabel: 'Remaining Contingencies',
-      placeholder: 'Are there remaining Contingencies',
-      fcn: 'remainingContingencies',
-      type: 'boolean',
-      required: true,
-      disabled: false,
-      validators: [],
-      width: 50, // percentage
+      fieldLabel: 'Remaining Contingencies Release Date',
+      placeholder: 'Date remaining Contingencies are released',
+      fcn: 'contingencyReleaseDate',
+      type: 'date',
+      pickerId: 'escrow-contingencyReleaseDate',
+      startView: 'month',
+      storedFormat: 'ISO Local',
       rowCol: '7.1',
+      hide: true,
+      required: false,
+      disabled: false,
+      conditional: true,
+      defaultCondition: false,
+      condFieldLabel: 'Remaining Contingencies',
+      condFcn: 'remainingContingencies',
+      condRequired: true,
+      validators: [],
+      width: 100,
     });
     return fields;
   }
 
   async onSubmit(event: any) {
     console.log('onSubmit - event: ', event);
-    // let response;
-    // if(event.formType === 'new') {
-    //   response = await this.service.createItem(event.formData);
-    // } else if(event.formType === 'update') {
-    //   response = await this.service.updateItem(event.formData.uid, event.formData);
-    // }
-    // dataGridRefreshSignal.set({refresh: true, dataType: this.dataTypeTag })
-    // console.log('onSubmit - response: ', response);
+    let response;
+    if(event.formType === 'new') {
+      const clientId = this.authService.getLocalClientData().uid;
+      console.log('clientId : ', clientId);
+      event.formData.clientId = clientId;
+      event.formData.advanceStatus = 'pending';
+      response = await this.service.createItem(event.formData);
+    } else if(event.formType === 'update') {
+      response = await this.service.updateItem(event.formData.uid, event.formData);
+    }
+    dataGridRefreshSignal.set({refresh: true, dataType: this.dataTypeTag })
+    console.log('onSubmit - response: ', response);
   }
 }
