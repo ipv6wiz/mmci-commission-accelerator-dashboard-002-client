@@ -85,16 +85,17 @@ export default class AuthSigninV2Component implements OnInit {
   }
 
   onSubmit() {
+    console.log('AuthSigninV2Component - onSubmit Entered');
     this.submitted = true;
 
     // stop here if form is invalid
     if (this.loginForm.invalid) {
       return;
     }
-
+    console.log('AuthSigninV2Component - onSubmit Form VALID');
     this.error = '';
     this.loading = true;
-    const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard/analytics';
+    const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/admin/dashboard/analytics';
     const loginFormData: LoginFormDataDto = {
         email: this.f?.['username']?.value,
         password: this.f?.['password']?.value
@@ -105,7 +106,14 @@ export default class AuthSigninV2Component implements OnInit {
             this.loading = false;
             this.clientService.setClientId(this.authenticationService.getLocalClientDataProp('uid'));
             console.log('AuthSigninV2Component - return from authService - clientId: ', this.clientService.getClientId());
-            this.router.navigate([defaultPage]).then();
+            const dfpParts = defaultPage.split('/');
+            console.log('AuthSigninV2Component - route: ', this.route);
+            // this.router.navigate(dfpParts, {relativeTo: null}).then((okOrNot: boolean) => {
+            //   console.log(`AuthSigninV2Component - return from navigate - : ${okOrNot ? 'Success': 'FAILED'}`);
+            // });
+          this.router.navigate([defaultPage]).then((okOrNot: boolean) => {
+            console.log(`AuthSigninV2Component - return from navigate to ${defaultPage} - : ${okOrNot ? 'Success': 'FAILED'}`);
+          });
         })
         .catch((err) => {
             throw new Error(err.message);

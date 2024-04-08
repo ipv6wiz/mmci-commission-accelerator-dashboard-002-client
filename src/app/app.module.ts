@@ -45,6 +45,9 @@ import {JwtService} from "./theme/shared/service/jwt.service";
 import {RegistrationModule} from "./comm-acc/pages/registration/registration.module";
 import {LoggerModule} from "ngx-logger";
 import {provideEnvironmentNgxMask} from "ngx-mask";
+import { provideRouter } from '@angular/router';
+
+
 
 
 export const httpInterceptorProviders = [
@@ -97,6 +100,7 @@ export const httpInterceptorProviders = [
         })
     ],
     providers: [
+
         importProvidersFrom(HttpClientModule),
         httpInterceptorProviders,
         {provide: ErrorHandler, useClass: GlobalErrorHandler},

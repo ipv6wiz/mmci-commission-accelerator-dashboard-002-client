@@ -49,7 +49,7 @@ export type ChartOptions = {
   templateUrl: './dash-sale.component.html',
   styleUrls: ['./dash-sale.component.scss']
 })
-export default class DashSaleComponent {
+export class DashSaleComponent {
   // public props
   @ViewChild('chart') chart!: ChartComponent;
   chartOptions!: Partial<ChartOptions>;

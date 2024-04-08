@@ -15,10 +15,15 @@ export class AuthGuard  {
       private alertService: AlertService
       ) {}
 
+    async canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
+      return this.canActivate(route, state);
+    }
+
     async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         // this.getRoutes();
         let okRole: boolean = false;
-        console.log('canActivate called');
+        console.log('---->>>>> canActivate called');
+        console.log('---->>>>> canActivate - route: ', route);
         if (!this.authService.isLoggedIn()) {
             console.log('canActivate - NOT logged in');
             await this.router.navigate(['/auth/signin-v2'], {queryParams: {returnUrl: state.url}});
@@ -32,12 +37,12 @@ export class AuthGuard  {
                 await this.authService.logoutViaApi();
                 return false;
             } else {
-                if(!!clientData) {
+                if(clientData) {
                     const roles = await this.authService.getCurrentClientRoles(clientData.uid);
                     console.log('User Roles: ', roles);
                     console.log('Page roles: ', route.data['roles']);
                     okRole = (route.data['roles']) ? route.data['roles'].some((r: string) => roles.includes(r)) : false;
-                    console.log('okRole: ', okRole);
+                    console.log('AuthGuard - canActivate - okRole: ', okRole);
                 }
                 if(okRole) {
                     return okRole;

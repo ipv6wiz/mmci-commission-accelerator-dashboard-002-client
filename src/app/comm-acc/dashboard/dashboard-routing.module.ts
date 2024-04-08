@@ -9,14 +9,14 @@ const routes: Routes = [
     children: [
       {
         path: 'analytics',
-        loadComponent: () => import('./dash-analytics/dash-analytics.component'),
-          canActivate: [AuthGuard],
-          data: {roles: ['CLIENT-VERIFIED']}
+        loadComponent: () => import('./dash-analytics/dash-analytics.component').then(m => m.DashAnalyticsComponent),
+          canActivateChild: [AuthGuard],
+          data: {roles: ['CLIENT-VERIFIED', 'ADMIN']}
       },
       {
         path: 'sale',
-        loadComponent: () => import('./dash-sale/dash-sale.component'),
-          canActivate: [AuthGuard],
+        loadComponent: () => import('./dash-sale/dash-sale.component').then(m => m.DashSaleComponent),
+          canActivateChild: [AuthGuard],
           data: {roles: ['CLIENT-VERIFIED']}
       }
     ]

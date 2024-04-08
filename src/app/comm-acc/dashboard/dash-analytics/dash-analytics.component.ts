@@ -24,8 +24,6 @@ import {
   ApexMarkers
 } from 'ng-apexcharts';
 import { AdvancesDgComponent } from '../../../theme/shared/components/advances-dg/advances-dg.component';
-import { ClientService } from '../../../theme/shared/service/client.service';
-import { AdvanceService } from '../../../theme/shared/service/advance.service';
 import { HelpersService } from '../../../theme/shared/service/helpers.service';
 import { LedgerService } from '../../../theme/shared/service/ledger.service';
 import { AuthenticationService } from '../../../theme/shared/service';
@@ -35,7 +33,7 @@ import { NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 export type ChartOptions = {
   series: ApexAxisChartSeries | ApexNonAxisChartSeries;
   chart: ApexChart;
-  xaxis: ApexXAxis;
+  xAxis: ApexXAxis;
   stroke: ApexStroke;
   dataLabels: ApexDataLabels;
   plotOptions: ApexPlotOptions;
@@ -66,7 +64,7 @@ export type ChartOptions = {
   templateUrl: './dash-analytics.component.html',
   styleUrls: ['./dash-analytics.component.scss']
 })
-export default class DashAnalyticsComponent implements OnInit{
+export class DashAnalyticsComponent implements OnInit{
   // public props
   @ViewChild('chart') chart!: ChartComponent;
   chartOptions!: Partial<ChartOptions>;
@@ -84,8 +82,6 @@ export default class DashAnalyticsComponent implements OnInit{
   // constructor
   constructor(
     private authService: AuthenticationService,
-    private clientService: ClientService,
-    private advanceService: AdvanceService,
     private ledgerService: LedgerService,
     public helpers: HelpersService
   ) {
@@ -118,7 +114,7 @@ export default class DashAnalyticsComponent implements OnInit{
       legend: {
         position: 'top'
       },
-      xaxis: {
+      xAxis: {
         type: 'datetime',
         categories: ['1/11/2000', '2/11/2000', '3/11/2000', '4/11/2000', '5/11/2000', '6/11/2000'],
         axisBorder: {
@@ -167,7 +163,7 @@ export default class DashAnalyticsComponent implements OnInit{
         show: false
       },
       tooltip: {
-        theme: 'datk'
+        theme: 'dark'
       },
       grid: {
         padding: {
@@ -272,7 +268,6 @@ export default class DashAnalyticsComponent implements OnInit{
         }
       }
     };
-
   }
 
   async ngOnInit() {
