@@ -29,8 +29,6 @@ import { MatBoolDisplayPipe } from '../../pipes/mat-bool-display.pipe';
 import { ClientService } from '../../service/client.service';
 import { EscrowCompanyDto } from '../../dtos/escrow-company.dto';
 import { MlsListDto } from '../../dtos/mls-list.dto';
-import { MlsListService } from '../../service/mls-list.service';
-import { EscrowCompanyService } from '../../service/escrow-company.service';
 
 @Component({
   selector: 'app-advances-dg',
@@ -65,6 +63,10 @@ import { EscrowCompanyService } from '../../service/escrow-company.service';
 export class AdvancesDgComponent implements OnInit, AfterViewChecked{
   @ViewChild('paginator') paginator!: MatPaginator;
   @Input() advanceStatus!: string; // pending, current, paid, cleared, rejected
+  @Input() escrow!: EscrowCompanyDto[];
+  @Input() mls!: MlsListDto[];
+  @Input() loadingItems: boolean = true;
+  @Input() advanceObj!: ListWithCountDto;
   /*
     pending: Request has been made but not yet approved
     current: Request approved
@@ -72,7 +74,7 @@ export class AdvancesDgComponent implements OnInit, AfterViewChecked{
     cleared: Escrow closed remainder of commission less the fee has been paid
     rejected: Request rejected and reason provided
    */
-  loadingItems: boolean = true;
+
   public loadSpinnerColor: ThemePalette = 'primary';
   public loadSpinnerMode: ProgressSpinnerMode = 'indeterminate';
   public loadSpinnerDiameter: string = '50';
@@ -98,29 +100,23 @@ export class AdvancesDgComponent implements OnInit, AfterViewChecked{
     ['amountApproved', {type: 'currency', mask: 'separator', thousandSeparator: ',', prefix: '$'}]
   ]);
 
-  escrow!: EscrowCompanyDto[];
-  mls!: MlsListDto[];
+
 
   constructor(
     public modal: MatDialog,
     public helpers: HelpersService,
     private authService: AuthenticationService,
     private clientService: ClientService,
-    private mlsService: MlsListService,
-    private escrowService: EscrowCompanyService,
     private service: AdvanceService
   ) {
     effect(() => {
+      console.log('dataGridRefreshSignal - effect entered');
       const dgrs = dataGridRefreshSignal();
       if(dgrs.refresh && dgrs.dataType === this.dataTypeTag) {
-        this.refreshItemsList().then();
+        this.refreshItemsList().then(() => true);
       }
     });
-    this.loadMlsList().then(() => {
-      this.loadEscrowCompanies().then(() => {
-        console.log('Advance DG constructor - mls: ', this.mls);
-      });
-    })
+
   }
 
   async ngOnInit() {
@@ -128,37 +124,44 @@ export class AdvancesDgComponent implements OnInit, AfterViewChecked{
     await this.refreshItemsList();
   }
 
-  ngAfterViewChecked() {
-    if(!this.loadingItems && !this.dataSource.paginator) {
+  async ngAfterViewChecked() {
+    console.log('AdvancesDgComponent - ngAfterViewChecked - entered');
+    if(this.dataSource && ( !this.loadingItems && !this.dataSource.paginator)) {
+      console.log('AdvancesDgComponent - ngAfterViewChecked - loading paginator & data');
       this.dataSource.paginator = this.paginator;
+
     }
-  }
-
-  async loadEscrowCompanies() {
-    const response = await this.escrowService.loadItemsForSelect();
-    this.escrow = response.items;
-  }
-
-  async loadMlsList() {
-    const response = await this.mlsService.loadItemsForSelect();
-    this.mls = response.items;
   }
 
   async refreshItemsList(sortBy: string = 'dateRequested', filter: string = '') {
+    console.log('AdvancesDgComponent - refreshItemsList - entered');
     this.loadingItems = true;
-    const itemsDataObj: ListWithCountDto = await this.loadItemsData(sortBy, filter);
-    this.totalItemsCount = itemsDataObj.count;
-    this.dataSource = new MatTableDataSource<AdvanceEntity>(itemsDataObj.items);
-    this.loadingItems = false;
+    // while(this.loadingItems) {
+      if(this.advanceObj) {
+        this.totalItemsCount = this.advanceObj.count;
+        this.dataSource = new MatTableDataSource<AdvanceEntity>(this.advanceObj.items);
+        console.log('AdvancesDgComponent - refreshItemsList - items: ', this.advanceObj.items);
+        console.log('AdvancesDgComponent - refreshItemsList - count: ', this.advanceObj.count);
+        this.loadingItems = false;
+      }
+    // }
+
+    console.log('AdvancesDgComponent - refreshItemsList - EXIT');
   }
 
   async loadItemsData(sortBy: string = 'dateRequested', filter: string = ''): Promise<ListWithCountDto> {
-    const clientId: string = this.getClientId();
-    console.log('loadItemsData - client: ', this.clientService.getOne(clientId));
-    if(filter.indexOf(':') === -1) {
-      filter = `advanceStatus:==:${this.advanceStatus}`;
+    if(this.advanceObj) {
+      return this.advanceObj;
+    } else {
+      return {items: [], count: 0}
     }
-    return  await this.service.loadAllItemsForClientFiltered(clientId, sortBy, filter);
+
+    // const clientId: string = this.getClientId();
+    // console.log('loadItemsData - client: ', this.clientService.getOne(clientId));
+    // if(filter.indexOf(':') === -1) {
+    //   filter = `advanceStatus:==:${this.advanceStatus}`;
+    // }
+    // return  await this.service.loadAllItemsForClientFiltered(clientId, sortBy, filter);
   }
 
   getClientId(): string {

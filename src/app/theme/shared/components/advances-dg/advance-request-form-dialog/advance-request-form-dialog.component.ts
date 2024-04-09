@@ -1,6 +1,6 @@
 import { Component, effect, Inject, OnInit } from '@angular/core';
 import { provideNgxMask } from 'ngx-mask';
-import { FormFieldDto } from '../../../dtos/form-field.dto';
+import { FormFieldDto } from '../../mmci-form-mat/dtos/form-field.dto';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { EscrowCompanyDto } from '../../../dtos/escrow-company.dto';
 import { MlsListDto } from '../../../dtos/mls-list.dto';
@@ -11,7 +11,7 @@ import { MmciFormMatComponent } from '../../mmci-form-mat/mmci-form-mat.componen
 import { dataGridRefreshSignal } from '../../../signals/data-grid-refresh.signal';
 import { mmciFormSubmitSignal } from '../../mmci-form-mat/signals/mmci-form-submit.signal';
 import { AdvanceService } from '../../../service/advance.service';
-import { SelectDto } from '../../../dtos/select.dto';
+import { SelectDto } from '../../mmci-form-mat/dtos/select.dto';
 import { AuthenticationService } from '../../../service';
 
 @Component({

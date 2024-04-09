@@ -8,7 +8,7 @@ import { MatOption } from '@angular/material/autocomplete';
 import { MatSelect } from '@angular/material/select';
 import { NgForOf, NgStyle } from '@angular/common';
 import { NgxMaskDirective } from 'ngx-mask';
-import { FormFieldDto } from '../../dtos/form-field.dto';
+import { FormFieldDto } from '../mmci-form-mat/dtos/form-field.dto';
 // import { FormFieldDto } from '../../dtos/form-field.dto';
 
 @Component({

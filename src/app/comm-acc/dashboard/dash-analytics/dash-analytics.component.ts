@@ -29,6 +29,7 @@ import { LedgerService } from '../../../theme/shared/service/ledger.service';
 import { AuthenticationService } from '../../../theme/shared/service';
 import { LedgerBalanceDto } from '../../../theme/shared/dtos/ledger-balance.dto';
 import { NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { TblCommAdvancesComponent } from '../../table/tbl-comm-advances/tbl-comm-advances.component';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries | ApexNonAxisChartSeries;
@@ -51,12 +52,13 @@ export type ChartOptions = {
   selector: 'app-dash-analytics',
   standalone: true,
   imports: [
-    CommonModule, 
-    ProductSaleComponent, 
-    SharedModule, 
-    NgApexchartsModule, 
-    AdvancesDgComponent, 
-    NgxMaskPipe
+    CommonModule,
+    ProductSaleComponent,
+    SharedModule,
+    NgApexchartsModule,
+    AdvancesDgComponent,
+    NgxMaskPipe,
+    TblCommAdvancesComponent
   ],
   providers: [
     provideNgxMask()
@@ -64,7 +66,7 @@ export type ChartOptions = {
   templateUrl: './dash-analytics.component.html',
   styleUrls: ['./dash-analytics.component.scss']
 })
-export class DashAnalyticsComponent implements OnInit{
+export class DashAnalyticsComponent implements OnInit {
   // public props
   @ViewChild('chart') chart!: ChartComponent;
   chartOptions!: Partial<ChartOptions>;

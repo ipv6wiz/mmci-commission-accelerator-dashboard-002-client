@@ -12,7 +12,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Observable, of, startWith } from 'rxjs';
 import { HelpersService } from '../../service/helpers.service';
 import { map } from 'rxjs/operators';
-import { FormFieldDto } from '../../dtos/form-field.dto';
+import { FormFieldDto } from '../mmci-form-mat/dtos/form-field.dto';
 import { AsyncPipe } from '@angular/common';
 
 @Component({

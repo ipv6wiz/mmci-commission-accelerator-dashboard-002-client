@@ -1,7 +1,7 @@
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { HelpersService } from '../service/helpers.service';
 import { AddressDto } from '../dtos/address.dto';
-import { FormFieldDto } from '../dtos/form-field.dto';
+import { FormFieldDto } from '../components/mmci-form-mat/dtos/form-field.dto';
 import { EscrowCompanyDto } from '../dtos/escrow-company.dto';
 
 export class AddressClass {

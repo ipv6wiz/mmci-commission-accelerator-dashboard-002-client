@@ -1,5 +1,5 @@
-import { AddressClass } from '../entities/address.class';
-import { AdvanceEscrowDetailsClass } from '../entities/advance-escrow-details.class';
+import { AddressClass } from '../../../entities/address.class';
+import { AdvanceEscrowDetailsClass } from '../../../entities/advance-escrow-details.class';
 
 export interface FormFieldDto {
   fieldLabel: string;

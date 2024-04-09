@@ -13,14 +13,14 @@ import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { MatToolbar } from '@angular/material/toolbar';
 import { NgForOf, NgStyle } from '@angular/common';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
-import { FormFieldDto } from '../../dtos/form-field.dto';
+import { FormFieldDto } from './dtos/form-field.dto';
 import { ThemePalette } from '@angular/material/core';
 import { HelpersService } from '../../service/helpers.service';
 import { OptionsService } from '../../service/options.service';
 import { ListWithCountDto } from '../../dtos/list-with-count.dto';
 import { MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
 import { mmciFormSubmitSignal } from './signals/mmci-form-submit.signal';
-import { SelectDto } from '../../dtos/select.dto';
+import { SelectDto } from './dtos/select.dto';
 
 @Component({
   selector: 'app-mmci-form-mat',

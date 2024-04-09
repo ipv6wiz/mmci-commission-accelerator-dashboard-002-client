@@ -1,4 +1,4 @@
-import { FormFieldDto } from '../dtos/form-field.dto';
+import { FormFieldDto } from '../components/mmci-form-mat/dtos/form-field.dto';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { HelpersService } from '../service/helpers.service';
 import { AdvanceEscrowDto } from '../dtos/advance-escrow.dto';

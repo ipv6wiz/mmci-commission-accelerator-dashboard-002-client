@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Form, FormControl, Validators } from '@angular/forms';
-import { SelectDto } from '../dtos/select.dto';
-import { FormFieldDto } from '../dtos/form-field.dto';
+import { SelectDto } from '../components/mmci-form-mat/dtos/select.dto';
+import { FormFieldDto } from '../components/mmci-form-mat/dtos/form-field.dto';
 
 @Injectable({
   providedIn: 'root'
