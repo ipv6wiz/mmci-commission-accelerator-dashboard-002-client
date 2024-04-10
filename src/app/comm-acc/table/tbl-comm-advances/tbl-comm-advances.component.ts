@@ -115,18 +115,6 @@ export class TblCommAdvancesComponent implements OnInit {
     return  await this.service.loadAllItemsForClient(clientId, sortBy);
   }
 
-  calculateSummaries() {
-    const advanceSummary: Map<string, any> = new Map<string, any>();
-    if(this.advancesByCategory.size > 0){
-     this.advanceStatus.forEach((status: string) => {
-       const itemsObj = this.advancesByCategory.get(status);
-       if(itemsObj) {
-         const items = itemsObj.items;
-         
-       }
-     });
-    }
-  }
 
   extractByAdvanceStatus(status: string): ListWithCountDto {
     console.log('extractByAdvanceStatus - entered - status: ', status);
@@ -136,7 +124,6 @@ export class TblCommAdvancesComponent implements OnInit {
       filteredItems = items.filter(item => {
         return item.advanceStatus === status;
       });
-      // dataGridRefreshSignal.set({refresh: true, dataType: 'advances'});
     }
     console.log('extractByAdvanceStatus - filteredItems: ', filteredItems);
     return {items: filteredItems, count: filteredItems.length};
