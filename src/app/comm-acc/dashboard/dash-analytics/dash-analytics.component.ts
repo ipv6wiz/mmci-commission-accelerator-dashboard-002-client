@@ -30,6 +30,7 @@ import { AuthenticationService } from '../../../theme/shared/service';
 import { LedgerBalanceDto } from '../../../theme/shared/dtos/ledger-balance.dto';
 import { NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { TblCommAdvancesComponent } from '../../table/tbl-comm-advances/tbl-comm-advances.component';
+import { AdvanceService } from '../../../theme/shared/service/advance.service';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries | ApexNonAxisChartSeries;
@@ -79,15 +80,20 @@ export class DashAnalyticsComponent implements OnInit {
   balance: number = 0;
   availableCredit: number = 0;
   creditLimit: number = 0;
+  summariesObj: any;
+  balanceObj: any;
   private currClient: any;
 
   // constructor
   constructor(
     private authService: AuthenticationService,
     private ledgerService: LedgerService,
+    private advanceService: AdvanceService,
     public helpers: HelpersService
   ) {
     console.log('DashAnalyticsComponent - constructor');
+    this.currClient = this.authService.getLocalClientData();
+
     this.chartOptions = {
       chart: {
         height: 205,
@@ -273,12 +279,15 @@ export class DashAnalyticsComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.currClient = this.authService.getLocalClientData();
-    const balanceObj: LedgerBalanceDto = await this.ledgerService.getClientBalance(this.currClient.uid);
-    console.log('dash analytics - balanceObj: ',  balanceObj);
-    this.balance = balanceObj.balance;
-    this.availableCredit = balanceObj.availableCredit;
-    this.creditLimit = balanceObj.creditLimit;
+    this.balanceObj = await this.ledgerService.getClientBalance(this.currClient.uid);
+    console.log('>>>>>>> dash analytics - balanceObj: ',  this.balanceObj);
+    this.summariesObj = await this.advanceService.loadSummaries(this.currClient.uid);
+    console.log('>>>>>>> dash analytics - summariesObj: ',  this.summariesObj);
+
+    this.balance = this.balanceObj.balance;
+    this.availableCredit = this.balanceObj.availableCredit;
+    this.creditLimit = this.balanceObj.creditLimit;
+
     this.cards = this.populateCards();
   }
 
@@ -300,18 +309,18 @@ export class DashAnalyticsComponent implements OnInit {
         icon: 'bi-tag',
         iconType: 'bi',
         cardLines: [
-          {text: 'Paid Value', type: 'currency', value: 10000},
-          {text: 'Pending Value', type: 'currency', value: 8000}
+          {text: 'Approved Value', type: 'currency', value: this.summariesObj.get('pending').amountApproved},
+          {text: 'Requested Value', type: 'currency', value: this.summariesObj.get('pending').amountRequested}
         ]
       },
       {
         background: 'bg-c-yellow',
-        title: 'Escrows this month',
+        title: `Escrows in next ${this.summariesObj.get('pending').daysEscrowsClosingData} days`,
         icon: 'bi-arrow-repeat',
         iconType: 'bi',
         cardLines: [
-          {text: 'Gross', type: 'currency', value: 50000},
-          {text: 'Estimated Net', type: 'currency', value: 25000}
+          {text: 'Quantity', type: 'text', value: this.summariesObj.get('pending').qtyEscrowsClosing},
+          {text: 'Estimated Net', type: 'currency', value: this.summariesObj.get('pending').agentCommision},
         ]
       },
       {
