@@ -81,7 +81,7 @@ export class AdvancesDgComponent implements OnInit, AfterViewChecked{
   tableTitle: string = 'Commission Advances';
   tableItemName: string = 'Commission Advance';
   dataSource!: MatTableDataSource<AdvanceEntity>;
-  dataTypeTag: string = 'advances';
+
   totalItemsCount: number = 0;
   columnsToDisplay: string[] = [
     'advanceStatus',
@@ -109,13 +109,7 @@ export class AdvancesDgComponent implements OnInit, AfterViewChecked{
     private clientService: ClientService,
     private service: AdvanceService
   ) {
-    effect(() => {
-      console.log('dataGridRefreshSignal - effect entered');
-      const dgrs = dataGridRefreshSignal();
-      if(dgrs.refresh && dgrs.dataType === this.dataTypeTag) {
-        this.refreshItemsList().then(() => true);
-      }
-    });
+
 
   }
 

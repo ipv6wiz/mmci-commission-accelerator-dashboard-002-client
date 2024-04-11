@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, effect, OnInit } from '@angular/core';
 import { CardComponent } from '../../../theme/shared/components/card/card.component';
 import { NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet } from '@ng-bootstrap/ng-bootstrap';
 import { AdvancesDgComponent } from '../../../theme/shared/components/advances-dg/advances-dg.component';
@@ -54,6 +54,7 @@ export class TblCommAdvancesComponent implements OnInit {
   public loadSpinnerDiameter: string = '50';
   tableTitle: string = 'Commission Advances';
   tableItemName: string = 'Commission Advance';
+  dataTypeTag: string = 'advances';
 
   advancesByCategory: Map<string, ListWithCountDto> = new Map<string, ListWithCountDto>();
 
@@ -74,7 +75,13 @@ export class TblCommAdvancesComponent implements OnInit {
     private service: AdvanceService,
     public helpers: HelpersService
   ) {
-
+    effect(() => {
+      console.log('dataGridRefreshSignal - effect entered');
+      const dgrs = dataGridRefreshSignal();
+      if(dgrs.refresh && dgrs.dataType === this.dataTypeTag) {
+        this.refreshItemsList().then(() => true);
+      }
+    });
   }
 
   async ngOnInit() {
@@ -100,6 +107,7 @@ export class TblCommAdvancesComponent implements OnInit {
   }
 
   async refreshItemsList(sortBy: string = 'dateRequested', filter: string = '') {
+    console.log('>>>>>>>> refreshItemsList <<<<<<<<');
     this.loadingAdvanceItems = true;
     this.advanceItemsObj = await this.loadItemsData(sortBy);
     this.advanceStatus.forEach((status: string) => {

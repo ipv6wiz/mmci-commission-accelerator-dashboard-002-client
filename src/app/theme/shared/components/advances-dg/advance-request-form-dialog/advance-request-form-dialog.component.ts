@@ -31,7 +31,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
   chipListArr: string[];
   escrow!: EscrowCompanyDto[];
   mls!: MlsListDto[];
-  dataTypeTag: string = 'advance';
+  dataTypeTag: string = 'advances';
   formConfig!: SelectDto[];
 
   constructor(
@@ -278,7 +278,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       defaultCondition: false,
       condFieldLabel: 'Remaining Contingencies',
       condFcn: 'remainingContingencies',
-      condRequired: true,
+      condRequired: false,
       validators: [],
       width: 100,
     });
