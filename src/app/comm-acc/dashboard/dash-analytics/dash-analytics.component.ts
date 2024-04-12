@@ -32,6 +32,8 @@ import { NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { TblCommAdvancesComponent } from '../../table/tbl-comm-advances/tbl-comm-advances.component';
 import { AdvanceService } from '../../../theme/shared/service/advance.service';
 import { dataGridRefreshSignal } from '../../../theme/shared/signals/data-grid-refresh.signal';
+import { dashCardsRefreshSignal } from '../../../theme/shared/signals/dash-cards-refresh.signal';
+import { TblLedgerComponent } from '../../table/tbl-ledger/tbl-ledger.component';
 
 // export type ChartOptions = {
 //   series: ApexAxisChartSeries | ApexNonAxisChartSeries;
@@ -60,7 +62,8 @@ import { dataGridRefreshSignal } from '../../../theme/shared/signals/data-grid-r
 
     AdvancesDgComponent,
     NgxMaskPipe,
-    TblCommAdvancesComponent
+    TblCommAdvancesComponent,
+    TblLedgerComponent
   ],
   providers: [
     provideNgxMask()
@@ -84,7 +87,7 @@ export class DashAnalyticsComponent implements OnInit {
   summariesObj: any;
   balanceObj: any;
   private currClient: any;
-  dataTypeTag: string = 'advances';
+  dataTypeTag: string = 'advanceCards';
 
   // constructor
   constructor(
@@ -95,11 +98,9 @@ export class DashAnalyticsComponent implements OnInit {
   ) {
     console.log('DashAnalyticsComponent - constructor');
     this.currClient = this.authService.getLocalClientData();
-
     effect(() => {
-      console.log('dataGridRefreshSignal - effect entered');
-      const dgrs = dataGridRefreshSignal();
-      if(dgrs.refresh && dgrs.dataType === this.dataTypeTag) {
+      const dashCardsRefresh = dashCardsRefreshSignal();
+      if(dashCardsRefresh.refresh && dashCardsRefresh.dataType === this.dataTypeTag) {
         this.refreshCards().then(() => true);
       }
     });
@@ -293,6 +294,7 @@ export class DashAnalyticsComponent implements OnInit {
   }
 
   async refreshCards() {
+    console.log('=======> refreshCards called');
     this.balanceObj = await this.ledgerService.getClientBalance(this.currClient.uid);
     console.log('>>>>>>> dash analytics - balanceObj: ',  this.balanceObj);
     this.summariesObj = await this.advanceService.loadSummaries(this.currClient.uid);
@@ -329,22 +331,22 @@ export class DashAnalyticsComponent implements OnInit {
       },
       {
         background: 'bg-c-yellow',
-        title: `Escrows in next ${this.summariesObj.get('pending').daysEscrowsClosingData} days`,
+        title: `Est. Escrows in next ${this.summariesObj.get('pending').daysEscrowsClosingData} days`,
         icon: 'bi-arrow-repeat',
         iconType: 'bi',
         cardLines: [
           {text: 'Estimated Qty', type: 'text', value: this.summariesObj.get('pending').qtyEstEscrowsClosing},
-          {text: 'Estimated Net', type: 'currency', value: this.summariesObj.get('pending').agentCommission},
+          {text: 'Estimated Net', type: 'currency', value: this.summariesObj.get('pending').estimatedAgentCommission},
         ]
       },
       {
         background: 'bg-c-red',
-        title: 'Escrows next month',
+        title: `Act. Escrows in next ${this.summariesObj.get('pending').daysEscrowsClosingData} days`,
         icon: 'bi-repeat',
         iconType: 'bi',
         cardLines: [
-          {text: 'Gross', type: 'currency', value: 75000},
-          {text: 'Estimated Net', type: 'currency', value: 50000}
+          {text: 'Actual Qty', type: 'text', value: this.summariesObj.get('pending').qtyActEscrowsClosing},
+          {text: 'Estimated Net', type: 'currency', value: this.summariesObj.get('pending').actualAgentCommission}
         ]
       }
     ];

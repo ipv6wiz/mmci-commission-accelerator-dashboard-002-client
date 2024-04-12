@@ -30,10 +30,10 @@ export class LedgerService {
 
 
   getClientLedgerCall(clientId: string): Observable<ApiResponse> {
-    return this.http.get<ApiResponse>(`${this.endPointUrl}/ledger/client/${clientId}`);
+    return this.http.get<ApiResponse>(`${this.endPointUrl}/client/${clientId}`);
   }
 
   getClientBalanceCall(clientId: string, withCredit: boolean): Observable<ApiResponse> {
-    return this.http.get<ApiResponse>(`${this.apiUrl}/ledger/client/${clientId}/balance${withCredit ? "?withCredit=true" : ""}`)
+    return this.http.get<ApiResponse>(`${this.endPointUrl}/client/${clientId}/balance${withCredit ? "?withCredit=true" : ""}`)
   }
 }

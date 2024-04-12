@@ -1,6 +1,6 @@
 <mat-card>
   <mat-card-header>
-    <mat-card-title>Commission Advances</mat-card-title>
+    <mat-card-title>{{tableTitle}}</mat-card-title>
   </mat-card-header>
   @if(loadingAdvanceItems) {
     <section class="items-load-spinner-section">
@@ -39,7 +39,7 @@
                 [escrow]="escrow"
                 [mls]="mls"
                 [loadingItems]="loadingAdvanceItems"
-                [advanceObj]="advancesByCategory.get('pending')"
+                [dgDataObj]="advancesByCategory.get('pending')"
               ></app-advances-dg>
             </ng-template>
           </mat-tab>
@@ -54,7 +54,7 @@
                 [escrow]="escrow"
                 [mls]="mls"
                 [loadingItems]="loadingAdvanceItems"
-                [advanceObj]="advancesByCategory.get('current')"
+                [dgDataObj]="advancesByCategory.get('current')"
               ></app-advances-dg>
             </ng-template>
           </mat-tab>
@@ -69,7 +69,7 @@
                 [escrow]="escrow"
                 [mls]="mls"
                 [loadingItems]="loadingAdvanceItems"
-                [advanceObj]="advancesByCategory.get('paid')"
+                [dgDataObj]="advancesByCategory.get('paid')"
               ></app-advances-dg>
             </ng-template>
           </mat-tab>
@@ -84,7 +84,7 @@
                 [escrow]="escrow"
                 [mls]="mls"
                 [loadingItems]="loadingAdvanceItems"
-                [advanceObj]="advancesByCategory.get('cleared')"
+                [dgDataObj]="advancesByCategory.get('cleared')"
               ></app-advances-dg>
             </ng-template>
           </mat-tab>
@@ -99,7 +99,7 @@
                 [escrow]="escrow"
                 [mls]="mls"
                 [loadingItems]="loadingAdvanceItems"
-                [advanceObj]="advancesByCategory.get('rejected')"
+                [dgDataObj]="advancesByCategory.get('rejected')"
               ></app-advances-dg>
             </ng-template>
           </mat-tab>

@@ -137,7 +137,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       disabled: false,
       validators: [],
       width: 33, // percentage
-      rowCol: '3.1',
+      rowCol: '3.3',
     });
 
     fields.push({
@@ -161,7 +161,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       disabled: false,
       validators: [],
       width: 33, // percentage
-      rowCol: '3.3',
+      rowCol: '3.1',
     });
 
     fields.push({
