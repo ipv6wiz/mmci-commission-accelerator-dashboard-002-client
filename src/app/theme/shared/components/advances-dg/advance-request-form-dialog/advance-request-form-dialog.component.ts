@@ -90,6 +90,8 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       //   condFcn: '',
       // });
 
+
+
     fields.push({
       fieldLabel: 'MLS #',
       placeholder: 'MLS # of property',
@@ -154,7 +156,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
 
     fields.push({
       fieldLabel: 'Gross Commission',
-      placeholder: 'Commission Sale',
+      placeholder: 'Commission To your broker',
       fcn: 'grossCommission',
       type: 'currency',
       required: true,
@@ -279,8 +281,22 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       condFieldLabel: 'Remaining Contingencies',
       condFcn: 'remainingContingencies',
       condRequired: false,
+      condWidth: 50,
       validators: [],
-      width: 100,
+      width: 50,
+    });
+
+    fields.push({
+      fieldLabel: 'Advance Name',
+      placeholder: 'If left Empty will be replaced with Address Line 1',
+      fcn: 'name',
+      type: 'text',
+      required: false,
+      disabled: false,
+      validators: [],
+      width: 100, // percentage
+      rowCol: '8.1',
+      default: '#propertyAddress.Address1'
     });
     return fields;
   }

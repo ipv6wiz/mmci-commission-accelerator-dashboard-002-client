@@ -1,10 +1,10 @@
 import {AuditTrail} from "./audit-trail.class";
 import {Address} from "./address.interface";
-import {AdvanceEscrowDto} from "../dtos/advance-escrow.dto";
 
 export class AdvanceEntity extends AuditTrail {
     uid!: string;
     clientId!: string;
+    name!: string; // when empty replaced by 1st line of address
     mlsId!: string; // mls id for property
     mlsSystem!: string;
     propertyAddress!: Address;

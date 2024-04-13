@@ -11,10 +11,10 @@ import { ListWithCountDto } from '../../dtos/list-with-count.dto';
 import { MatDialog } from '@angular/material/dialog';
 import { HelpersService } from '../../service/helpers.service';
 import { LedgerItemDto } from '../../dtos/ledger-item.dto';
-import { LedgerEntity } from '../../entities/ledger.entity';
 import { LedgerDto } from '../../dtos/ledger.dto';
 import { NgStyle } from '@angular/common';
 import { IsNegativePipe } from '../../pipes/isNegative.pipe';
+import { AdvanceService } from '../../service/advance.service';
 
 @Component({
   selector: 'app-ledger-dg',
@@ -41,6 +41,7 @@ export class LedgerDgComponent implements OnInit, AfterViewChecked {
   @ViewChild('paginator') paginator!: MatPaginator;
   @Input() loadingItems: boolean = true;
   @Input() dgDataObj!: ListWithCountDto;
+  @Input() clientId!: string;
 
   componentName: string = 'LedgerDgComponent';
   tableTitle: string = 'Your Ledger';
@@ -49,6 +50,7 @@ export class LedgerDgComponent implements OnInit, AfterViewChecked {
   totalItemsCount: number = 0;
   columnsToDisplay: string[] = [
     'transactionDate',
+    'advanceName',
     'type',
     'amount',
     'balance'
@@ -56,6 +58,7 @@ export class LedgerDgComponent implements OnInit, AfterViewChecked {
   columnsToDisplayWithActions: string[] = [...this.columnsToDisplay];
   columnNamesToDisplay: string[] = [
     'Date',
+    'Advance',
     'Type',
     'Amount',
     'Balance'
@@ -65,12 +68,18 @@ export class LedgerDgComponent implements OnInit, AfterViewChecked {
     ['balance', {type: 'currency', mask: 'separator', thousandSeparator: ',', prefix: '$'}]
   ]);
 
+  advanceNames: Map<string, string> = new Map();
+
   constructor(
     public modal: MatDialog,
     public helpers: HelpersService,
+    private advanceService: AdvanceService
   ) {}
 
   async ngOnInit() {
+    console.log(`${this.componentName} - ngOnInit - clientId: `, this.clientId);
+    this.advanceNames = await this.advanceService.loadAdvanceNames(this.clientId);
+    console.log(`${this.componentName} - ngOnInit - advanceNames: `, this.advanceNames);
     await this.refreshItemsList();
   }
 
@@ -87,18 +96,19 @@ export class LedgerDgComponent implements OnInit, AfterViewChecked {
       console.log(`${this.componentName} - refreshItemsList - ledgerItemsObj: `, ledgerItemsObj);
       if(ledgerItemsObj) {
         this.totalItemsCount = ledgerItemsObj.ledgerItems.length;
-        const items = this.calcBalance(ledgerItemsObj.ledgerItems)
+        const items = this.calcBalanceAndJoinAdvance(ledgerItemsObj.ledgerItems)
         this.dataSource = new MatTableDataSource<LedgerItemDto>(items);
         this.loadingItems = false;
       }
     }
   }
 
-  calcBalance(items: LedgerItemDto[]): LedgerItemDto[] {
+  calcBalanceAndJoinAdvance(items: LedgerItemDto[]): LedgerItemDto[] {
     let balance: number = 0;
     for(let i = items.length - 1; i >= 0; i--) {
         balance += items[i].amount;
         items[i].balance = balance;
+        items[i].advanceName = this.advanceNames.get(items[i].advanceId) || 'N/A';
     }
     return items;
   }

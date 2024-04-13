@@ -37,7 +37,15 @@ export class AdvanceService {
     } else {
       return new Map<string, any>();
     }
+  }
 
+  async loadAdvanceNames(clientId: string): Promise<Map<string, string>> {
+    const response: ApiResponse = await lastValueFrom(this.getAdvanceNames(clientId));
+    if(response.statusCode === 200) {
+      return JSON.parse(JSON.stringify(response.data), this.helpers.reviver);
+    } else {
+      return new Map<string, string>();
+    }
   }
 
   async updateItem(uid: string, data: AdvanceUpdateDto): Promise<any> {
@@ -50,6 +58,7 @@ export class AdvanceService {
     return response.data;
   }
 
+// --------------------------------------------------------------------------------
 
   getAll(clientId: string, sortBy: string): Observable<ApiResponse> {
     if(sortBy !== '') {
@@ -69,6 +78,10 @@ export class AdvanceService {
 
   getSummaries(clientId: string): Observable<ApiResponse> {
     return this.http.get<ApiResponse>(`${this.endPointUrl}/client/${clientId}/summaries`);
+  }
+
+  getAdvanceNames(clientId: string): Observable<ApiResponse> {
+    return this.http.get<ApiResponse>(`${this.endPointUrl}/client/${clientId}/advanceNames`);
   }
 
   create(data: AdvanceCreateDto): Observable<ApiResponse> {
