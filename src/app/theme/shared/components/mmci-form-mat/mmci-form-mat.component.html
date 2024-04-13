@@ -42,7 +42,7 @@
                     </mat-form-field>
                   }
 
-                  <mat-form-field [ngStyle]="{'visibility': fields.get(field.fcn)!.hide ? 'hidden': 'visible'}">
+                  <mat-form-field [ngStyle]="{'display': fields.get(field.fcn)!.hide ? 'none': 'inline-flex'}">
                     <mat-label>{{field.fieldLabel}}</mat-label>
                     @if(!field.type || field.type === 'text') {
                       <input
