@@ -159,13 +159,13 @@ export class AuthenticationService {
   async logoutViaApi(): Promise<any> {
       console.log('logoutViaApi called');
       try {
-        sessionStorage.removeItem('client');
-        sessionStorage.removeItem('idToken');
           const response: ApiResponse = await lastValueFrom(this.logoutClient());
           if(response.statusCode === 200) {
               const uid = this.getLocalClientDataProp('uid');
               console.log('UID from Session Data: ', uid);
               this.cookieService.delete(`secureCookie-${uid}`,'/', this.cookieDomain, true, 'None');
+              sessionStorage.removeItem('client');
+              sessionStorage.removeItem('idToken');
               return await this.router.navigate(['/auth/signin-v2']);
           } else {
               throw new Error('Error while logging out client');
