@@ -22,7 +22,6 @@ import { MatDialog } from '@angular/material/dialog';
 import {  MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { dataGridRefreshSignal } from '../../../theme/shared/signals/data-grid-refresh.signal';
-import { AdvanceEntity } from '../../../theme/shared/entities/advance.entity';
 import { dashCardsRefreshSignal } from '../../../theme/shared/signals/dash-cards-refresh.signal';
 
 @Component({

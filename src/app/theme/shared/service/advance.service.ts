@@ -20,18 +20,18 @@ export class AdvanceService {
     this.endPointUrl = `${this.apiUrl}/${this.endPoint}`;
   }
 
-  async loadAllItemsForClient(clientId: string, sortBy: string = ''): Promise<ListWithCountDto> {
-    const response: ApiResponse = await lastValueFrom(this.getAll(clientId, sortBy), {defaultValue: {statusCode: 400, msg: 'Default Response'}});
+  async loadAllItemsForClient(clientId: string, sortBy: string = '', sortDir: string = 'desc'): Promise<ListWithCountDto> {
+    const response: ApiResponse = await lastValueFrom(this.getAllByClientId(clientId, sortBy, sortDir), {defaultValue: {statusCode: 400, msg: 'Default Response'}});
     return response.data;
   }
 
-  async loadAllItemsForClientFiltered(clientId: string, sortBy: string = '', filter: string = ''): Promise<ListWithCountDto> {
-    const response: ApiResponse = await lastValueFrom(this.getAllFiltered(clientId, filter, sortBy), {defaultValue: {statusCode: 400, msg: 'Default Response'}});
+  async loadAllItemsForClientFiltered(clientId: string, filter: string = '', sortBy: string = '', sortDir: string = 'desc'): Promise<ListWithCountDto> {
+    const response: ApiResponse = await lastValueFrom(this.getAllFilteredByClientId(clientId, filter, sortBy, sortDir), {defaultValue: {statusCode: 400, msg: 'Default Response'}});
     return response.data;
   }
 
   async loadSummaries(clientId: string): Promise<Map<string, any>> {
-    const response: ApiResponse = await lastValueFrom(this.getSummaries(clientId), {defaultValue: {statusCode: 400, msg: 'Default Response'}});
+    const response: ApiResponse = await lastValueFrom(this.getSummariesByClientId(clientId), {defaultValue: {statusCode: 400, msg: 'Default Response'}});
     if(response.statusCode === 200) {
       return JSON.parse(JSON.stringify(response.data), this.helpers.reviver);
     } else {
@@ -40,7 +40,7 @@ export class AdvanceService {
   }
 
   async loadAdvanceNames(clientId: string): Promise<Map<string, string>> {
-    const response: ApiResponse = await lastValueFrom(this.getAdvanceNames(clientId));
+    const response: ApiResponse = await lastValueFrom(this.getAdvanceNamesByClientId(clientId));
     if(response.statusCode === 200) {
       return JSON.parse(JSON.stringify(response.data), this.helpers.reviver);
     } else {
@@ -60,27 +60,38 @@ export class AdvanceService {
 
 // --------------------------------------------------------------------------------
 
-  getAll(clientId: string, sortBy: string): Observable<ApiResponse> {
-    if(sortBy !== '') {
-      return this.http.get<ApiResponse>(`${this.endPointUrl}/client/${clientId}?sortBy=${sortBy}`);
-    } else {
-      return this.http.get<ApiResponse>(`${this.endPointUrl}/client/${clientId}`);
+  makeApiCallWithQuery(base: string, sortBy: string = '', sortDir: string = 'asc', filter: string = ''): string {
+    let needAmpersand: boolean = false;
+
+    if(sortBy !== '' || filter !== '') {
+      base += '?';
     }
+    if(sortBy && sortBy !== '') {
+      base += `sortBy=${sortBy}&sortDir=${sortDir}`;
+      needAmpersand = true;
+    }
+    if(filter !== '') {
+      base += needAmpersand ? '&' : '';
+      base += `filter=${filter}`;
+    }
+    return base;
   }
 
-  getAllFiltered(clientId: string, filter: string, sortBy: string): Observable<ApiResponse> {
-    if(sortBy !== ''){
-      return this.http.get<ApiResponse>(`${this.endPointUrl}/client/${clientId}?filter=${filter}&sortBy=${sortBy}`);
-    } else {
-      return this.http.get<ApiResponse>(`${this.endPointUrl}/client/${clientId}?filter=${filter}`);
-    }
+  getAllByClientId(clientId: string, sortBy: string, sortDir: string = 'desc'): Observable<ApiResponse> {
+    const url: string = this.makeApiCallWithQuery(`${this.endPointUrl}/client/${clientId}`, sortBy, sortDir);
+    return this.http.get<ApiResponse>(url);
   }
 
-  getSummaries(clientId: string): Observable<ApiResponse> {
+  getAllFilteredByClientId(clientId: string, filter: string, sortBy: string, sortDir: string = 'desc'): Observable<ApiResponse> {
+    const url: string = this.makeApiCallWithQuery(`${this.endPointUrl}/client/${clientId}`, sortBy, sortDir, filter);
+    return this.http.get<ApiResponse>(url);
+  }
+
+  getSummariesByClientId(clientId: string): Observable<ApiResponse> {
     return this.http.get<ApiResponse>(`${this.endPointUrl}/client/${clientId}/summaries`);
   }
 
-  getAdvanceNames(clientId: string): Observable<ApiResponse> {
+  getAdvanceNamesByClientId(clientId: string): Observable<ApiResponse> {
     return this.http.get<ApiResponse>(`${this.endPointUrl}/client/${clientId}/advanceNames`);
   }
 

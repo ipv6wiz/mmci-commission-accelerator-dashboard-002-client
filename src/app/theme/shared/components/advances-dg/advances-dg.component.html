@@ -13,6 +13,9 @@
               @if(columnsConfig.get(column).type === 'currency') {
                 {{ (item[column] | mask: columnsConfig.get(column).mask : {thousandSeparator:columnsConfig.get(column).thousandSeparator, prefix: columnsConfig.get(column).prefix}) || 'Not Set Yet' }}
               }
+              @if(columnsConfig.get(column).type === 'date'){
+                {{item[column] | date: columnsConfig.get(column).format}}
+              }
             }@else if(helpers.isColumnTypeBool(item[column])) {
               <span>
                   <i class="bi {{item[column] | matBoolDisplay: 'bs' }}"></i>
@@ -24,6 +27,9 @@
             @if(columnsConfig.has(column)){
               @if(columnsConfig.get(column).type === 'currency') {
                 {{ (item | nestedCol: column | mask: columnsConfig.get(column).mask : {thousandSeparator:columnsConfig.get(column).thousandSeparator, prefix: columnsConfig.get(column).prefix}) || 'Not Set Yet' }}
+              }
+              @if(columnsConfig.get(column).type === 'date'){
+                {{item[column] | nestedCol: column | date: columnsConfig.get(column).format}}
               }
             }@else if(helpers.isColumnTypeBoolNested(item, column)) {
               <span>

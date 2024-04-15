@@ -6,20 +6,21 @@ import {
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { NestedColumnPipe } from '../../pipes/nested-column.pipe';
-import { ThemePalette } from '@angular/material/core';
+
 import { AdvanceEntity } from '../../entities/advance.entity';
 import { MatDialog } from '@angular/material/dialog';
 import { ListWithCountDto } from '../../dtos/list-with-count.dto';
-import { AdvanceService } from '../../service/advance.service';
+
 import { AdvanceRequestFormDialogComponent } from './advance-request-form-dialog/advance-request-form-dialog.component';
 import { AuthenticationService } from '../../service';
 import { HelpersService } from '../../service/helpers.service';
 import { MatBoolDisplayPipe } from '../../pipes/mat-bool-display.pipe';
-import { ClientService } from '../../service/client.service';
+
 import { EscrowCompanyDto } from '../../dtos/escrow-company.dto';
 import { MlsListDto } from '../../dtos/mls-list.dto';
 import { MatTooltip } from '@angular/material/tooltip';
 import { MatIconButton } from '@angular/material/button';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-advances-dg',
@@ -32,7 +33,8 @@ import { MatIconButton } from '@angular/material/button';
     NestedColumnPipe,
     MatBoolDisplayPipe,
     MatTooltip,
-    MatIconButton
+    MatIconButton,
+    DatePipe
   ],
   providers: [
     provideNgxMask()
@@ -69,13 +71,16 @@ export class AdvancesDgComponent implements OnInit, AfterViewChecked{
     'amountRequested',
     'dateRequested',
     'amountApproved',
-    'estimatedClosingDate'
+    'estimatedClosingDate',
+    'actualClosingDate'
   ];
   columnsToDisplayWithActions: string[] = [...this.columnsToDisplay];
-  columnNamesToDisplay: string[] = ['Status','Property', 'MLS #', 'MLS System', 'Requested', 'Date Requested', 'Approved', 'Est Closing'];
+  columnNamesToDisplay: string[] = ['Status','Property', 'MLS #', 'MLS System', 'Requested', 'Date Requested', 'Approved', 'Est. Closing', 'Act. Closing'];
   columnsConfig: Map<string, any> = new Map<string, any>([
     ['amountRequested', {type: 'currency', mask: 'separator', thousandSeparator: ',', prefix: '$'}],
-    ['amountApproved', {type: 'currency', mask: 'separator', thousandSeparator: ',', prefix: '$'}]
+    ['amountApproved', {type: 'currency', mask: 'separator', thousandSeparator: ',', prefix: '$'}],
+    ['estimatedClosingDate', {type: 'date', format: 'shortDate'}],
+    ['actualClosingDate', {type: 'date', format: 'shortDate'}],
   ]);
 
 
