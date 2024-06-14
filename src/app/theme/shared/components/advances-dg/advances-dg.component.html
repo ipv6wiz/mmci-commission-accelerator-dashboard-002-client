@@ -19,7 +19,7 @@
             }@else if(helpers.isColumnTypeBool(item[column])) {
               <span>
                   <i class="bi {{item[column] | matBoolDisplay: 'bs' }}"></i>
-                </span>
+              </span>
             } @else {
               {{ item[column] || 'Not Set Yet' }}
             }
