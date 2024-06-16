@@ -1,6 +1,6 @@
 {
   "hosting":     {
-    "site": "comm-acc-dash-002-client",
+    "site": "mmci-comm-acc-dash-002-client",
     "public": "dist",
     "ignore": [
       "firebase.json",
