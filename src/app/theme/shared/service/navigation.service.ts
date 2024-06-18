@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/compat/firestore";
 import {NavigationItem} from "../entities/navigation-item.interface";
 import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';

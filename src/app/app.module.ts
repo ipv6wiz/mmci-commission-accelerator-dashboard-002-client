@@ -31,16 +31,11 @@ import { ToastrModule } from 'ngx-toastr';
 import {environment} from "../environments/environment";
 import {AngularFireAuthModule} from "@angular/fire/compat/auth";
 import {AngularFireModule} from "@angular/fire/compat";
-import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
-import {AngularFireStorageModule} from "@angular/fire/compat/storage";
 import {AuthenticationService} from "./theme/shared/service";
 import {GlobalErrorHandler} from "./theme/shared/_helpers/global-error-handler";
 import {RegNavBarComponent} from "./theme/shared/components/reg-nav-bar/reg-nav-bar.component";
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { provideAuth,getAuth } from '@angular/fire/auth';
-import { provideFirestore,getFirestore } from '@angular/fire/firestore';
-import { provideFunctions,getFunctions } from '@angular/fire/functions';
-import { provideStorage,getStorage } from '@angular/fire/storage';
 import {JwtService} from "./theme/shared/service/jwt.service";
 import {RegistrationModule} from "./comm-acc/pages/registration/registration.module";
 import {LoggerModule} from "ngx-logger";
@@ -78,8 +73,6 @@ export const httpInterceptorProviders = [
         BrowserModule,
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireAuthModule,
-        AngularFirestoreModule,
-        AngularFireStorageModule,
         AppRoutingModule,
         SharedModule,
         BrowserAnimationsModule,
@@ -89,9 +82,6 @@ export const httpInterceptorProviders = [
         RegistrationModule,
         provideFirebaseApp(() => initializeApp(environment.firebase)),
         provideAuth(() => getAuth()),
-        provideFirestore(() => getFirestore()),
-        provideFunctions(() => getFunctions()),
-        provideStorage(() => getStorage()),
         LoggerModule.forRoot({
             serverLoggingUrl: `${environment.gcpCommAccApiUrl}/logit`,
             level: environment.logLevel,

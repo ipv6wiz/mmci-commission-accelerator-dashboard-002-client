@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/compat/firestore";
 import {Registrant} from "../dtos/registrant.dto";
 import {lastValueFrom, Observable} from "rxjs";
 import {NGXLogger} from "ngx-logger";
