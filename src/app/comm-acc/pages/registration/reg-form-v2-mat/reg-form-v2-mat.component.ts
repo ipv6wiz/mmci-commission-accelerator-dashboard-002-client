@@ -870,7 +870,9 @@ export class RegFormV2MatComponent implements OnInit{
                     const regResp = await this.saveRegistrantData();
                     if(regResp) {
                         try {
+                            console.log('-------> onSubmit - about to update client');
                             const clientResp = await this.clientService.update(this.clientLocalData.uid, client);
+                            console.log('-------> onSubmit - clientResp: ', clientResp);
                             if(!!clientResp) {
                                 return this.router.navigate([client.defaultPage]);
                             }
