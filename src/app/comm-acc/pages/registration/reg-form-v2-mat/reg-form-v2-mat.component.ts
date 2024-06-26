@@ -865,6 +865,7 @@ export class RegFormV2MatComponent implements OnInit{
             this.authService.setLocalClientDataProp('roles', ['CLIENT-PENDING-VERIFICATION']);
             this.authService.setLocalClientDataProp('status', 'Client Pending Verification');
             this.authService.setLocalClientDataProp('defaultPage', '/reg/pending-verification');
+            console.log('onSubmit - local client data: ', this.authService.getLocalClientData());
             try {
                 try {
                     this.registrant.docUploadInfo =  this.populateRegistrantUploadData('to');
