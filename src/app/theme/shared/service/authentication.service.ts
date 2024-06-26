@@ -292,7 +292,8 @@ export class AuthenticationService {
 
     getLocalClientData(): any {
         const data = sessionStorage.getItem('client');
-        if(data) {
+        console.log('getLocalClientData - client: ', data);
+        if(data && data !== undefined) {
             return JSON.parse(data);
         } else {
             return null;
@@ -304,9 +305,14 @@ export class AuthenticationService {
     }
 
     setLocalClientData(data: any) {
-        // localStorage.setItem('client', JSON.stringify(data));
-      sessionStorage.setItem('client', JSON.stringify(data.client));
-      sessionStorage.setItem('idToken', JSON.stringify(data.idToken));
+      if(data !== undefined) {
+        if(data.client !== undefined) {
+          sessionStorage.setItem('client', JSON.stringify(data.client));
+        }
+        if(data.idToken !== undefined) {
+          sessionStorage.setItem('idToken', JSON.stringify(data.idToken));
+        }
+      }
     }
 
     setLocalClientDataProp(prop: string, value: any) {
