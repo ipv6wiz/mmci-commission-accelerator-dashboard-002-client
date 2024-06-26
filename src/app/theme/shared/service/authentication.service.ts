@@ -304,7 +304,7 @@ export class AuthenticationService {
       return sessionStorage.getItem('idToken');
     }
 
-    setLocalClientData(data: any, type: string) {
+    setLocalClientData(data: any, type: string = 'client') {
       if(data !== undefined) {
         if(type === 'client') {
           sessionStorage.setItem('client', JSON.stringify(data));
