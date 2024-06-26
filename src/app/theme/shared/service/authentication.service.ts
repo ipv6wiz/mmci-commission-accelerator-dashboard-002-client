@@ -218,7 +218,7 @@ export class AuthenticationService {
     }
 
      setApiClientData(clientData: ClientLoginResponseDto) {
-        this.setLocalClientData(clientData);
+        this.setLocalClientData(clientData, 'client');
     }
 
     /* Setting up client data when sign in with clientname/password,
@@ -259,7 +259,7 @@ export class AuthenticationService {
             accessToken: accessToken || '',
             lastLogin: new Date(parseInt(client.metadata.lastLoginAt)).toString(),
         };
-        this.setLocalClientData(this.clientData);
+        this.setLocalClientData(this.clientData, 'client');
         console.log('SetClientData - clientData.uid: ', this.clientData.uid);
         try {
             clientDoc = await this.clientService.getOne(client.uid);
@@ -276,7 +276,7 @@ export class AuthenticationService {
             this.clientData.firstName = firstName;
             this.clientData.lastName = lastName;
             this.clientData.displayName = `${firstName} ${lastName}`;
-            this.setLocalClientData(this.clientData);
+            this.setLocalClientData(this.clientData, 'client');
             return ;
         } else {
             console.log('SetClientData - clientDoc: ', clientDoc);
@@ -285,14 +285,14 @@ export class AuthenticationService {
             this.clientData.lastName = clientDoc.lastName ;
             this.clientData.displayName = clientDoc.displayName;
             this.clientData.bucket = clientDoc.bucket;
-            this.setLocalClientData(this.clientData);
+            this.setLocalClientData(this.clientData, 'client');
             return this.clientService.update(this.clientData.uid, updateData);
         }
     }
 
-    getLocalClientData(): any {
-        const data = sessionStorage.getItem('client');
-        console.log('getLocalClientData - client: ', data);
+    getLocalClientData(type: string): any {
+        const data = sessionStorage.getItem(type);
+        console.log(`getLocalClientData - ${type}: `, data);
         if(data && data !== undefined) {
             return JSON.parse(data);
         } else {
@@ -304,27 +304,28 @@ export class AuthenticationService {
       return sessionStorage.getItem('idToken');
     }
 
-    setLocalClientData(data: any) {
+    setLocalClientData(data: any, type: string) {
       if(data !== undefined) {
-        if(data.client !== undefined) {
-          sessionStorage.setItem('client', JSON.stringify(data.client));
+        if(type === 'client') {
+          sessionStorage.setItem('client', JSON.stringify(data));
         }
-        if(data.idToken !== undefined) {
-          sessionStorage.setItem('idToken', JSON.stringify(data.idToken));
+        if(type === 'token') {
+          sessionStorage.setItem('idToken', JSON.stringify(data));
         }
       }
     }
 
-    setLocalClientDataProp(prop: string, value: any) {
-        let data = this.getLocalClientData();
+    setLocalClientDataProp(prop: string, value: any, type: string = 'client') {
+        let data = this.getLocalClientData(type);
         if(!data) {
             data = {};
         }
         data[prop] = value;
-        this.setLocalClientData(data);
+        this.setLocalClientData(data, type);
     }
-    getLocalClientDataProp(prop: string): string {
-        const data = this.getLocalClientData();
+
+    getLocalClientDataProp(prop: string, type: string = 'client'): string {
+        const data = this.getLocalClientData(type);
         if(!!data) {
             if(!!data[prop]) {
                 return data[prop];
@@ -335,7 +336,7 @@ export class AuthenticationService {
 
     async getCurrentClientDocument(uid: string = '') {
         if(uid === '') {
-            this.clientData =  this.getLocalClientData();
+            this.clientData =  this.getLocalClientData('client');
             if(this.clientData !== null) {
                 uid = this.clientData.uid;
             } else {
@@ -353,7 +354,7 @@ export class AuthenticationService {
     }
 
     async getLocalClientRoles(clientData: any): Promise<string[]> {
-        const client = this.getLocalClientData();
+        const client = this.getLocalClientData('client');
         if(!!client) {
             return !!client.roles ? client.roles : [];
         } else {
