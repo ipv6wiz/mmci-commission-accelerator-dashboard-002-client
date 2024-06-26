@@ -861,6 +861,7 @@ export class RegFormV2MatComponent implements OnInit{
                 clientDocs: this.populateRegistrantUploadData('to'),
                 cellPhone: this.registrant.contactInfo.cellPhone
             };
+            console.log('onSubmit - client: ', client);
             this.authService.setLocalClientDataProp('roles', ['CLIENT-PENDING-VERIFICATION']);
             this.authService.setLocalClientDataProp('status', 'Client Pending Verification');
             this.authService.setLocalClientDataProp('defaultPage', '/reg/pending-verification');
