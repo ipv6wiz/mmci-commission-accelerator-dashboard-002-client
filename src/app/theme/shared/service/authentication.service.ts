@@ -292,7 +292,7 @@ export class AuthenticationService {
 
     getLocalClientData(): any {
         const data = sessionStorage.getItem('client');
-        if(!!data) {
+        if(data) {
             return JSON.parse(data);
         } else {
             return null;
