@@ -290,7 +290,7 @@ export class AuthenticationService {
         }
     }
 
-    getLocalClientData(type: string): any {
+    getLocalClientData(type: string = 'client'): any {
         const data = sessionStorage.getItem(type);
         console.log(`getLocalClientData - ${type}: `, data);
         if(data && data !== undefined) {
