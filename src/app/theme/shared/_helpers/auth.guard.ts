@@ -30,8 +30,10 @@ export class AuthGuard  {
             return false;
         } else {
             const clientData = this.authService.getLocalClientData();
+            console.log('canActivate - clientData: ', clientData);
             let localToken = this.authService.getLocalIdToken();
             if(!localToken) {
+                console.log('canActivate - using clientData.idToken: ', clientData.idToken);
                 localToken = clientData.idToken;
             }
             console.log('------> canActivate - localToken: ', localToken);
