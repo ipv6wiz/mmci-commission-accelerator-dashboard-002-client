@@ -853,8 +853,10 @@ export class RegFormV2MatComponent implements OnInit{
         if(event.submitter.id === 'reg-form-save') {
             // Client Role and status need to change to CLIENT-PENDING-VERIFICATION & Client Pending Verification
             // Client default page needs to change to /reg/pending-verification
+            let clientLocalData = this.authService.getLocalClientData();
+            this.clientLocalData = clientLocalData;
             const client: Client = {
-                uid: this.clientLocalData.uid,
+                uid: clientLocalData.uid,
                 roles: ['CLIENT-PENDING-VERIFICATION'],
                 status: 'Client Pending Verification',
                 defaultPage: '/reg/pending-verification',
@@ -866,6 +868,8 @@ export class RegFormV2MatComponent implements OnInit{
             this.authService.setLocalClientDataProp('status', 'Client Pending Verification');
             this.authService.setLocalClientDataProp('defaultPage', '/reg/pending-verification');
             console.log('onSubmit - local client data: ', this.authService.getLocalClientData());
+            clientLocalData = this.authService.getLocalClientData();
+            this.clientLocalData = clientLocalData;
             try {
                 try {
                     this.registrant.docUploadInfo =  this.populateRegistrantUploadData('to');
@@ -873,7 +877,7 @@ export class RegFormV2MatComponent implements OnInit{
                     if(regResp) {
                         try {
                             console.log('-------> onSubmit - about to update client');
-                            const clientResp = await this.clientService.update(this.clientLocalData.uid, client);
+                            const clientResp = await this.clientService.update(clientLocalData.uid, client);
                             console.log('-------> onSubmit - clientResp: ', clientResp);
                             if(!!clientResp) {
                                 return this.router.navigate([client.defaultPage]);
