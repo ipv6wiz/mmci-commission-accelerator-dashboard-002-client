@@ -362,6 +362,7 @@ export class AuthenticationService {
     async getCurrentClientDocument(uid: string = '') {
         if(uid === '') {
             this.clientData =  this.getLocalClientData('client');
+            console.log(`======> getCurrentClientDocument - for uid: ${uid} - clientData: `, this.clientData);
             if(this.clientData !== null) {
                 uid = this.clientData.uid;
             } else {
@@ -369,6 +370,7 @@ export class AuthenticationService {
             }
         }
         if(uid !== '') {
+          console.log(`======> getCurrentClientDocument - getOne - for uid: ${uid} `);
             const response = await this.clientService.getOne(uid);
             return response;
         } else {
