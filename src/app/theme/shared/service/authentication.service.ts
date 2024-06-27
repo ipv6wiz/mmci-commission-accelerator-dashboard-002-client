@@ -260,6 +260,8 @@ export class AuthenticationService {
             lastLogin: new Date(parseInt(client.metadata.lastLoginAt)).toString(),
         };
         this.setLocalClientData(this.clientData, 'client');
+        this.setLocalClientData(idToken, 'idToken');
+      this.setLocalClientData(accessToken, 'accessToken');
         console.log('SetClientData - clientData.uid: ', this.clientData.uid);
         try {
             clientDoc = await this.clientService.getOne(client.uid);
@@ -306,12 +308,7 @@ export class AuthenticationService {
 
     setLocalClientData(data: any, type: string = 'client') {
       if(data !== undefined) {
-        if(type === 'client') {
-          sessionStorage.setItem('client', JSON.stringify(data));
-        }
-        if(type === 'token') {
-          sessionStorage.setItem('idToken', JSON.stringify(data));
-        }
+        sessionStorage.setItem(type, JSON.stringify(data));
       }
     }
 
