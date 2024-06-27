@@ -30,12 +30,20 @@ export class AuthGuard  {
             return false;
         } else {
             const clientData = this.authService.getLocalClientData();
-            const localToken = this.authService.getLocalIdToken();
+            let localToken = this.authService.getLocalIdToken();
+            if(!localToken) {
+                localToken = clientData.idToken;
+            }
             console.log('------> canActivate - localToken: ', localToken);
-            if(!localToken || (localToken &&  this.jwtService.isExpired(localToken))) {
+            if(!localToken) {
+                console.log('----> Token(s) Not found');
+                this.alertService.error('Token(s) Not Found: Please Login');
+                await this.authService.logoutViaApi();
+                return false;
+            } else if(localToken &&  this.jwtService.isExpired(localToken)) {
                 console.log('----> Token Expired');
                 this.alertService.error('Token Expired: Please Login');
-                // await this.authService.logoutViaApi();
+                await this.authService.logoutViaApi();
                 return false;
             } else {
                 if(clientData) {
