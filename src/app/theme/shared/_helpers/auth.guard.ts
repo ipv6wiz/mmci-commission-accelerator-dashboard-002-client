@@ -35,7 +35,7 @@ export class AuthGuard  {
             if(!localToken || (localToken &&  this.jwtService.isExpired(localToken))) {
                 console.log('----> Token Expired');
                 this.alertService.error('Token Expired: Please Login');
-                await this.authService.logoutViaApi();
+                // await this.authService.logoutViaApi();
                 return false;
             } else {
                 if(clientData) {
