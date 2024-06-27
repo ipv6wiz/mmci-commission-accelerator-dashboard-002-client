@@ -31,6 +31,7 @@ export class AuthGuard  {
         } else {
             const clientData = this.authService.getLocalClientData();
             const localToken = this.authService.getLocalIdToken();
+            console.log('------> canActivate - localToken: ', localToken);
             if(!localToken || (localToken &&  this.jwtService.isExpired(localToken))) {
                 console.log('----> Token Expired');
                 this.alertService.error('Token Expired: Please Login');
