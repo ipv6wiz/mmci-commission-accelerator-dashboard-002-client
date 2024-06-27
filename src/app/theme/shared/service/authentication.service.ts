@@ -296,7 +296,12 @@ export class AuthenticationService {
         const data = sessionStorage.getItem(type);
         console.log(`getLocalClientData - ${type}: `, data);
         if(data && data !== undefined) {
+          if(type === 'client') {
+            const obj = JSON.parse(data);
+            return obj[type];
+          } else {
             return JSON.parse(data);
+          }
         } else {
             return null;
         }
