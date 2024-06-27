@@ -308,7 +308,25 @@ export class AuthenticationService {
     }
 
     getLocalIdToken(): string | null {
-      return sessionStorage.getItem('idToken');
+      let idToken: string | null = sessionStorage.getItem('idToken');
+      let clientData;
+      if(!idToken) {
+        const clientDataRaw = sessionStorage.getItem('client');
+        if(clientDataRaw) {
+          clientData = JSON.parse(clientDataRaw);
+        }
+        if(clientData){
+          idToken = clientData['idToken']
+        }
+        if(idToken) {
+          sessionStorage.setItem('idToken', idToken);
+          return sessionStorage.getItem('idToken');
+        } else {
+          return null;
+        }
+      } else {
+        return idToken;
+      }
     }
 
     setLocalClientData(data: any, type: string = 'client') {
