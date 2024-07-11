@@ -166,11 +166,11 @@
           </div>
             <mat-step [stepControl]="regFormDoneGroup">
                 <form [formGroup]="regFormDoneGroup" (submit)="onSubmit($event)">
-                    <ng-template matStepLabel>Done</ng-template>
-                    <p>To complete your application please click SAVE.</p>
+                    <ng-template matStepLabel>Submit for Verification</ng-template>
+                    <p>To complete your application please click the Submit Form button.</p>
                     <div>
                         <button mat-button matStepperPrevious>Back</button>
-                        <button mat-button matStepperNext id="reg-form-save" color="primary" >Save</button>
+                        <button mat-button matStepperNext id="reg-form-save" color="primary" >Submit Form</button>
                     </div>
                 </form>
             </mat-step>
