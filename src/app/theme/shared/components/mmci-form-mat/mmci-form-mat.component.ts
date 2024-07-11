@@ -132,8 +132,8 @@ export class MmciFormMatComponent implements OnInit{
   }
 
   async onSubmit(event: any) {
-    console.log('onSubmit - event: ', event);
-    console.log('onSubmit - values: ', this.formGroup.value);
+    console.log('MmciFormMatComponent - onSubmit - event: ', event);
+    console.log('MmciFormMatComponent - onSubmit - values: ', this.formGroup.value);
     this.populateDefaultValues();
     mmciFormSubmitSignal.set({action: 'submit', formType: this.data.type, formData: this.formGroup.value});
   }
@@ -141,7 +141,8 @@ export class MmciFormMatComponent implements OnInit{
   populateDefaultValues() {
     this.fields.forEach((field: FormFieldDto, key: string) => {
       if(field.default) {
-        if(this.formGroup.controls[key].value == null || this.formGroup.controls[key].value === '') {
+        console.log('populateDefaultValues - value: ', this.formGroup.controls[key].value);
+        if(this.formGroup.controls[key].value === null || this.formGroup.controls[key].value === '' || this.formGroup.controls[key].value === undefined) {
           let value: any;
           if(field.default.startsWith('#')) {
             const fcn: string = field.default.substring(field.default.indexOf('#') + 1);
