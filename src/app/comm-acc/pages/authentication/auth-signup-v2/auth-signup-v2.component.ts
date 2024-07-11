@@ -7,17 +7,22 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {SharedModule} from "../../../../theme/shared/shared.module";
 import {DreLookupService} from "../../../../theme/shared/service/dre-lookup.service";
 import {SignupFormDataDto} from "../../../../theme/shared/dtos/signup-form-data.dto";
+import { MatProgressSpinner, ProgressSpinnerMode } from '@angular/material/progress-spinner';
+import { ThemePalette } from '@angular/material/core';
 
 @Component({
   selector: 'app-auth-signup-v2',
   standalone: true,
-    imports: [CommonModule, RouterModule, SharedModule],
+    imports: [CommonModule, RouterModule, SharedModule, MatProgressSpinner],
   templateUrl: './auth-signup-v2.component.html',
   styleUrls: ['./auth-signup-v2.component.scss']
 })
 export default class AuthSignupV2Component implements OnInit{
     signupForm!: FormGroup;
     loading = false;
+    loadSpinnerColor: ThemePalette = 'primary';
+    loadSpinnerMode: ProgressSpinnerMode = 'indeterminate';
+    loadSpinnerDiameter: string = '50';
     submitted = false;
     error = '';
     alertType = '';
@@ -76,6 +81,7 @@ export default class AuthSignupV2Component implements OnInit{
 
         }
         try {
+            this.loading = true;
             await this.authService.signUp(signUpFormData);
         } catch (err: any) {
             throw new Error(err.message);

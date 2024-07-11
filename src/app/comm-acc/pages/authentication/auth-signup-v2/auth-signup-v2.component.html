@@ -11,6 +11,18 @@
             Signup to start the process of applying for a Commission Accelerator Account.
         </h4>
       </div>
+      @if(loading) {
+        <section class="items-load-spinner-section">
+          <h3>Processing your Registration Request</h3>
+          <mat-progress-spinner
+            class="items-load-spinner-margin"
+            [color]="loadSpinnerColor"
+            [mode]="loadSpinnerMode"
+            [diameter]="loadSpinnerDiameter"
+          ></mat-progress-spinner>
+        </section>
+      }
+      <app-footer></app-footer>
     </div>
     <div class="auth-side-form">
       <div class="auth-content">
