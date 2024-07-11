@@ -311,12 +311,12 @@ export class DashAnalyticsComponent implements OnInit {
     const cards = [
       {
         background: 'bg-c-blue',
-        title: 'Credit',
+        title: 'Advance Limit',
         icon: 'bi-currency-dollar',
         iconType: 'bi',
         cardLines: [
-          {text: 'Available Credit', type: 'currency', value: this.availableCredit},
-          {text: 'Credit Limit', type: 'currency', value: this.creditLimit}
+          {text: 'Available Limit', type: 'currency', value: this.availableCredit},
+          {text: 'Advance Limit', type: 'currency', value: this.creditLimit}
         ]
       },
       {
@@ -325,8 +325,8 @@ export class DashAnalyticsComponent implements OnInit {
         icon: 'bi-tag',
         iconType: 'bi',
         cardLines: [
-          {text: 'Approved Value', type: 'currency', value: this.summariesObj.get('pending').amountApproved},
-          {text: 'Requested Value', type: 'currency', value: this.summariesObj.get('pending').amountRequested}
+          {text: 'Approved Amount', type: 'currency', value: this.summariesObj.get('pending').amountApproved},
+          {text: 'Requested Amount', type: 'currency', value: this.summariesObj.get('pending').amountRequested}
         ]
       },
       {
@@ -354,21 +354,4 @@ export class DashAnalyticsComponent implements OnInit {
     return cards;
   }
 
-  // images = [
-  //   {
-  //     src: 'assets/images/gallery-grid/img-grd-gal-1.jpg',
-  //     title: 'Old Scooter',
-  //     size: 'PNG-100KB'
-  //   },
-  //   {
-  //     src: 'assets/images/gallery-grid/img-grd-gal-2.jpg',
-  //     title: 'Wall Art',
-  //     size: 'PNG-150KB'
-  //   },
-  //   {
-  //     src: 'assets/images/gallery-grid/img-grd-gal-3.jpg',
-  //     title: 'Microphone',
-  //     size: 'PNG-150KB'
-  //   }
-  // ];
 }

@@ -3,8 +3,8 @@
     <div class="card-header" style="text-align: center">
         <h4>New Client Application Process for {{clientLocalData.displayName}}</h4>
         <h5>Even if you entered some data on the SignUp form please enter it again here</h5>
-        <p>Your entries need to exactly match what is on file at the DRE</p>
-        <p><span style="font-weight: bold">You must Click Save in the Done (final) step for your info to be submitted for consideration</span></p>
+        <h5>Your entries need to exactly match what is on file at the DRE</h5>
+        <p><span style="font-weight: bold">You must Click "Submit Form" in the "Submit for Verification" (final) step<br />for your info to be submitted for consideration</span></p>
         <button mat-raised-button color="primary" (click)="openDialog()">Instructions</button>
     </div>
     <div *ngIf="formLoading">

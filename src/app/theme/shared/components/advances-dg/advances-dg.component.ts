@@ -75,7 +75,7 @@ export class AdvancesDgComponent implements OnInit, AfterViewChecked{
     'actualClosingDate'
   ];
   columnsToDisplayWithActions: string[] = [...this.columnsToDisplay];
-  columnNamesToDisplay: string[] = ['Status','Property', 'MLS #', 'MLS System', 'Requested', 'Date Requested', 'Approved', 'Est. Closing', 'Act. Closing'];
+  columnNamesToDisplay: string[] = ['Status','Property', 'MLS #', 'MLS System', '$ Requested', 'Date Requested', 'Approved', 'Est. Closing', 'Act. Closing'];
   columnsConfig: Map<string, any> = new Map<string, any>([
     ['amountRequested', {type: 'currency', mask: 'separator', thousandSeparator: ',', prefix: '$'}],
     ['amountApproved', {type: 'currency', mask: 'separator', thousandSeparator: ',', prefix: '$'}],

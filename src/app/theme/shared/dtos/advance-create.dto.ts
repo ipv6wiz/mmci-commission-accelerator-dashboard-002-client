@@ -14,4 +14,5 @@ export interface AdvanceCreateDto {
     actualClosingDate?: string; // ISO format date
     remainingContingencies: boolean;
     contingencyReleaseDate?: string; // ISO format date
+    notes?: string; // Optional Notes/Comments
 }
