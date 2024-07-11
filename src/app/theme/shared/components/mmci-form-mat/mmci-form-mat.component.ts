@@ -163,6 +163,7 @@ export class MmciFormMatComponent implements OnInit{
             value = field.default;
             console.log('populateDefaultValues - value (from default prop): ', value);
           }
+          this.formGroup.controls[key].enable();
           this.formGroup.controls[key].setValue(value);
         }
       }
