@@ -140,9 +140,11 @@ export class MmciFormMatComponent implements OnInit{
 
   populateDefaultValues() {
     this.fields.forEach((field: FormFieldDto, key: string) => {
+      console.log('populateDefaultValues - key: ', key);
       if(field.default) {
         console.log('populateDefaultValues - value: ', this.formGroup.controls[key].value);
         if(this.formGroup.controls[key].value === null || this.formGroup.controls[key].value === '' || this.formGroup.controls[key].value === undefined) {
+          console.log('populateDefaultValues - need default value');
           let value: any;
           if(field.default.startsWith('#')) {
             const fcn: string = field.default.substring(field.default.indexOf('#') + 1);
@@ -152,12 +154,14 @@ export class MmciFormMatComponent implements OnInit{
               // console.log('formGroup.controls: ', this.formGroup.controls);
               // @ts-ignore
               value = this.formGroup.controls[fcnParts[0]].controls[fcnParts[1]].value;
-              // console.log('populateDefaultValues - value (after): ', value);
+              console.log('populateDefaultValues - value (from sub key): ', value);
             } else {
               value = this.formGroup.controls[fcn].value;
+              console.log('populateDefaultValues - value (from key): ', value);
             }
           } else {
             value = field.default;
+            console.log('populateDefaultValues - value (from default prop): ', value);
           }
           this.formGroup.controls[key].setValue(value);
         }
