@@ -94,8 +94,10 @@ export default class AuthSigninV2Component implements OnInit {
     }
     console.log('AuthSigninV2Component - onSubmit Form VALID');
     this.error = '';
-    this.loading = true;
+
     const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/admin/dashboard/analytics';
+    console.log('auth signin - returnUrl: ', returnUrl);
+    this.loading = true;
     const loginFormData: LoginFormDataDto = {
         email: this.f?.['username']?.value,
         password: this.f?.['password']?.value

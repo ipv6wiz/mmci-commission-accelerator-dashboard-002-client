@@ -7,10 +7,10 @@
           <button><a [routerLink]="['/auth/signup-v2']" class="f-w-400">Start the Application Process</a></button>
           <h1 class="text-white my-4">If your Application is pending approval</h1>
           <h4 class="text-white font-weight-normal">
-              Signin to view your progress</h4>
+              Sign In to view your progress</h4>
         <h1 class="text-white my-4">Existing Clients - Welcome Back!</h1>
         <h4 class="text-white font-weight-normal">
-            Signin to your account and go to your dashboard
+            Sign In to your account and go to your dashboard
         </h4>
       </div>
       @if(loading) {
@@ -29,7 +29,7 @@
     <div class="auth-side-form">
       <div class="auth-content">
         <img src="assets/images/auth/comm-acc-logo-001-dark.png" alt="logo" class="img-fluid mb-4 d-block " />
-        <h3 class="mb-4 f-w-400">SignIn</h3>
+        <h3 class="mb-4 f-w-400">Sign In</h3>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1"><i class="fa fa-envelope"></i></span>
