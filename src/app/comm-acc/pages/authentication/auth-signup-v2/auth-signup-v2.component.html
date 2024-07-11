@@ -109,13 +109,13 @@
                   </div>
               </div>
                 <div class="d-grid">
-                  <button class="btn btn-primary btn-block mb-4">Sign up</button>
+                  <button [disabled]="loading" class="btn btn-primary btn-block mb-4">Sign Up</button>
                 </div>
               <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{ error }}</div>
             </form>
         <div class="text-center">
-          <div class="saprator my-4"><span>OR</span></div>
-          <p class="mt-4">Already have an account? <a [routerLink]="['/auth/signin-v2']" class="f-w-400">Signin</a></p>
+          <div class="separator my-4"><span>OR</span></div>
+          <p class="mt-4">Already have an account? <a [routerLink]="['/auth/signin-v2']" class="f-w-400">Sign In</a></p>
         </div>
       </div>
     </div>
