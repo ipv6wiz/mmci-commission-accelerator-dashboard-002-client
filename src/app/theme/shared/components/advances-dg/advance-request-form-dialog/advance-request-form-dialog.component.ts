@@ -299,15 +299,63 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
     });
 
     fields.push({
+      fieldLabel: 'Bank Name',
+      placeholder: 'Name of your Bank',
+      fcn: 'bankInfo.bankName',
+      type: 'text',
+      required: true,
+      disabled: false,
+      validators: [],
+      width: 50,
+      rowCol: '9.1'
+    });
+
+    fields.push({
+      fieldLabel: 'Account Name',
+      placeholder: 'Name on Account',
+      fcn: 'bankInfo.bankAccountName',
+      type: 'text',
+      required: true,
+      disabled: false,
+      validators: [],
+      width: 50,
+      rowCol: '9.2'
+    });
+
+    fields.push({
+      fieldLabel: 'Wire Routing Number',
+      placeholder: 'Routing number for Wire Transfers',
+      fcn: 'bankInfo.bankWireRoutingNumber',
+      type: 'text',
+      required: true,
+      disabled: false,
+      validators: [],
+      width: 50,
+      rowCol: '10.1'
+    });
+
+    fields.push({
+      fieldLabel: 'Bank Account Number',
+      placeholder: 'Account Number',
+      fcn: 'bankInfo.bankAccountNumber',
+      type: 'text',
+      required: true,
+      disabled: false,
+      validators: [],
+      width: 50,
+      rowCol: '10.2'
+    });
+
+    fields.push({
       fieldLabel: 'Advance Name',
       placeholder: 'If left Empty will be replaced with Address Line 1',
-      fcn: 'name',
+      fcn: 'advanceName',
       type: 'text',
       required: false,
       disabled: true,
       validators: [],
       width: 100, // percentage
-      rowCol: '9.1',
+      rowCol: '11.1',
       default: '#propertyAddress.Address1'
     });
     return fields;
