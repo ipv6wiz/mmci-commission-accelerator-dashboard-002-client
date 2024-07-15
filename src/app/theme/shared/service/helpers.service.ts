@@ -96,10 +96,11 @@ export class HelpersService {
   }
 
   populateRows(fieldsArr: FormFieldDto[]): any[] {
-    // console.log('populateRows - fieldsArr: ', fieldsArr);
+
     for(let i = 0; i < fieldsArr.length; i++) {
       fieldsArr[i].rowCol = this.padRowCol(fieldsArr[i].rowCol); // ensure row number sorts correctly
     }
+    console.log('populateRows - fieldsArr: ', fieldsArr);
     const rows: any[] = [];
     fieldsArr.sort((a: FormFieldDto,b: FormFieldDto): number => {
       if(!a.rowCol || !b.rowCol) {
