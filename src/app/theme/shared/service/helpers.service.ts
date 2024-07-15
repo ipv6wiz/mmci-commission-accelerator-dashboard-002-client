@@ -91,8 +91,8 @@ export class HelpersService {
 
   padRowCol(rowCol: string): string {
     const parts: string[] = rowCol.split('.');
-    parts[0].padStart(2, '0');
-    console.log('helpers - padRowCol - padded: ', parts.join('.'));
+    parts[0] = parts[0].padStart(2, '0');
+    // console.log('helpers - padRowCol - padded: ', parts.join('.'));
     return parts.join('.');
   }
 
@@ -101,7 +101,7 @@ export class HelpersService {
     for(let i = 0; i < fieldsArr.length; i++) {
       fieldsArr[i].rowCol = this.padRowCol(fieldsArr[i].rowCol); // ensure row number sorts correctly
     }
-    console.log('populateRows - fieldsArr: ', fieldsArr);
+    // console.log('populateRows - fieldsArr: ', fieldsArr);
     const rows: any[] = [];
     fieldsArr.sort((a: FormFieldDto,b: FormFieldDto): number => {
       if(!a.rowCol || !b.rowCol) {
