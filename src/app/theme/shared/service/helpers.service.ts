@@ -114,7 +114,7 @@ export class HelpersService {
         row++;
       }
       // const col: number = parseInt(rowColParts[1], 10);
-      console.log(`field: ${field.fcn} -  row: ${row} col: ${col} rows.length: ${rows.length}`);
+      console.log(`helpers - populateRows - field: ${field.fcn} -  row: ${row} col: ${col} rows.length: ${rows.length}`);
       if(row === rows.length + 1) {
         // console.log('>>>>>>> populateRows - make a slot');
         rows.push([]);
