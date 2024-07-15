@@ -89,9 +89,10 @@ export class HelpersService {
     return userRoles.some(value => allowed.includes(value));
   }
 
-  private padRowCol(rowCol: string): string {
+  padRowCol(rowCol: string): string {
     const parts: string[] = rowCol.split('.');
     parts[0].padStart(2, '0');
+    console.log('helpers - padRowCol - padded: ', parts.join('.'));
     return parts.join('.');
   }
 
