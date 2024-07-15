@@ -1,6 +1,6 @@
 {
   "name": "commision-accelerator-dashboard-001",
-  "version": "0.0.325",
+  "version": "0.0.326",
   "author": "MMCI - John Page",
   "scripts": {
     "ng": "ng",
@@ -31,7 +31,7 @@
     "@iplab/ngx-file-upload": "^17.1.0",
     "@ks89/angular-modal-gallery": "^11.1.2",
     "@narik/custom-validators": "^11.0.0",
-    "@ng-bootstrap/ng-bootstrap": "^16.0.0",
+    "@ng-bootstrap/ng-bootstrap": "^17.0.0",
     "@ng-maps/core": "^6.0.1",
     "@ng-maps/google": "^6.0.0",
     "@ng-select/ng-select": "^12.0.7",

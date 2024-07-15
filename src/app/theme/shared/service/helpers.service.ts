@@ -89,8 +89,17 @@ export class HelpersService {
     return userRoles.some(value => allowed.includes(value));
   }
 
+  private padRowCol(rowCol: string): string {
+    const parts: string[] = rowCol.split('.');
+    parts[0].padStart(2, '0');
+    return parts.join('.');
+  }
+
   populateRows(fieldsArr: FormFieldDto[]): any[] {
     // console.log('populateRows - fieldsArr: ', fieldsArr);
+    for(let i = 0; i < fieldsArr.length; i++) {
+      fieldsArr[i].rowCol = this.padRowCol(fieldsArr[i].rowCol); // ensure row number sorts correctly
+    }
     const rows: any[] = [];
     fieldsArr.sort((a: FormFieldDto,b: FormFieldDto): number => {
       if(!a.rowCol || !b.rowCol) {
