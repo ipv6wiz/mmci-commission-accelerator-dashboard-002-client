@@ -64,7 +64,7 @@ export class AddressClass {
       disabled: false,
       validators: [],
       width: 50,
-      rowCol: '1.1'
+      rowCol: '01.1'
     });
     fields.push({
       fieldLabel: 'Address Line 2',
@@ -76,7 +76,7 @@ export class AddressClass {
       disabled: false,
       validators: [],
       width: 50,
-      rowCol: '1.2'
+      rowCol: '01.2'
     });
     fields.push({
       fieldLabel: 'City',
@@ -88,7 +88,7 @@ export class AddressClass {
       disabled: false,
       validators: [],
       width: 33,
-      rowCol: '2.1'
+      rowCol: '02.1'
     });
     fields.push({
       fieldLabel: 'State',
@@ -100,7 +100,7 @@ export class AddressClass {
       default: 'CA',
       validators: [],
       width: 33,
-      rowCol: '2.2'
+      rowCol: '02.2'
     });
     fields.push({
       fieldLabel: 'Zip Code ',
@@ -111,7 +111,7 @@ export class AddressClass {
       disabled: false,
       validators: [['pattern', "^[0-9]{5}?$"], ['minLength', 5], ['maxLength', 5]],
       width: 17,
-      rowCol: '2.3'
+      rowCol: '02.3'
     });
     fields.push({
       fieldLabel: 'Zip Code extension',
@@ -122,7 +122,7 @@ export class AddressClass {
       disabled: false,
       validators: [['pattern', "^[0-9]{4}?$"], ['minLength', 4], ['maxLength', 4]],
       width: 16,
-      rowCol: '2.4'
+      rowCol: '02.4'
     });
     return fields;
   }

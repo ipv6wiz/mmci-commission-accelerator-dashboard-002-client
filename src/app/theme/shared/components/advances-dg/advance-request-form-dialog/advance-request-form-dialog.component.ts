@@ -101,7 +101,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       disabled: false,
       validators: [],
       width: 33, // percentage
-      rowCol: '1.1',
+      rowCol: '01.1',
     });
 
     fields.push({
@@ -113,7 +113,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       disabled: false,
       validators: [],
       width: 33, // percentage
-      rowCol: '1.2',
+      rowCol: '01.2',
       options: this.mls
     });
 
@@ -126,7 +126,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       disabled: false,
       validators: [],
       width: 100, // percentage
-      rowCol: '2.1',
+      rowCol: '02.1',
       addrObj: new AddressClass(this.formBuilder, this.helpers)
     });
 
@@ -139,7 +139,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       disabled: false,
       validators: [],
       width: 33, // percentage
-      rowCol: '3.3',
+      rowCol: '03.3',
     });
 
     fields.push({
@@ -151,7 +151,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       disabled: false,
       validators: [],
       width: 33, // percentage
-      rowCol: '3.2',
+      rowCol: '03.2',
     });
 
     fields.push({
@@ -163,7 +163,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       disabled: false,
       validators: [],
       width: 33, // percentage
-      rowCol: '3.1',
+      rowCol: '03.1',
     });
 
     fields.push({
@@ -188,7 +188,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       disabled: false,
       validators: [],
       width: 33, // percentage
-      rowCol: '4.2',
+      rowCol: '04.2',
       autoCapitalize: 'words',
     });
 
@@ -201,7 +201,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       disabled: false,
       validators: [],
       width: 33, // percentage
-      rowCol: '4.3',
+      rowCol: '04.3',
       mask: '(000) 000-0000',
       options: [
         ['pattern', '^[0-9]*$'],
@@ -219,7 +219,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       disabled: false,
       validators: [['email']],
       width: 50, // percentage
-      rowCol: '5.1',
+      rowCol: '05.1',
     });
 
     fields.push({
@@ -231,7 +231,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       disabled: false,
       validators: [],
       width: 50, // percentage
-      rowCol: '5.2',
+      rowCol: '05.2',
     });
 
     fields.push({
@@ -242,7 +242,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       required: true,
       disabled: false,
       width: 50, // percentage
-      rowCol: '6.1',
+      rowCol: '06.1',
       pickerId: 'escrow-estimatedClosingDate',
       startView: 'month',
       storedFormat: 'ISO Local',
@@ -257,7 +257,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       required: false,
       disabled: false,
       width: 50, // percentage
-      rowCol: '6.2',
+      rowCol: '06.2',
       pickerId: 'escrow-actualClosingDate',
       startView: 'month',
       storedFormat: 'ISO Local',
@@ -272,7 +272,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       pickerId: 'escrow-contingencyReleaseDate',
       startView: 'month',
       storedFormat: 'ISO Local',
-      rowCol: '7.1',
+      rowCol: '07.1',
       hide: true,
       required: false,
       disabled: false,
@@ -295,7 +295,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       disabled: false,
       validators: [],
       width: 100,
-      rowCol: '8.1'
+      rowCol: '08.1'
     });
 
     fields.push({
@@ -307,7 +307,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       disabled: false,
       validators: [],
       width: 50,
-      rowCol: '9.1'
+      rowCol: '09.1'
     });
 
     fields.push({
@@ -319,7 +319,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       disabled: false,
       validators: [],
       width: 50,
-      rowCol: '9.2'
+      rowCol: '09.2'
     });
 
     fields.push({
