@@ -1,4 +1,11 @@
 #!/bin/bash
+if ! firebase login; then
+  echo "Firebase login failed - trying --reauth"
+  if ! firebase login --reauth; then
+    echo "Firebase login --reauth failed"
+    exit 1
+  fi
+fi
 cd ..
 while getopts v:m: flag
 do
