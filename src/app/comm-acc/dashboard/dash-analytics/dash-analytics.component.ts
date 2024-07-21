@@ -325,28 +325,28 @@ export class DashAnalyticsComponent implements OnInit {
         icon: 'bi-tag',
         iconType: 'bi',
         cardLines: [
-          {text: 'Approved Amount', type: 'currency', value: this.summariesObj.get('pending').amountApproved},
-          {text: 'Requested Amount', type: 'currency', value: this.summariesObj.get('pending').amountRequested}
+          {text: 'Approved Amount', type: 'currency', value: this.summariesObj.get('PENDING-CONTRACTS').amountApproved},
+          {text: 'Requested Amount', type: 'currency', value: this.summariesObj.get('REQUEST-PENDING').amountRequested}
         ]
       },
       {
         background: 'bg-c-yellow',
-        title: `Est. Escrows in next ${this.summariesObj.get('pending').daysEscrowsClosingData} days`,
+        title: `Est. Escrows in next ${this.summariesObj.get('REQUEST-PENDING').daysEscrowsClosingData} days`,
         icon: 'bi-arrow-repeat',
         iconType: 'bi',
         cardLines: [
-          {text: 'Estimated Qty', type: 'text', value: this.summariesObj.get('pending').qtyEstEscrowsClosing},
-          {text: 'Estimated Net', type: 'currency', value: this.summariesObj.get('pending').estimatedAgentCommission},
+          {text: 'Estimated Qty', type: 'text', value: this.summariesObj.get('REQUEST-PENDING').qtyEstEscrowsClosing},
+          {text: 'Estimated Net', type: 'currency', value: this.summariesObj.get('REQUEST-PENDING').estimatedAgentCommission},
         ]
       },
       {
         background: 'bg-c-red',
-        title: `Act. Escrows in next ${this.summariesObj.get('pending').daysEscrowsClosingData} days`,
+        title: `Act. Escrows in next ${this.summariesObj.get('REQUEST-PENDING').daysEscrowsClosingData} days`,
         icon: 'bi-repeat',
         iconType: 'bi',
         cardLines: [
-          {text: 'Actual Qty', type: 'text', value: this.summariesObj.get('pending').qtyActEscrowsClosing},
-          {text: 'Estimated Net', type: 'currency', value: this.summariesObj.get('pending').actualAgentCommission}
+          {text: 'Actual Qty', type: 'text', value: this.summariesObj.get('REQUEST-PENDING').qtyActEscrowsClosing},
+          {text: 'Estimated Net', type: 'currency', value: this.summariesObj.get('REQUEST-PENDING').actualAgentCommission}
         ]
       }
     ];
