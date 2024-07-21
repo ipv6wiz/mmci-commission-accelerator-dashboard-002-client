@@ -35,11 +35,11 @@
             </ng-template>
             <ng-template matTabContent>
               <app-advances-dg
-                advanceStatus="pending"
+                advanceStatus="REQUEST-PENDING"
                 [escrow]="escrow"
                 [mls]="mls"
                 [loadingItems]="loadingAdvanceItems"
-                [dgDataObj]="advancesByCategory.get('pending')"
+                [dgDataObj]="advancesByCategory.get('REQUEST-PENDING')"
               ></app-advances-dg>
             </ng-template>
           </mat-tab>

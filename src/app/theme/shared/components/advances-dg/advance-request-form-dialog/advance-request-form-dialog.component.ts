@@ -44,7 +44,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
   ) {
     effect(() => {
       const formSubmitSignal = mmciFormSubmitSignal();
-      if(formSubmitSignal.action === 'submit') {
+      if(formSubmitSignal.dataType === this.dataTypeTag && formSubmitSignal.action === 'submit') {
         this.onSubmit(formSubmitSignal).then();
       }
     });
@@ -63,6 +63,24 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
     console.log('ngOnInit - MLS Systems: ', this.mls);
     this.fieldsArr = this.populateFormFields();
   }
+
+  async onSubmit(event: any) {
+    console.log('onSubmit - event: ', event);
+    let response;
+    if(event.formType === 'new') {
+      const clientId = this.authService.getLocalClientData().uid;
+      console.log('clientId : ', clientId);
+      event.formData.clientId = clientId;
+      event.formData.advanceStatus = 'REQUEST-PENDING';
+      response = await this.service.createItem(event.formData);
+    } else if(event.formType === 'update') {
+      response = await this.service.updateItem(event.formData.uid, event.formData);
+    }
+    dataGridRefreshSignal.set({refresh: true, dataType: this.dataTypeTag });
+    console.log('onSubmit - response: ', response);
+  }
+
+
 
   populateFormFields(): FormFieldDto[] {
     const fields: FormFieldDto[] = [];
@@ -361,19 +379,5 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
     return fields;
   }
 
-  async onSubmit(event: any) {
-    console.log('onSubmit - event: ', event);
-    let response;
-    if(event.formType === 'new') {
-      const clientId = this.authService.getLocalClientData().uid;
-      console.log('clientId : ', clientId);
-      event.formData.clientId = clientId;
-      event.formData.advanceStatus = 'pending';
-      response = await this.service.createItem(event.formData);
-    } else if(event.formType === 'update') {
-      response = await this.service.updateItem(event.formData.uid, event.formData);
-    }
-    dataGridRefreshSignal.set({refresh: true, dataType: this.dataTypeTag })
-    console.log('onSubmit - response: ', response);
-  }
+
 }
