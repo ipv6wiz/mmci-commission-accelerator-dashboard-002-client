@@ -23,6 +23,8 @@ import {  MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { dataGridRefreshSignal } from '../../../theme/shared/signals/data-grid-refresh.signal';
 import { dashCardsRefreshSignal } from '../../../theme/shared/signals/dash-cards-refresh.signal';
+import { OptionValues } from '../../../theme/shared/entities/option-values.interface';
+import { OptionsService } from '../../../theme/shared/service/options.service';
 
 @Component({
   selector: 'app-tbl-comm-advances',
@@ -58,13 +60,7 @@ export class TblCommAdvancesComponent implements OnInit {
 
   advancesByCategory: Map<string, ListWithCountDto> = new Map<string, ListWithCountDto>();
 
-  advanceStatus: string[] = [
-    'pending',
-    'current',
-    'paid',
-    'cleared',
-    'rejected'
-  ];
+  advanceStatus: string[] = [];
 
   constructor(
     public modal: MatDialog,
@@ -73,7 +69,8 @@ export class TblCommAdvancesComponent implements OnInit {
     private mlsService: MlsListService,
     private clientService: ClientService,
     private service: AdvanceService,
-    public helpers: HelpersService
+    public helpers: HelpersService,
+    private optionService: OptionsService
   ) {
     effect(() => {
       console.log('dataGridRefreshSignal - effect entered');
@@ -82,6 +79,7 @@ export class TblCommAdvancesComponent implements OnInit {
         this.refreshItemsList().then(() => true);
       }
     });
+    this.getAdvanceStatusValues().then((values) => {this.advanceStatus = values});
   }
 
   async ngOnInit() {
@@ -152,6 +150,20 @@ export class TblCommAdvancesComponent implements OnInit {
   async loadMlsList(): Promise<MlsListDto[]> {
     const response = await this.mlsService.loadItemsForSelect();
     return response.items;
+  }
+
+  async getAdvanceStatusValues(): Promise<string[]> {
+    const items = await this.getAdvanceStatusFromOptions();
+    const statusValues: string[] = [];
+    items.forEach((item: OptionValues) => {
+      statusValues.push(item.key)
+    });
+    return statusValues;
+  }
+
+  async getAdvanceStatusFromOptions(): Promise<OptionValues[]> {
+    const statusListResponse: ListWithCountDto = await this.optionService.loadValuesItemsForSelect('AdvanceStatus');
+    return statusListResponse.items
   }
 
 }
