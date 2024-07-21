@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormFieldDto } from '../mmci-form-mat/dtos/form-field.dto';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { HelpersService } from '../../service/helpers.service';
 import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
@@ -8,14 +9,11 @@ import { MatOption } from '@angular/material/autocomplete';
 import { MatSelect } from '@angular/material/select';
 import { NgForOf, NgStyle } from '@angular/common';
 import { NgxMaskDirective } from 'ngx-mask';
-import { FormFieldDto } from '../mmci-form-mat/dtos/form-field.dto';
-// import { FormFieldDto } from '../../dtos/form-field.dto';
 
 @Component({
-  selector: 'app-address-form',
+  selector: 'app-bank-form',
   standalone: true,
   imports: [
-    ReactiveFormsModule,
     MatDatepicker,
     MatDatepickerInput,
     MatDatepickerToggle,
@@ -27,30 +25,31 @@ import { FormFieldDto } from '../mmci-form-mat/dtos/form-field.dto';
     MatSuffix,
     NgForOf,
     NgxMaskDirective,
+    ReactiveFormsModule,
     NgStyle
   ],
-  templateUrl: './address-form.component.html',
-  styleUrl: './address-form.component.scss'
+  templateUrl: './bank-form.component.html',
+  styleUrl: './bank-form.component.scss'
 })
-export class AddressFormComponent implements OnInit{
-  @Input() addressFormGroup!: any;
-  @Input() addrField!: any;
+export class BankFormComponent implements OnInit{
+  @Input() bankFormGroup!: any;
+  @Input() bankField!: any;
   fields!: Map<string, FormFieldDto>;
-  fieldIdPrefix: string = 'addr';
+  fieldIdPrefix: string = 'bank';
   rows: any[] = [];
 
   constructor(
-    private formBuilder: FormBuilder, 
+    private formBuilder: FormBuilder,
     private helpers: HelpersService) {}
 
   ngOnInit() {
-    console.log('AddressFormComponent - addressFormGroup: ', this.addressFormGroup);
-    this.fields = this.addrField.addrObj.fields;
+    console.log('AddressFormComponent - addressFormGroup: ', this.bankFormGroup);
+    this.fields = this.bankField.addrObj.fields;
     console.log('AddressFormComponent - addressFormFields: ', this.fields);
-    this.popAddrRows(this.fields);
+    this.popRows(this.fields);
   }
 
-  popAddrRows(fieldsMap: Map<string, FormFieldDto>) {
+  popRows(fieldsMap: Map<string, FormFieldDto>) {
     const fieldsArr = this.helpers.mapToArray(fieldsMap);
     this.rows = this.helpers.populateRows(fieldsArr);
   }

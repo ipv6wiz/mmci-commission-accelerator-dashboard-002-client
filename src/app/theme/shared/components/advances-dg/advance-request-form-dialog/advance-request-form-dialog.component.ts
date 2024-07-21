@@ -13,6 +13,7 @@ import { mmciFormSubmitSignal } from '../../mmci-form-mat/signals/mmci-form-subm
 import { AdvanceService } from '../../../service/advance.service';
 import { SelectDto } from '../../mmci-form-mat/dtos/select.dto';
 import { AuthenticationService } from '../../../service';
+import { BankInfoClass } from '../../../entities/bankInfo.class';
 
 @Component({
   selector: 'app-advance-request-form',
@@ -66,25 +67,25 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
   ngOnInit() {
     this.escrow = this.data.escrow;
     this.mls = this.data.mls;
-    console.log('ngOnInit - Escrow Companies: ', this.escrow);
-    console.log('ngOnInit - MLS Systems: ', this.mls);
+    console.log('AdvanceRequestFormDialogComponent - ngOnInit - Escrow Companies: ', this.escrow);
+    console.log('AdvanceRequestFormDialogComponent - ngOnInit - MLS Systems: ', this.mls);
     this.fieldsArr = this.populateFormFields();
   }
 
   async onSubmit(event: any) {
-    console.log('onSubmit - event: ', event);
+    console.log('AdvanceRequestFormDialogComponent - onSubmit - event: ', event);
     let response;
     if(event.formType === 'new') {
       const clientId = this.authService.getLocalClientData().uid;
-      console.log('clientId : ', clientId);
+      console.log('AdvanceRequestFormDialogComponent - onSubmit - clientId : ', clientId);
       event.formData.clientId = clientId;
       event.formData.advanceStatus = 'REQUEST-PENDING';
       response = await this.service.createItem(event.formData);
     } else if(event.formType === 'update') {
       response = await this.service.updateItem(event.formData.uid, event.formData);
     }
+    console.log('AdvanceRequestFormDialogComponent - onSubmit - response: ', response);
     dataGridRefreshSignal.set({refresh: true, dataType: this.dataTypeTag });
-    console.log('onSubmit - response: ', response);
   }
 
 
@@ -323,16 +324,32 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       rowCol: '8.1'
     });
 
-    fields.push({
-      fieldLabel: 'Bank Name',
-      placeholder: 'Name of your Bank',
-      fcn: 'bankInfo.bankName',
-      type: 'text',
+    /*
+        fields.push({
+      fieldLabel: 'Property Address',
+      placeholder: 'Address of property in escrow',
+      fcn: 'propertyAddress',
+      type: 'address',
       required: true,
       disabled: false,
       validators: [],
-      width: 50,
-      rowCol: '9.1'
+      width: 100, // percentage
+      rowCol: '2.1',
+      addrObj: new AddressClass(this.formBuilder, this.helpers)
+    });
+     */
+
+    fields.push({
+      fieldLabel: 'Your Bank Info',
+      placeholder: 'Your Bank Information',
+      fcn: 'bankInfo',
+      type: 'bank',
+      required: true,
+      disabled: false,
+      validators: [],
+      width: 100,
+      rowCol: '9.1',
+      bankObj: new BankInfoClass(this.formBuilder, this.helpers)
     });
 
     fields.push({

@@ -154,10 +154,17 @@ export class HelpersService {
   processFields(fields: Map<string, any>, obj: any, controls: Map<string, any>): Map<string, any> {
     console.log('processFields - obj: ', obj);
     fields.forEach((field: any) => {
-      if(['address'].includes(field['type'])) {
+      if(['address', 'bank'].includes(field['type'])) {
         // console.log('processFields - address - field.fcn: ', field.fcn);
         // console.log('processFields - address - addrObj: ', field.addrObj);
-        controls.set(field.fcn, field.addrObj.getFormGroup());
+        switch(field['type']) {
+          case 'address':
+            controls.set(field.fcn, field.addrObj.getFormGroup());
+            break;
+          case 'bank':
+            controls.set(field.fcn, field.bankObj.getFormGroup());
+            break;
+        }
       } else {
         if(field.conditional) {
           const condControl: FormControl = new FormControl();
@@ -188,7 +195,6 @@ export class HelpersService {
         }
         if(field.required) {
           validators.push(Validators.required);
-
         }
         if(field.validators &&  field.validators.length > 0) {
           field.validators.forEach((val: any) => {

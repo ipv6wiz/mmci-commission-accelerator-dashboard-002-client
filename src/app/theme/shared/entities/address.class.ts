@@ -22,11 +22,11 @@ export class AddressClass {
   ) {
     this.State = 'CA';
     console.log('AddressClass - constructor - dataObj: ', dataObj);
-    this.populateProps(dataObj);
+    this.populateProps(this.dataObj);
     // this.fields = this.populateAddressFormFields();
     this.fields = new Map<string, FormFieldDto>(this.populateFormFields().map((obj: FormFieldDto) => [obj.fcn, obj]));
     console.log('AddressClass - constructor - this: ', this);
-    const controls = helpers.createControls(this.fields, this, 'object');
+    const controls = this.helpers.createControls(this.fields, this, 'object');
     this.addressFormGroup = this.fb.group(controls);
   }
 
