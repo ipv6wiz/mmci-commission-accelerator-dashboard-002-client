@@ -1,6 +1,6 @@
 {
   "name": "commision-accelerator-dashboard-001",
-  "version": "0.0.331",
+  "version": "0.0.332",
   "author": "MMCI - John Page",
   "scripts": {
     "ng": "ng",
@@ -94,6 +94,7 @@
     "sweetalert2": "^11.10.5",
     "tslib": "^2.6.2",
     "url-polyfill": "^1.1.12",
+    "uuid": "^10.0.0",
     "zone.js": "^0.14.4"
   },
   "devDependencies": {
@@ -114,6 +115,7 @@
     "@types/mousetrap": "^1.6.15",
     "@types/node": "^20.11.20",
     "@types/quill": "^2.0.14",
+    "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^7.1.0",
     "@typescript-eslint/parser": "^7.1.0",
     "eslint": "^8.57.0",

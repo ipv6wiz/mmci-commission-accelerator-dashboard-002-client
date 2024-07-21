@@ -75,6 +75,7 @@ export class MmciFormMatComponent implements OnInit{
   loadSpinnerMode: ProgressSpinnerMode = 'indeterminate';
   loadSpinnerDiameter: string = '50';
   chipsList!: Map<string, string[]>;
+  formUUID: string = '';
 
   rows: any[] = [];
 
@@ -85,8 +86,8 @@ export class MmciFormMatComponent implements OnInit{
   ) {}
 
   ngOnInit() {
-    // console.log('MmciFormMatComponent - ngOnInit - data: ', this.data);
-    // console.log('MmciFormMatComponent - ngOnInit - config: ', this.config);
+    console.log('MmciFormMatComponent - ngOnInit - data: ', this.data);
+    console.log('MmciFormMatComponent - ngOnInit - config: ', this.config);
     this.unpackConfig();
     // const fieldsArr: FormFieldDto[] = this.populateFormFields();
     // console.log('MmciFormMatComponent - ngOnInit - fieldsArr: ', this.fieldsArr);
@@ -104,23 +105,25 @@ export class MmciFormMatComponent implements OnInit{
 
   unpackConfig() {
     this.config.forEach((item: SelectDto) => {
-      // @ts-ignore
+      // @ts-expect-error item maybe undefined
       this[item.key] = item.value;
     });
   }
 
   async loadChipsList(chipTypeArr: string[]) {
-    for(let i = 0; i < chipTypeArr.length; i++) {
-      const chipType = chipTypeArr[i];
-      console.log('loadChipsList - chipType: ', chipType);
-      const chipsObj: ListWithCountDto = await this.optionsService.loadValuesItemsForSelect(chipType);
-      console.log('loadChipsList - chipsObj: ', chipsObj);
-      // chipsObj.items.forEach((item:any) => {this.roles.push(item.value)});
-      const values: string[] = [];
-      chipsObj.items.forEach((item:any) => {
-        values.push(item.value);
-      });
-      this.chipsList.set(chipType, values)
+    if(chipTypeArr) {
+      for(let i = 0; i < chipTypeArr.length; i++) {
+        const chipType = chipTypeArr[i];
+        console.log('loadChipsList - chipType: ', chipType);
+        const chipsObj: ListWithCountDto = await this.optionsService.loadValuesItemsForSelect(chipType);
+        console.log('loadChipsList - chipsObj: ', chipsObj);
+        // chipsObj.items.forEach((item:any) => {this.roles.push(item.value)});
+        const values: string[] = [];
+        chipsObj.items.forEach((item:any) => {
+          values.push(item.value);
+        });
+        this.chipsList.set(chipType, values)
+      }
     }
   }
 
@@ -135,16 +138,20 @@ export class MmciFormMatComponent implements OnInit{
     console.log('MmciFormMatComponent - onSubmit - event: ', event);
     console.log('MmciFormMatComponent - onSubmit - values: ', this.formGroup.value);
     this.populateDefaultValues();
-    mmciFormSubmitSignal.set({action: 'submit', dataType: this.data.dataType, formType: this.data.type, formData: this.formGroup.value});
+    mmciFormSubmitSignal.set(
+      {
+        action: 'submit',
+        dataType: this.data.dataType,
+        formType: this.data.type,
+        formData: this.formGroup.value,
+        formUUID: this.formUUID
+      });
   }
 
   populateDefaultValues() {
     this.fields.forEach((field: FormFieldDto, key: string) => {
-      console.log('populateDefaultValues - key: ', key);
       if(field.default) {
-        console.log('populateDefaultValues - value: ', this.formGroup.controls[key].value);
-        if(this.formGroup.controls[key].value === null || this.formGroup.controls[key].value === '' || this.formGroup.controls[key].value === undefined) {
-          console.log('populateDefaultValues - need default value');
+        if(this.formGroup.controls[key].value == null || this.formGroup.controls[key].value === '') {
           let value: any;
           if(field.default.startsWith('#')) {
             const fcn: string = field.default.substring(field.default.indexOf('#') + 1);
@@ -152,18 +159,15 @@ export class MmciFormMatComponent implements OnInit{
               const fcnParts = fcn.split('.');
               // console.log('fcnParts - ', fcnParts);
               // console.log('formGroup.controls: ', this.formGroup.controls);
-              // @ts-ignore
+              // @ts-expect-error value maybe undefined
               value = this.formGroup.controls[fcnParts[0]].controls[fcnParts[1]].value;
-              console.log('populateDefaultValues - value (from sub key): ', value);
+              // console.log('populateDefaultValues - value (after): ', value);
             } else {
               value = this.formGroup.controls[fcn].value;
-              console.log('populateDefaultValues - value (from key): ', value);
             }
           } else {
             value = field.default;
-            console.log('populateDefaultValues - value (from default prop): ', value);
           }
-          this.formGroup.controls[key].enable();
           this.formGroup.controls[key].setValue(value);
         }
       }
@@ -192,7 +196,7 @@ export class MmciFormMatComponent implements OnInit{
     const fieldNameParts = event.source.name.split('.');
     console.log('checkboxChange - fcn: ', fieldNameParts[1]);
     if(this.fields.has(fieldNameParts[1])) {
-      // @ts-ignore
+      // @ts-expect-error value maybe undefined
       this.fields.get(fieldNameParts[1]).hide = !event.checked;
       console.log('checkboxChange - fcn - hide: ', this.fields.get(fieldNameParts[1]));
     }
