@@ -17,6 +17,7 @@ export class BankInfoClass {
     private helpers: HelpersService,
     private dataObj: AdvanceBankDto = {} as AdvanceBankDto
   ) {
+    console.log('BankInfoClass - constructor - dataObj: ', dataObj);
     this.populateProps(this.dataObj);
     this.fields = new Map<string, FormFieldDto>(this.populateFormFields().map((obj: FormFieldDto) => [obj.fcn, obj]));
     const controls = this.helpers.createControls(this.fields, this, 'object');
@@ -25,6 +26,10 @@ export class BankInfoClass {
 
   getFormGroup(): FormGroup {
     return this.bankFormGroup;
+  }
+
+  getFormFields(): Map<string, FormFieldDto> {
+    return this.fields;
   }
   
   populateProps(bankObj: AdvanceBankDto) {
