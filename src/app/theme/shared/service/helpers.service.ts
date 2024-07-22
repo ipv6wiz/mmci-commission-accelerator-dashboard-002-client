@@ -194,7 +194,7 @@ export class HelpersService {
         }
         // console.log('createControls - valueObj: ', valueObj);
         if(field.type === 'select') {
-
+          console.log('processFields - select');
         }
         if(field.required) {
           validators.push(Validators.required);
