@@ -80,7 +80,7 @@ export class BankInfoClass {
       type: 'text',
       required: true,
       disabled: false,
-      validators: [['pattern', "^[0-9]?$"]],
+      validators: [],
       width: 100,
       rowCol: '02.1'
     });
@@ -92,7 +92,7 @@ export class BankInfoClass {
       type: 'text',
       required: true,
       disabled: false,
-      validators: [['pattern', "^[0-9]?$"]],
+      validators: [],
       width: 100,
       rowCol: '02.2'
     });

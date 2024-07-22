@@ -92,32 +92,6 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
 
   populateFormFields(): FormFieldDto[] {
     const fields: FormFieldDto[] = [];
-      // fields.push({
-      //   fieldLabel: '',
-      //   placeholder: '',
-      //   fcn: '',
-      //   type: '',
-      //   required: true,
-      //   disabled: false,
-      //   validators: [],
-      //   width: 0, // percentage
-      //   rowCol: '',
-      //   autoCapitalize: '',
-      //   mask: '',
-      //   addrObj: null,
-      //   pickerId: '',
-      //   startView: 'month',
-      //   storedFormat: '',
-      //   options: [],
-      //   conditional: false, // if true precede the field with a checkbox
-      //   defaultCondition: true, // render the field
-      //   condFieldLabel: '',
-      //   condPlaceholder: '',
-      //   condFcn: '',
-      // });
-
-
-
     fields.push({
       fieldLabel: 'MLS #',
       placeholder: 'MLS # of property',
@@ -323,21 +297,6 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       width: 100,
       rowCol: '8.1'
     });
-
-    /*
-        fields.push({
-      fieldLabel: 'Property Address',
-      placeholder: 'Address of property in escrow',
-      fcn: 'propertyAddress',
-      type: 'address',
-      required: true,
-      disabled: false,
-      validators: [],
-      width: 100, // percentage
-      rowCol: '2.1',
-      addrObj: new AddressClass(this.formBuilder, this.helpers)
-    });
-     */
 
     fields.push({
       fieldLabel: 'Your Bank Info',
