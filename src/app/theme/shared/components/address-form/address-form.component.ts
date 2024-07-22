@@ -9,7 +9,6 @@ import { MatSelect } from '@angular/material/select';
 import { NgForOf, NgStyle } from '@angular/common';
 import { NgxMaskDirective } from 'ngx-mask';
 import { FormFieldDto } from '../mmci-form-mat/dtos/form-field.dto';
-// import { FormFieldDto } from '../../dtos/form-field.dto';
 
 @Component({
   selector: 'app-address-form',
@@ -45,6 +44,7 @@ export class AddressFormComponent implements OnInit{
 
   ngOnInit() {
     console.log('AddressFormComponent - addressFormGroup: ', this.addressFormGroup);
+    console.log('AddressFormComponent - addrField: ', this.addrField);
     this.fields = this.addrField.addrObj.fields;
     console.log('AddressFormComponent - addressFormFields: ', this.fields);
     this.popAddrRows(this.fields);

@@ -43,9 +43,10 @@ export class BankFormComponent implements OnInit{
     private helpers: HelpersService) {}
 
   ngOnInit() {
-    console.log('AddressFormComponent - addressFormGroup: ', this.bankFormGroup);
-    this.fields = this.bankField.addrObj.fields;
-    console.log('AddressFormComponent - addressFormFields: ', this.fields);
+    console.log('BankFormComponent - addressFormGroup: ', this.bankFormGroup);
+    console.log('BankFormComponent - addrField: ', this.bankField);
+    this.fields = this.bankField.bankObj.fields;
+    console.log('BankFormComponent - bankFormFields: ', this.fields);
     this.popRows(this.fields);
   }
 
