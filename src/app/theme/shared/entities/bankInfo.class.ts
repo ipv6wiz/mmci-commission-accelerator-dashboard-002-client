@@ -56,7 +56,7 @@ export class BankInfoClass {
       required: true,
       disabled: false,
       validators: [],
-      width: 50,
+      width: 100,
       rowCol: '01.1'
     });
 
@@ -69,7 +69,7 @@ export class BankInfoClass {
       required: true,
       disabled: false,
       validators: [],
-      width: 50,
+      width: 100,
       rowCol: '01.2'
     });
 
@@ -81,7 +81,7 @@ export class BankInfoClass {
       required: true,
       disabled: false,
       validators: [['pattern', "^[0-9]?$"]],
-      width: 50,
+      width: 100,
       rowCol: '02.1'
     });
 
@@ -93,7 +93,7 @@ export class BankInfoClass {
       required: true,
       disabled: false,
       validators: [['pattern', "^[0-9]?$"]],
-      width: 50,
+      width: 100,
       rowCol: '02.2'
     });
     return fields;

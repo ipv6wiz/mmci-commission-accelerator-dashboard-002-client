@@ -140,13 +140,13 @@
                     }
                   </mat-form-field>
                 }
-                @if(field.type === 'address' && field.required){
+                @if(field.type === 'address'){
                   <app-address-form
                     [addressFormGroup]="controls[field.fcn]"
                     [addrField]="fields.get(field['fcn'])"
                   ></app-address-form>
                 }
-                @if(field.type === 'bank' && field.required){
+                @if(field.type === 'bank'){
                   <app-bank-form
                     [bankFormGroup]="controls[field.fcn]"
                     [bankField]="fields.get(field['fcn'])"
