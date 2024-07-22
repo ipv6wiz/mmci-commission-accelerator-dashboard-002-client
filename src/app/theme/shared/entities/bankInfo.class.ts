@@ -1,4 +1,4 @@
-import { Form, FormBuilder, FormGroup } from '@angular/forms';
+import {  FormBuilder, FormGroup } from '@angular/forms';
 import { FormFieldDto } from '../components/mmci-form-mat/dtos/form-field.dto';
 import { HelpersService } from '../service/helpers.service';
 import { AdvanceBankDto } from '../dtos/advance-bank.dto';
@@ -46,6 +46,7 @@ export class BankInfoClass {
       placeholder: 'Name of your Bank',
       fcn: 'bankName',
       type: 'text',
+      autoCapitalize: 'words',
       required: true,
       disabled: false,
       validators: [],
@@ -58,6 +59,7 @@ export class BankInfoClass {
       placeholder: 'Name on Account',
       fcn: 'bankAccountName',
       type: 'text',
+      autoCapitalize: 'words',
       required: true,
       disabled: false,
       validators: [],
@@ -72,7 +74,7 @@ export class BankInfoClass {
       type: 'text',
       required: true,
       disabled: false,
-      validators: [],
+      validators: [['pattern', "^[0-9]?$"]],
       width: 50,
       rowCol: '02.1'
     });
@@ -84,7 +86,7 @@ export class BankInfoClass {
       type: 'text',
       required: true,
       disabled: false,
-      validators: [],
+      validators: [['pattern', "^[0-9]?$"]],
       width: 50,
       rowCol: '02.2'
     });
