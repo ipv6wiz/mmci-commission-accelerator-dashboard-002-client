@@ -20,6 +20,7 @@ export class BankInfoClass {
     console.log('BankInfoClass - constructor - dataObj: ', dataObj);
     this.populateProps(this.dataObj);
     this.fields = new Map<string, FormFieldDto>(this.populateFormFields().map((obj: FormFieldDto) => [obj.fcn, obj]));
+    console.log('BankInfoClass - constructor - this: ', this);
     const controls = this.helpers.createControls(this.fields, this, 'object');
     this.bankFormGroup = this.fb.group(controls);
   }
