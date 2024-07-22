@@ -351,7 +351,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       rowCol: '9.1',
       bankObj: new BankInfoClass(this.formBuilder, this.helpers)
     });
-    
+
     return fields;
   }
 

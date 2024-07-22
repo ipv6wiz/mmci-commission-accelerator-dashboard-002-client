@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AddressFormComponent } from '../address-form/address-form.component';
 import { ChipListComponent } from '../chip-list/chip-list.component';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
@@ -21,12 +20,15 @@ import { ListWithCountDto } from '../../dtos/list-with-count.dto';
 import { MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
 import { mmciFormSubmitSignal } from './signals/mmci-form-submit.signal';
 import { SelectDto } from './dtos/select.dto';
+import { AddressFormComponent } from '../address-form/address-form.component';
+import { BankFormComponent } from '../bank-form/bank-form.component';
 
 @Component({
   selector: 'app-mmci-form-mat',
   standalone: true,
   imports: [
     AddressFormComponent,
+    BankFormComponent,
     ChipListComponent,
     FormsModule,
     MatButton,
@@ -225,27 +227,3 @@ export class MmciFormMatComponent implements OnInit{
   }
 }
 
-// fields.push({
-//   fieldLabel: '',
-//   placeholder: '',
-//   fcn: '',
-//   type: '',
-//   required: true,
-//   disabled: false,
-//   validators: [],
-//   width: 0, // percentage
-//   rowCol: '',
-//   autoCapitalize: '',
-//   mask: '',
-//   addrObj: null,
-//   pickerId: '',
-//   startView: 'month',
-//   storedFormat: '',
-//   options: [],
-//   conditional: false, // if true precede the field with a checkbox
-//   defaultCondition: true, // render the field
-//   condFieldLabel: '',
-//   condPlaceholder: '',
-//   condFcn: '',
-//   condRequired: true,
-// });

@@ -155,13 +155,16 @@ export class HelpersService {
     console.log('processFields - obj: ', obj);
     fields.forEach((field: any) => {
       if(['address', 'bank'].includes(field['type'])) {
-        // console.log('processFields - address - field.fcn: ', field.fcn);
-        // console.log('processFields - address - addrObj: ', field.addrObj);
+
         switch(field['type']) {
           case 'address':
+            // console.log('processFields - address - field.fcn: ', field.fcn);
+            // console.log('processFields - address - addrObj: ', field.addrObj);
             controls.set(field.fcn, field.addrObj.getFormGroup());
             break;
           case 'bank':
+            // console.log('processFields - bank - field.fcn: ', field.fcn);
+            // console.log('processFields - bank - bankObj: ', field.bankObj);
             controls.set(field.fcn, field.bankObj.getFormGroup());
             break;
         }
