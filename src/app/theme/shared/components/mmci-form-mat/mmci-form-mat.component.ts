@@ -96,7 +96,7 @@ export class MmciFormMatComponent implements OnInit{
     this.rows = this.helpers.populateRows(this.fieldsArr);
     this.fields = new Map<string, FormFieldDto>(this.fieldsArr.map((obj: FormFieldDto) => [obj.fcn, obj]));
     this.controls = this.helpers.createControls(this.fields, this.data);
-    console.log('MMCI Form - constructor - controls: ', this.controls);
+    console.log('MMCI Form - ngOnInit - controls: ', this.controls);
     // console.log('Escrow Form - constructor - typeof controls: ', typeof this.controls);
     this.formGroup = this.formBuilder.group(this.controls);
     this.chipsList = new Map<string, string[]>();
@@ -151,6 +151,7 @@ export class MmciFormMatComponent implements OnInit{
   }
 
   populateDefaultValues() {
+    console.log('MmciFormMatComponent - populateDefaultValues');
     this.fields.forEach((field: FormFieldDto, key: string) => {
       if(field.default) {
         if(this.formGroup.controls[key].value == null || this.formGroup.controls[key].value === '') {
@@ -177,15 +178,15 @@ export class MmciFormMatComponent implements OnInit{
   }
 
   onDateChange(event: any) {
-    console.log('onDateChange - event: ', event);
+    console.log('MmciFormMatComponent - onDateChange - event: ', event);
     const date = event.value;
-    console.log('onDateChange - date: ', date);
+    console.log('MmciFormMatComponent - onDateChange - date: ', date);
     const ctrlId: string = event.targetElement.id;
-    console.log('******* >>> onDateChange - ctrlId: ', ctrlId);
+    console.log('MmciFormMatComponent - ******* >>> onDateChange - ctrlId: ', ctrlId);
     const ctrlNameParts = ctrlId.split('-');
     const formGroup = ctrlNameParts[0];
     const fcn = ctrlNameParts[1];
-    console.log(`******* >>> onDateChange - formGroup: ${formGroup} - control: ${fcn}`);
+    console.log(`MmciFormMatComponent - ******* >>> onDateChange - formGroup: ${formGroup} - control: ${fcn}`);
     const localDate = date.toLocaleDateString();
     // console.log('******* >>> onDateChange - date: ', localDate);
     const isoDate = this.helpers.makeIsoDate(localDate);
@@ -194,19 +195,19 @@ export class MmciFormMatComponent implements OnInit{
   }
 
   checkboxChange(event: any) {
-    console.log('checkboxChange - event: ', event);
+    console.log('MmciFormMatComponent - checkboxChange - event: ', event);
     const fieldNameParts = event.source.name.split('.');
-    console.log('checkboxChange - fcn: ', fieldNameParts[1]);
+    console.log('MmciFormMatComponent - checkboxChange - fcn: ', fieldNameParts[1]);
     if(this.fields.has(fieldNameParts[1])) {
       // @ts-expect-error value maybe undefined
       this.fields.get(fieldNameParts[1]).hide = !event.checked;
-      console.log('checkboxChange - fcn - hide: ', this.fields.get(fieldNameParts[1]));
+      console.log('MmciFormMatComponent - checkboxChange - fcn - hide: ', this.fields.get(fieldNameParts[1]));
     }
   }
 
   onFieldChange(event: any) {
     // console.log('***** >>>>> fieldChange - event: ', event);
-    console.log(`***** >>>>> fieldChange - id: ${event.target.id} - value: ${event.target.value}`);
+    console.log(`MmciFormMatComponent - ***** >>>>> fieldChange - id: ${event.target.id} - value: ${event.target.value}`);
     const text = event.target.value;
     const ctrlId = event.target.id;
     const ctrlNameParts = ctrlId.split('-');
