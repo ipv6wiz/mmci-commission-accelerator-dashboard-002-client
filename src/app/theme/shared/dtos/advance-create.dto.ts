@@ -10,12 +10,15 @@ export interface AdvanceCreateDto {
     amountRequested: number; // whole $$
     agentCommission: number; // whole $$
     grossCommission: number; // whole $$
-    escrowData: AdvanceEscrowDto;
+    escrowCompany?: string;
+    escrowOfficer?: string;
+    escrowPhone?: string;
+    escrowEmail?: string;
+    escrowTransactionNumber?: string;
     estimatedClosingDate: string; // ISO format date
     actualClosingDate?: string; // ISO format date
     remainingContingencies: boolean;
     contingencyReleaseDate?: string; // ISO format date
-    notes?: string; // Optional Notes/Comments
-    advanceName: string;
     bankInfo: AdvanceBankDto;
+    promoCode: string;
 }

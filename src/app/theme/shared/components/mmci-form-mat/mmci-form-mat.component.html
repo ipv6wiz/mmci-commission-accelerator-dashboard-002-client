@@ -45,6 +45,19 @@
                 @if(!['address', 'bank'].includes(field.type)){
                   <mat-form-field [ngStyle]="{'display': fields.get(field.fcn)!.hide ? 'none': 'inline-flex'}">
                     <mat-label>{{field.fieldLabel}}</mat-label>
+                    @if(field.type === 'readonly') {
+                      <input
+                        readonly="true"
+                        matInput
+                        placeholder="{{field.placeholder}}"
+                        formControlName="{{field.fcn}}"
+                        [required]="field.required"
+                        [mask]="field.mask || ''"
+                        [autocapitalize]="field.autoCapitalize"
+                        (blur)="onFieldChange($event)"
+                        id="{{fieldIdPrefix + '-' + field.fcn }}"
+                      >
+                    }
                     @if(!field.type || field.type === 'text') {
                       <input
                         matInput
