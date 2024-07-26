@@ -20,6 +20,11 @@ export class HelpersService {
     this.boolWords = this.trueWords.concat(this.falseWords);
   }
 
+  percentCalc(amount: number, percent: number): number {
+    const p: number = percent / 100;
+    return amount * p;
+  }
+
   sequenceRowCol(fields: FormFieldDto[]): FormFieldDto[] {
     const f: FormFieldDto[] = [];
     let row: number = 1;
