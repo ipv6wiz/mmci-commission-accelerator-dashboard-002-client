@@ -311,6 +311,18 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       bankObj: new BankInfoClass(this.formBuilder, this.helpers)
     });
 
+    fields.push({
+      fieldLabel: 'Promo Code',
+      placeholder: 'Promo/Coupon Code',
+      fcn: 'promoCode',
+      type: 'text',
+      required: false,
+      disabled: false,
+      validators: [],
+      width: 50, // percentage
+      rowCol: '10.1',
+    });
+
     return fields;
   }
 
