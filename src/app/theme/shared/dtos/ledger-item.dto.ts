@@ -2,7 +2,7 @@ export interface LedgerItemDto {
   uid: string;
   clientId: string;
   transactionDate: string; // IOS Format
-  type: string; // advance, escrow close, fee, to client, from client
+  transType: string; // advance, escrow close, fee, to client, from client
   advanceId: string;
   advanceName: string;
   description: string;

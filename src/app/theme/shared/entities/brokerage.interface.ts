@@ -1,5 +1,5 @@
 export interface Brokerage {
-    uid: string;
+    uid?: string;
     brokerageName: string;
     brokerageDreNumber: string;
     brokerName: string;

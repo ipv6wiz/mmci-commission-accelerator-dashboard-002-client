@@ -146,7 +146,7 @@ export class RegFormV2MatComponent implements OnInit{
         private helpers: HelpersService
     ) {
         this.populateSteps();
-        this.clientLocalData = this.authService.getLocalClientData();
+        this.clientLocalData = this.authService.getLocalClientData('client');
         this.registrant = new Registrant(this.clientLocalData.uid);
     }
 
@@ -861,9 +861,11 @@ export class RegFormV2MatComponent implements OnInit{
                 status: 'Client Pending Verification',
                 defaultPage: '/reg/pending-verification',
                 clientDocs: this.populateRegistrantUploadData('to'),
-                cellPhone: this.registrant.contactInfo.cellPhone
+                cellPhone: this.registrant.contactInfo.cellPhone,
+                agentData: this.registrant.agentDreData,
+                brokerage: this.registrant.brokerageInfo
             };
-            console.log('onSubmit - client: ', client);
+            // console.log('onSubmit - client: ', client);
             this.authService.setLocalClientDataProp('roles', ['CLIENT-PENDING-VERIFICATION']);
             this.authService.setLocalClientDataProp('status', 'Client Pending Verification');
             this.authService.setLocalClientDataProp('defaultPage', '/reg/pending-verification');
@@ -877,7 +879,7 @@ export class RegFormV2MatComponent implements OnInit{
                     if(regResp) {
                         try {
                             console.log('-------> onSubmit - about to update client');
-                            const clientResp = await this.clientService.update(clientLocalData.uid, client);
+                            const clientResp = await this.clientService.update(clientLocalData.uid, client); // <--------
                             console.log('-------> onSubmit - clientResp: ', clientResp);
                             if(!!clientResp) {
                                 return this.router.navigate([client.defaultPage]);

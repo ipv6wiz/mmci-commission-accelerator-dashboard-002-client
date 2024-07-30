@@ -293,18 +293,18 @@ export class AuthenticationService {
     }
 
     getLocalClientData(type: string = 'client'): any {
-        const data = sessionStorage.getItem(type);
-        console.log(`getLocalClientData - ${type}: `, data);
-        if(data && data !== undefined) {
-          if(type === 'client') {
-            const obj = JSON.parse(data);
-            return obj[type];
-          } else {
-            return JSON.parse(data);
-          }
-        } else {
-            return null;
+      let data: string | null = sessionStorage.getItem(type);
+      if(data !== null) {
+        const str: string = data+'';
+        if(type === 'client' && str.startsWith('{') && str.endsWith('}')) {
+          const obj: any = JSON.parse(str);
+          return obj.client;
+        } else if(type !== 'client') {
+          return {};
         }
+      } else {
+        return '';
+      }
     }
 
     getLocalIdToken(): string | null {
@@ -332,31 +332,42 @@ export class AuthenticationService {
     setLocalClientData(data: any, type: string = 'client') {
       if(data !== undefined) {
         if(type === 'client') {
-          sessionStorage.setItem(type, JSON.stringify(data));
+          const client: any = data;
+          const clientStr: string = JSON.stringify(client);
+          sessionStorage.setItem(type, clientStr);
         } else if(['idToken', 'accessToken'].includes(type)) {
-          sessionStorage.setItem(type, data);
+          sessionStorage.setItem(type, data[type]);
         }
-
       }
     }
 
     setLocalClientDataProp(prop: string, value: any, type: string = 'client') {
-        let data = this.getLocalClientData(type);
-        if(!data) {
-            data = {};
+        let data: string | null = this.getLocalClientData(type);
+        if(data !== null) {
+          const str: string = data+'';
+          if(str.startsWith('{') && str.endsWith('}')) {
+            let obj = JSON.parse(str);
+            obj.client[prop] = value;
+            data = JSON.stringify(obj);
+            this.setLocalClientData(data, type);
+          }
         }
-        data[prop] = value;
-        this.setLocalClientData(data, type);
     }
 
     getLocalClientDataProp(prop: string, type: string = 'client'): string {
-        const data = this.getLocalClientData(type);
-        if(!!data) {
-            if(!!data[prop]) {
-                return data[prop];
-            }
+      let data: string | null = this.getLocalClientData(type);
+      if(data !== null) {
+        const str: string = data+'';
+        if(str.startsWith('{') && str.endsWith('}')) {
+          const obj = JSON.parse(str);
+          if(obj[prop]) {
+            return obj[prop];
+          } else {
+            return '';
+          }
         }
-        return '';
+      }
+      return '';
     }
 
     async getCurrentClientDocument(uid: string = '') {

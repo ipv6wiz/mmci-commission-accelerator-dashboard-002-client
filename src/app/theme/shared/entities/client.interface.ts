@@ -1,7 +1,7 @@
 import {Address} from "./address.interface";
-import {Brokerage} from "./brokerage.interface";
 import {AgentPerformance} from "./agent-performance.interface";
 import {AgentData} from "./agent-data.interface";
+import { BrokerageDto } from '../dtos/brokerage.dto';
 
 export interface Client {
     uid: string;
@@ -21,7 +21,7 @@ export interface Client {
     dreLicenseExpirationDate?: Date;
     cellPhone?: string;
     homeAddress?: Address;
-    brokerage?: Brokerage;
+    brokerage?: BrokerageDto;
     performance?: AgentPerformance;
     creditLimit?: number;
     dateApplied?: Date;

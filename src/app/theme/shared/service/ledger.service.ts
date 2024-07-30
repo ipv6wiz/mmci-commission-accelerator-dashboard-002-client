@@ -5,6 +5,7 @@ import { ApiResponse } from '../dtos/api-response.dto';
 import { lastValueFrom, Observable } from 'rxjs';
 import { ListWithCountDto } from '../dtos/list-with-count.dto';
 import { LedgerBalanceDto } from '../dtos/ledger-balance.dto';
+import { LedgerDto } from '../dtos/ledger.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class LedgerService {
     this.endPointUrl = `${this.apiUrl}/${this.endPoint}`;
   }
 
-  async getClientLedger(clientId: string): Promise<ListWithCountDto> {
+  async getClientLedger(clientId: string): Promise<LedgerDto> {
     const response: ApiResponse = await lastValueFrom(this.getClientLedgerCall(clientId), {defaultValue: {statusCode: 400, msg: 'Default Response'}});
     return response.data;
   }

@@ -10,6 +10,7 @@ import { HelpersService } from '../../../theme/shared/service/helpers.service';
 import { LedgerService } from '../../../theme/shared/service/ledger.service';
 import { dataGridRefreshSignal } from '../../../theme/shared/signals/data-grid-refresh.signal';
 import { LedgerItemDto } from '../../../theme/shared/dtos/ledger-item.dto';
+import { LedgerDto } from '../../../theme/shared/dtos/ledger.dto';
 
 @Component({
   selector: 'app-tbl-ledger',
@@ -28,7 +29,7 @@ import { LedgerItemDto } from '../../../theme/shared/dtos/ledger-item.dto';
 })
 export class TblLedgerComponent implements OnInit {
   loadingItems: boolean = true;
-  ledgerItemsObj!: ListWithCountDto;
+  ledgerItemsObj!: LedgerDto;
 
   public loadSpinnerColor: ThemePalette = 'primary';
   public loadSpinnerMode: ProgressSpinnerMode = 'indeterminate';
@@ -58,9 +59,9 @@ export class TblLedgerComponent implements OnInit {
     });
   }
 
-  getLedgerItems(): LedgerItemDto[] {
-    return this.ledgerItemsObj.items[0].ledgerItems;
-  }
+  // getLedgerItems(): LedgerItemDto[] {
+  //   return this.ledgerItemsObj.items[0].ledgerItems;
+  // }
 
   async refreshItemsList(sortBy: string = 'transactionDate', filter: string = '') {
     this.loadingItems = true;
@@ -68,7 +69,7 @@ export class TblLedgerComponent implements OnInit {
     this.loadingItems = false;
   }
 
-  async loadItemsData(sortBy: string = 'dateRequested'): Promise<ListWithCountDto> {
+  async loadItemsData(sortBy: string = 'dateRequested'): Promise<LedgerDto> {
     const clientId: string = this.getClientId();
     return  await this.service.getClientLedger(clientId);
   }

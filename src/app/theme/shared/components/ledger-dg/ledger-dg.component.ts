@@ -40,7 +40,7 @@ import { AdvanceService } from '../../service/advance.service';
 export class LedgerDgComponent implements OnInit, AfterViewChecked {
   @ViewChild('paginator') paginator!: MatPaginator;
   @Input() loadingItems: boolean = true;
-  @Input() dgDataObj!: ListWithCountDto;
+  @Input() dgDataObj!: LedgerDto;
   @Input() clientId!: string;
 
   componentName: string = 'LedgerDgComponent';
@@ -51,7 +51,8 @@ export class LedgerDgComponent implements OnInit, AfterViewChecked {
   columnsToDisplay: string[] = [
     'transactionDate',
     'advanceName',
-    'type',
+    'description',
+    'transType',
     'amount',
     'balance'
   ];
@@ -59,6 +60,7 @@ export class LedgerDgComponent implements OnInit, AfterViewChecked {
   columnNamesToDisplay: string[] = [
     'Date',
     'Advance',
+    'Description',
     'Type',
     'Amount',
     'Balance'
@@ -92,7 +94,7 @@ export class LedgerDgComponent implements OnInit, AfterViewChecked {
   async refreshItemsList() {
     this.loadingItems = true;
     if(this.dgDataObj) {
-      const ledgerItemsObj: LedgerDto = this.dgDataObj.items[0];
+      const ledgerItemsObj: LedgerDto = this.dgDataObj;
       console.log(`${this.componentName} - refreshItemsList - ledgerItemsObj: `, ledgerItemsObj);
       if(ledgerItemsObj) {
         this.totalItemsCount = ledgerItemsObj.ledgerItems.length;
@@ -108,7 +110,7 @@ export class LedgerDgComponent implements OnInit, AfterViewChecked {
     for(let i = items.length - 1; i >= 0; i--) {
         balance += items[i].amount;
         items[i].balance = balance;
-        items[i].advanceName = this.advanceNames.get(items[i].advanceId) || 'N/A';
+        items[i].advanceName = items[i].advanceName || 'N/A';
     }
     return items;
   }
