@@ -26,9 +26,10 @@ export class ClientService {
     /**
      * Replace with API call to retrieve as if for Verify (Clean)
      * @param uid : string
+     * @param refresh
      */
-    getOne(uid: string): any {
-        if(this.client) {
+    getOne(uid: string, refresh: boolean = false): any {
+        if(this.client && !refresh) {
             return this.client;
         } else {
             return lastValueFrom(this.getOneClient(uid), {defaultValue: {}})
@@ -65,12 +66,12 @@ export class ClientService {
             if(response.statusCode === 201) {
                 return response.data; // {userRecord, firstName: userFormData.firstName, lastName: userFormData.lastName}
             } else if (response.statusCode === 400){
-                throw new Error('The email address is already in use by another account. Check for a verification email.');
+                throw new Error('The email address is already in use by another account. Check your email for a verification email.');
             } else {
                 throw new Error(`Failed to create client`);
             }
         } catch (err: any) {
-            this.logger.log('Dash001 - Client - create - error: ', err.message);
+            this.logger.log('Client Dashboard - Client - create - error: ', err.message);
             throw new Error(err.message);
         }
     }
@@ -84,12 +85,12 @@ export class ClientService {
      * @param uid
      * @param data
      */
-    async update(uid: string, data: any): Promise<any> {
+    async update(uid: string, data: any): Promise<ApiResponse> {
         console.log(`ClientService - update - id: ${uid} data: `, data);
         return lastValueFrom(this.updateClient(uid, data))
-            .then((response: any) => {
+            .then((response: ApiResponse) => {
                 if(response.statusCode === 200) {
-                    return {clientId: uid}; // response should be true
+                    return response; // response should be client doc
                 } else {
                     throw new Error(`Failed to update client with ID: ${uid}`);
                 }
@@ -100,7 +101,7 @@ export class ClientService {
             })
     }
 
-    updateClient(uid: string, data: any): Observable<any>{
+    updateClient(uid: string, data: any): Observable<ApiResponse>{
         return this.http.put<any>(`${this.apiUrl}/client/${uid}`,data);
     }
 

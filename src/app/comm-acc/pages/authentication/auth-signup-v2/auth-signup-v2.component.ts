@@ -9,15 +9,17 @@ import {DreLookupService} from "../../../../theme/shared/service/dre-lookup.serv
 import {SignupFormDataDto} from "../../../../theme/shared/dtos/signup-form-data.dto";
 import { MatProgressSpinner, ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { ThemePalette } from '@angular/material/core';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-auth-signup-v2',
   standalone: true,
-    imports: [CommonModule, RouterModule, SharedModule, MatProgressSpinner],
+    imports: [CommonModule, RouterModule, SharedModule, MatProgressSpinner, MatIcon],
   templateUrl: './auth-signup-v2.component.html',
   styleUrls: ['./auth-signup-v2.component.scss']
 })
 export default class AuthSignupV2Component implements OnInit{
+    hidePassword: boolean = true;
     signupForm!: FormGroup;
     loading = false;
     loadSpinnerColor: ThemePalette = 'primary';
@@ -44,19 +46,8 @@ export default class AuthSignupV2Component implements OnInit{
             firstName: ['', Validators.required],
             lastName: ['', Validators.required],
             email: ['', [Validators.required, Validators.email]],
-            password: ['', Validators.required],
+            password: ['', [Validators.required, Validators.min(8)]],
             dreNumber: ['', [Validators.required, Validators.pattern('[0-9]*')]],
-        });
-        const togglePassword = document.querySelector('#togglePassword');
-        const password = document.querySelector('#password');
-
-        togglePassword!.addEventListener('click', () => {
-            console.log('togglePassword - clicked');
-            // toggle the type attribute
-            const type = password?.getAttribute('type') === 'password' ? 'text' : 'password';
-            password?.setAttribute('type', type);
-            // toggle the icon
-            togglePassword!.classList.toggle('fa-eye-slash');
         });
     }
 
@@ -83,7 +74,9 @@ export default class AuthSignupV2Component implements OnInit{
         try {
             this.loading = true;
             await this.authService.signUp(signUpFormData);
+            this.loading = false;
         } catch (err: any) {
+            this.loading = false;
             throw new Error(err.message);
         }
     }

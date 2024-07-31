@@ -267,7 +267,7 @@ export class RegFormV2MatComponent implements OnInit{
             Address1: ['', Validators.required],
             Address2: [''],
             City: ['', Validators.required],
-            State: [{value: 'CA', disabled: true}, Validators.required],
+            State: [{value: 'CA', readonly: true}, Validators.required],
             Zip5: ['', [
                     Validators.required,
                     Validators.pattern("^[0-9]{5}?$"),
@@ -291,11 +291,11 @@ export class RegFormV2MatComponent implements OnInit{
                     Validators.maxLength(8)
                 ]
             ],
-            issueDate: [{value: '', disabled: true}, [
+            issueDate: [{value: '', readonly: true}, [
                     Validators.required,
                 ]
             ],
-            expirationDate: [{value: '', disabled: true}, [
+            expirationDate: [{value: '', readonly: true}, [
                     Validators.required,
                 ]
             ],
@@ -881,7 +881,8 @@ export class RegFormV2MatComponent implements OnInit{
                             console.log('-------> onSubmit - about to update client');
                             const clientResp = await this.clientService.update(clientLocalData.uid, client); // <--------
                             console.log('-------> onSubmit - clientResp: ', clientResp);
-                            if(!!clientResp) {
+                            if(clientResp.statusCode === 200) {
+                                this.authService.setLocalClientData({client: clientResp.data }, 'client');
                                 return this.router.navigate([client.defaultPage]);
                             }
                         } catch (err: any) {

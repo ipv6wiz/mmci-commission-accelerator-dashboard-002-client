@@ -42,8 +42,9 @@ export class AuthenticationService {
       this.signUpAction = true;
       try {
           const response = await this.clientService.signUpClient(signUpFormData);
-          if(!!response) {
+          if(response) {
               // {userRecord, firstName: userFormData.firstName, lastName: userFormData.lastName}
+              this.setLocalClientData(response);
               const routeResponse = await this.router.navigate(['auth/verify-email-address', {userData: JSON.stringify(response)}]);
               if(!routeResponse) {
                   throw new Error('Routing after sign up failed');
@@ -179,25 +180,6 @@ export class AuthenticationService {
   logoutClient(): Observable<ApiResponse> {
       return this.http.get<any>(`${this.apiUrl}/auth/logout`);
   }
-
-  // logout() {
-  //     console.log(`Logout called - signUpAction: ${this.signUpAction}`);
-  //     if(!this.signUpAction) {
-  //         this.afAuth.signOut()
-  //             .then(() => {
-  //                 console.log('Logout');
-  //                 // localStorage.removeItem('client');
-  //                 sessionStorage.removeItem('client');
-  //                 this.router.navigate(['/auth/signin-v2']);
-  //             })
-  //             .catch((err) => {
-  //                 throw new Error(`Logout - ${err.message}`);
-  //             })
-  //     } else {
-  //         console.log('Logout - SignUp in process');
-  //     }
-  //
-  // }
 
     // Returns true when client is logged in and email is verified
     isLoggedIn(): boolean {
@@ -382,7 +364,8 @@ export class AuthenticationService {
         }
         if(uid !== '') {
           console.log(`======> getCurrentClientDocument - getOne - for uid: ${uid} `);
-            const response = await this.clientService.getOne(uid);
+            const response = await this.clientService.getOne(uid, true);
+          console.log(`======> getCurrentClientDocument - getOne - for uid: ${uid} response: `, response);
             return response;
         } else {
             console.log('getCurrentClientDocument - Client not found in LocalData');
@@ -402,7 +385,7 @@ export class AuthenticationService {
 
     async getCurrentClientRoles(uid: string = ''): Promise<string[]> {
         const clientDoc = await this.getCurrentClientDocument(uid);
-        if(!!clientDoc) {
+        if(clientDoc) {
             return clientDoc.roles;
         } else  {
             return ['guest'];

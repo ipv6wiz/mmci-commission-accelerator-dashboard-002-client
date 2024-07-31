@@ -49,7 +49,7 @@ export class AuthGuard  {
                 return false;
             } else {
                 if(clientData) {
-                    const roles = await this.authService.getCurrentClientRoles(clientData.uid);
+                    const roles: string[] = await this.authService.getCurrentClientRoles(clientData.uid);
                     console.log('User Roles: ', roles);
                     console.log('Page roles: ', route.data['roles']);
                     okRole = (route.data['roles']) ? route.data['roles'].some((r: string) => roles.includes(r)) : false;
@@ -59,7 +59,7 @@ export class AuthGuard  {
                     return okRole;
                 } else {
                     console.log('canActivate - okRole = false');
-                    await this.router.navigate(['/auth/signin-v2'], {queryParams: {returnUrl: state.url}});
+                    // await this.router.navigate(['/auth/signin-v2'], {queryParams: {returnUrl: state.url}});
                     return false;
                 }
             }

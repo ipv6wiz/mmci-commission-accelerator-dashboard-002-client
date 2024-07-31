@@ -12,18 +12,17 @@ import {LoginFormDataDto} from "../../../../theme/shared/dtos/login-form-data.dt
 import { ThemePalette } from '@angular/material/core';
 import { MatProgressSpinner, ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { ClientService } from '../../../../theme/shared/service/client.service';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-auth-signin-v2',
   standalone: true,
-  imports: [CommonModule, RouterModule, SharedModule, MatProgressSpinner],
+  imports: [CommonModule, RouterModule, SharedModule, MatProgressSpinner, MatIcon],
   templateUrl: './auth-signin-v2.component.html',
   styleUrls: ['./auth-signin-v2.component.scss']
 })
 export default class AuthSigninV2Component implements OnInit {
-  // public method
-  usernameValue = '';
-  userPassword = '';
+  hidePassword: boolean = true;
 
   loginForm!: FormGroup;
   loading = false;
@@ -55,23 +54,25 @@ export default class AuthSigninV2Component implements OnInit {
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
+      username: ['', [Validators.email,  Validators.required]],
       password: ['', Validators.required]
     });
 
-    const togglePassword = document.querySelector('#togglePassword');
-    const password = document.querySelector('#password');
-    if(togglePassword) {
-      togglePassword.addEventListener('click', () => {
-        // toggle the type attribute
-        const type = password?.getAttribute('type') === 'password' ? 'text' : 'password';
-        password!.setAttribute('type', type);
-        // toggle the icon
-        if ('classList' in togglePassword) {
-          togglePassword.classList.toggle('fa-eye-slash');
-        }
-      });
-    }
+    // const togglePassword = document.querySelector('#togglePassword');
+    // console.log('=========> SignIn - togglePassword: ', togglePassword);
+    // const password = document.querySelector('#password');
+    // console.log('=========> SignIn password: ', password);
+    // if(togglePassword) {
+    //   togglePassword.addEventListener('click', () => {
+    //     // toggle the type attribute
+    //     const type = password?.getAttribute('type') === 'password' ? 'text' : 'password';
+    //     password!.setAttribute('type', type);
+    //     // toggle the icon
+    //     if ('classList' in togglePassword) {
+    //       togglePassword.classList.toggle('fa-eye-slash');
+    //     }
+    //   });
+    // }
 
   }
 

@@ -32,6 +32,7 @@
               <div class="input-group mb-3">
                   <span class="input-group-text" id="basic-addon6"><i class="fa fa-user"></i></span>
                   <input
+                    matInput
                       type="text"
                       class="form-control"
                       placeholder="First Name"
@@ -47,6 +48,7 @@
               <div class="input-group mb-3">
                   <span class="input-group-text" id="basic-addon5"><i class="fa fa-user"></i></span>
                   <input
+                      matInput
                       type="text"
                       class="form-control"
                       placeholder="Last Name"
@@ -62,6 +64,7 @@
                 <div class="input-group mb-3">
                   <span class="input-group-text" id="basic-addon2"><i class="fa fa-envelope"></i></span>
                   <input
+                      matInput
                       type="email"
                       class="form-control"
                       placeholder="Email address"
@@ -78,6 +81,7 @@
                 <div class="input-group mb-4">
                   <span class="input-group-text" id="basic-addon3"><i class="fa fa-lock"></i></span>
                   <input
+                      matInput
                       type="password"
                       id="password"
                       class="form-control"
@@ -85,11 +89,12 @@
                       placeholder="Password"
                       aria-label="password"
                       aria-describedby="basic-addon3"
+                      [type]="hidePassword ? 'password' : 'text'"
                       [ngClass]="{ 'is-invalid': f?.['password'].touched && f?.['password'].errors }"
                   />
-                    <span class="input-group-text" id="basic-addon-3" style="width: 38px" >
-                        <i class="fa fa-eye  password-show" id="togglePassword" style="margin-right: -28px"></i>
-                    </span>
+                  <span class="input-group-text" id="basic-addon7">
+                    <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                  </span>
                     <div *ngIf="f?.['password'].touched && f?.['password'].errors" class="invalid-feedback">
                         <div *ngIf="f?.['password'].errors.required">Password is required</div>
                     </div>
@@ -98,7 +103,7 @@
                   <span class="input-group-text" id="basic-addon4"><i class="fa fa-home"></i></span>
                   <input
                       class="form-control"
-                      placeholder="Your DRE#"
+                      placeholder="Your DRE License Number"
                       id="dreNumber"
                       type="text"
                       formControlName="dreNumber"

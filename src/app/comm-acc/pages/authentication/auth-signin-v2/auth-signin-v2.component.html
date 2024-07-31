@@ -34,6 +34,7 @@
           <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1"><i class="fa fa-envelope"></i></span>
             <input
+              matInput
               type="text"
               placeholder="Enter Your Email Id"
               formControlName="username"
@@ -47,15 +48,17 @@
           <div class="input-group mb-4">
             <span class="input-group-text" id="basic-addon2"><i class="fa fa-lock"></i></span>
             <input
+              matInput
               type="password"
               id="password"
               placeholder="Enter Your Password"
               formControlName="password"
               class="form-control"
+              [type]="hidePassword ? 'password' : 'text'"
               [ngClass]="{ 'is-invalid': submitted && f?.['password'].errors }"
             />
-            <span class="input-group-text" id="basic-addon-3" style="width: 38px" >
-                <i class="fa fa-eye  password-show" id="togglePassword" style="margin-right: -28px"></i>
+            <span class="input-group-text" id="basic-addon3">
+              <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
             </span>
             <div *ngIf="submitted && f?.['password'].errors" class="invalid-feedback">
               <div *ngIf="f.password.errors.required">Password is required</div>
