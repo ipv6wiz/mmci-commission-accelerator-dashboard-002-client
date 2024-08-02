@@ -57,23 +57,6 @@ export default class AuthSigninV2Component implements OnInit {
       username: ['', [Validators.email,  Validators.required]],
       password: ['', Validators.required]
     });
-
-    // const togglePassword = document.querySelector('#togglePassword');
-    // console.log('=========> SignIn - togglePassword: ', togglePassword);
-    // const password = document.querySelector('#password');
-    // console.log('=========> SignIn password: ', password);
-    // if(togglePassword) {
-    //   togglePassword.addEventListener('click', () => {
-    //     // toggle the type attribute
-    //     const type = password?.getAttribute('type') === 'password' ? 'text' : 'password';
-    //     password!.setAttribute('type', type);
-    //     // toggle the icon
-    //     if ('classList' in togglePassword) {
-    //       togglePassword.classList.toggle('fa-eye-slash');
-    //     }
-    //   });
-    // }
-
   }
 
   // convenience getter for easy access to form fields

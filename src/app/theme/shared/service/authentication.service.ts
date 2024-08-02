@@ -311,6 +311,10 @@ export class AuthenticationService {
       }
     }
 
+    clearLocalClientData() {
+      sessionStorage.clear();
+    }
+
     setLocalClientData(data: any, type: string = 'client') {
       if(data !== undefined) {
         if(type === 'client') {

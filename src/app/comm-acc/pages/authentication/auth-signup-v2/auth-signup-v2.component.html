@@ -39,6 +39,8 @@
                       formControlName="firstName"
                       aria-label="firstName"
                       aria-describedby="basic-addon6"
+                      autocapitalize="words"
+                      (blur)="onFieldChange($event)"
                       [ngClass]="{ 'is-invalid': f?.['firstName'].touched && f?.['firstName'].errors }"
                   />
                   <div *ngIf="f?.['firstName'].touched && f?.['firstName'].errors" class="invalid-feedback">
@@ -53,8 +55,10 @@
                       class="form-control"
                       placeholder="Last Name"
                       formControlName="lastName"
+                      autocapitalize="words"
                       aria-label="lastName"
                       aria-describedby="basic-addon2"
+                      (blur)="onFieldChange($event)"
                       [ngClass]="{ 'is-invalid': f?.['lastName'].touched && f?.['lastName'].errors }"
                   />
                   <div *ngIf="f?.['lastName'].touched && f?.['lastName'].errors" class="invalid-feedback">

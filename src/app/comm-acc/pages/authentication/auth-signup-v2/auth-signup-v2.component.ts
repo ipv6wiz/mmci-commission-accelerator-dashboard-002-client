@@ -10,6 +10,8 @@ import {SignupFormDataDto} from "../../../../theme/shared/dtos/signup-form-data.
 import { MatProgressSpinner, ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { ThemePalette } from '@angular/material/core';
 import { MatIcon } from '@angular/material/icon';
+import { FormFieldDto } from '../../../../theme/shared/components/mmci-form-mat/dtos/form-field.dto';
+import { HelpersService } from '../../../../theme/shared/service/helpers.service';
 
 @Component({
   selector: 'app-auth-signup-v2',
@@ -34,10 +36,10 @@ export default class AuthSignupV2Component implements OnInit{
         private route: ActivatedRoute,
         private router: Router,
         private authService: AuthenticationService,
-        private dre: DreLookupService
+        private helpers: HelpersService
     ) {
         if (this.authService.isLoggedIn()) {
-            this.router.navigate(['dashboard/analytics']);
+            this.router.navigate(['dashboard/analytics']).then(r => r);
         }
     }
 
@@ -55,6 +57,16 @@ export default class AuthSignupV2Component implements OnInit{
         return this.signupForm.controls;
     }
 
+    onFieldChange(event: any) {
+        const text = event.target.value;
+        const doAutoCap: boolean = event.target.autocapitalize !== '';
+        const fcn: string = event.target.attributes.getNamedItem('formcontrolname').value;
+        if(doAutoCap) {
+            const capFirst: string = this.helpers.autoCapitalize(text);
+            this.signupForm.controls[fcn].setValue(capFirst);
+        }
+    }
+
     async submit() {
         this.submitted = true;
         if (this.signupForm.invalid) {
@@ -69,7 +81,6 @@ export default class AuthSignupV2Component implements OnInit{
             dreNumber:  this.f?.['dreNumber'].value,
             firstName: this.f?.['firstName'].value,
             lastName: this.f?.['lastName'].value,
-
         }
         try {
             this.loading = true;
@@ -77,9 +88,8 @@ export default class AuthSignupV2Component implements OnInit{
             this.loading = false;
         } catch (err: any) {
             this.loading = false;
+            this.authService.clearLocalClientData();
             throw new Error(err.message);
         }
     }
-
-
 }

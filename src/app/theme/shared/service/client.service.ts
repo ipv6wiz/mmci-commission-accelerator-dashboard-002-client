@@ -66,7 +66,8 @@ export class ClientService {
             if(response.statusCode === 201) {
                 return response.data; // {userRecord, firstName: userFormData.firstName, lastName: userFormData.lastName}
             } else if (response.statusCode === 400){
-                throw new Error('The email address is already in use by another account. Check your email for a verification email.');
+                // throw new Error('The email address is already in use by another account. Check your email for a verification email.');
+                throw new Error(response.msg);
             } else {
                 throw new Error(`Failed to create client`);
             }

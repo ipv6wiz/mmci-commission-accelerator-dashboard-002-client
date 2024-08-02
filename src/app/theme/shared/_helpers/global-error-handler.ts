@@ -50,6 +50,8 @@ export class GlobalErrorHandler extends ErrorHandler {
                 }
 
             } else if(!!msg) {
+                // parts.push(tmpMsg);
+                // newMsg = parts.join(':');
                 newMsg = tmpMsg;
             }
             // console.log('Before Alert newMsg: ', newMsg);
