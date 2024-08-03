@@ -1,4 +1,3 @@
-import {RegStep} from "../entities/reg-step.interface";
 import {ClientContactDto} from "./client-contact.dto";
 import {ClientDreInfoDto} from "./client-dre-info.dto";
 import {AddressDto} from "./address.dto";
@@ -15,7 +14,7 @@ export class Registrant {
     performanceInfo: AgentPerformanceDto;
     docUploadInfo: DocUploadInfoDto;
     agentDreData: any;
-    regSteps: RegStep[] = [];
+    brokerDreData: any;
 
     constructor(uid: string) {
         this.uid = uid;

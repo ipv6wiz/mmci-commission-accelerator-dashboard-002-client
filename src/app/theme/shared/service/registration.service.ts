@@ -10,6 +10,7 @@ import {environment} from "../../../../environments/environment";
 })
 export class RegistrationService {
     private apiUrl = environment.gcpCommAccApiUrl;
+
     constructor(
       private logger: NGXLogger,
       private http: HttpClient

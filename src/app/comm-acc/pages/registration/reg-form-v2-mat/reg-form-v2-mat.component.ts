@@ -66,13 +66,12 @@ export class RegFormV2MatComponent implements OnInit{
     registrant: Registrant;
     currentClient: Client = {} as Client;
     dreLicenseData: any;
+    dreBrokerLicenseData: any;
     agentData: any;
     formLoading: boolean = false;
     public loadSpinnerColor: ThemePalette = 'primary';
     public loadSpinnerMode: ProgressSpinnerMode = 'indeterminate';
     public loadSpinnerDiameter: string = '50';
-    stepOverflow: string = 'visible';
-
 
     docUploadMap: Map<string, DocUploadInfoDto> = new Map<string, DocUploadInfoDto>();
 
@@ -127,7 +126,7 @@ export class RegFormV2MatComponent implements OnInit{
         }
     ]
 
-    isLinear = false; // @TODO set isLinear to true for production
+    isLinear = true; // @TODO set isLinear to true for production
 
     steps: any[] = [];
     docUploadComplete: boolean = false;
@@ -158,8 +157,8 @@ export class RegFormV2MatComponent implements OnInit{
         });
     }
 
-    ngOnInit() {
-        this.setup().then();
+    async ngOnInit() {
+        await this.setup();
         const docUploadControls = {};
         this.docUploads.forEach((du: DocUploadFormDto) => {
             // @ts-ignore
@@ -220,6 +219,14 @@ export class RegFormV2MatComponent implements OnInit{
 
                 try {
                     this.dreLicenseData = await this.dre.checkDreLicense(this.clientLocalData.dreNumber)
+                    // @TODO Check licenseStatus if not LICENSED then abort Registration
+                } catch (err: any) {
+                    throw new Error(`checkDreLicense - error - msg: ${err.message}`);
+                }
+
+                try {
+                    const brokerLicenseId: string = this.dreLicenseData.responsibleBrokerObj.brokerageLicenseId;
+                    this.dreBrokerLicenseData = await this.dre.checkDreLicense(brokerLicenseId)
                     // @TODO Check licenseStatus if not LICENSED then abort Registration
                 } catch (err: any) {
                     throw new Error(`checkDreLicense - error - msg: ${err.message}`);
@@ -653,6 +660,9 @@ export class RegFormV2MatComponent implements OnInit{
         try {
             if(!this.registrant.agentDreData) {
                 this.registrant.agentDreData = this.dreLicenseData;
+            }
+            if(!this.registrant.brokerDreData) {
+                this.registrant.brokerDreData = this.dreBrokerLicenseData;
             }
             const response = await this.regService.saveRegForm(this.registrant);
             console.log('saveRegistrantData - response: ', response);
