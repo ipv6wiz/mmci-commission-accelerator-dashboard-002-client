@@ -8,6 +8,8 @@ export class GlobalErrorHandler extends ErrorHandler {
         super();
     }
     override handleError(error: Error) {
+        console.log('GlobalErrorHandler - handleError - Error: ', error);
+        console.log('GlobalErrorHandler - handleError - Error Msg: ', error.message);
         const parts = error.message.split('::');
         let newMsg: string = '';
         let tmpMsg: string = '';

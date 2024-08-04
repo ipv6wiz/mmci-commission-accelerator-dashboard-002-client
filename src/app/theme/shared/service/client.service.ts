@@ -28,7 +28,7 @@ export class ClientService {
      * @param uid : string
      * @param refresh
      */
-    getOne(uid: string, refresh: boolean = false): any {
+    async getOne(uid: string, refresh: boolean = false): Promise<Client | null> {
         if(this.client && !refresh) {
             return this.client;
         } else {
@@ -51,10 +51,10 @@ export class ClientService {
         return this.http.get<any>(`${this.apiUrl}/client/${clientId}`, {withCredentials: true});
     }
 
-    getCurrentCreditLimit(): number {
-        const client = this.getOne(this.clientId);
-        if(client.creditLimit.active) {
-            return client.creditLimit.limit;
+    async getCurrentCreditLimit(): Promise<number> {
+        const client = await this.getOne(this.clientId);
+        if(client && client.creditLimit && client.creditLimit.active) {
+            return client.creditLimit.limit || 0;
         } else {
             return 0;
         }

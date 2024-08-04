@@ -47,9 +47,11 @@ export default class AuthSigninV2Component implements OnInit {
       this.authenticationService.logoutViaApi().then();
     } else if(this.authenticationService.signUpAction) {
         console.log('SignUp in progress');
+
     } else {
         console.log('AuthSigninV2Component - NOT logged In');
     }
+    sessionStorage.clear();
   }
 
   ngOnInit() {

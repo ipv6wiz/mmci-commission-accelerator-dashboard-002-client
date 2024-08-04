@@ -22,7 +22,8 @@ export class RegistrationService {
             if(response.statusCode === 200) {
                 return response.data.registrant;
             } else {
-                throw new Error(`Did not find client registration with id: ${uid}`);
+                // throw new Error(`Did not find client registration with id: ${uid}`);
+                return null;
             }
         } catch (err: any) {
             const msg = `Dash001 - Registration Service - getOne- error: ${err.message}`;

@@ -34,7 +34,6 @@ import { HelpersService } from '../../../../theme/shared/service/helpers.service
 import { MatExpansionModule } from '@angular/material/expansion';
 import { FileManagerComponent } from '../../../../theme/shared/components/file-manager/file-manager.component';
 
-
 @Component({
   selector: 'app-reg-form-v2-mat',
   standalone: true,
@@ -64,7 +63,7 @@ export class RegFormV2MatComponent implements OnInit{
     clientLocalData: ClientLoginResponseDto = {} as ClientLoginResponseDto;
     clientBucketName: string = '';
     registrant: Registrant;
-    currentClient: Client = {} as Client;
+    currentClient: Client | null = {} as Client;
     dreLicenseData: any;
     dreBrokerLicenseData: any;
     agentData: any;
@@ -144,21 +143,29 @@ export class RegFormV2MatComponent implements OnInit{
         public dialog: MatDialog,
         private helpers: HelpersService
     ) {
-        this.populateSteps();
+
         this.clientLocalData = this.authService.getLocalClientData('client');
         this.registrant = new Registrant(this.clientLocalData.uid);
+        this.populateSteps();
+        console.log('RegFormV2MatComponent - constructor - after populateSteps');
+        this.setup().then(() => {
+            console.log('RegFormV2MatComponent - constructor - after setup');
+        });
+        console.log('RegFormV2MatComponent - constructor - end');
     }
 
     openDialog() {
         const dialogRef = this.dialog.open(RegFormHelpComponent);
-
         dialogRef.afterClosed().subscribe(result => {
-            console.log(`Dialog result: ${result}`);
+            console.log(`RegFormV2MatComponent - Dialog result: ${result}`);
         });
     }
 
     async ngOnInit() {
-        await this.setup();
+        console.log('RegFormV2MatComponent - ngOnInit');
+
+        // await this.setup();
+        // console.log('RegFormV2MatComponent - ngOnInit - after setup');
         const docUploadControls = {};
         this.docUploads.forEach((du: DocUploadFormDto) => {
             // @ts-ignore
@@ -173,25 +180,24 @@ export class RegFormV2MatComponent implements OnInit{
                 fullFileName: ''
             });
         });
-        console.log('ngOnInit - docUploadControls: ', docUploadControls);
-        console.log('ngOnInit - docUploadMap: ', this.docUploadMap);
+        console.log('RegFormV2MatComponent - ngOnInit - docUploadControls: ', docUploadControls);
+        console.log('RegFormV2MatComponent - ngOnInit - docUploadMap: ', this.docUploadMap);
         // this.docUploadGroup.controls = docUploadControls;
         // this.docUploadGroup.setErrors({noUploads: true});
         this.docUploadGroup = this._formBuilder.group(docUploadControls);
-        console.log('ngOnInit - docUploadGroup: ', this.docUploadGroup);
+        console.log('RegFormV2MatComponent - ngOnInit - docUploadGroup: ', this.docUploadGroup);
         this.regFormDoneGroup = this._formBuilder.group({done: ['', Validators.required]});
     }
 
     async setup(): Promise<any> {
         try {
             this.clientLocalData = this.authService.getLocalClientData();
-            console.log('ngOnInit - clientLocalData: ', this.clientLocalData);
-            if(!!this.clientLocalData) {
+            console.log('RegFormV2MatComponent - setup - clientLocalData: ', this.clientLocalData);
+            if(this.clientLocalData) {
                 try {
-
                     this.currentClient = await this.clientService.getOne(this.clientLocalData.uid);
-                    if(!!this.currentClient) {
-                        console.log('setup - currentClient: ', this.currentClient);
+                    if(this.currentClient) {
+                        console.log('RegFormV2MatComponent - setup - currentClient: ', this.currentClient);
                         if(!!this.currentClient.bucket) {
                             this.clientBucketName = this.currentClient.bucket;
                             this.makeFileUploaderUrls(this.currentClient.bucket);
@@ -201,9 +207,9 @@ export class RegFormV2MatComponent implements OnInit{
                         this.formLoading = true;
                         try {
                             const reg: Registrant = await this.regService.getOne(this.clientLocalData.uid);
-                            if(!!reg) {
+                            if(reg) {
                                 this.registrant = reg;
-                                console.log('setup - reg: ', reg);
+                                console.log('RegFormV2MatComponent - setup - reg: ', reg);
                                 this.populateFormWithRegistrantData();
                             } else {
                                 this.registrant.uid = this.clientLocalData.uid;
@@ -214,20 +220,19 @@ export class RegFormV2MatComponent implements OnInit{
                         this.formLoading = false;
                     }
                 } catch (err: any) {
+                    console.log('RegFormV2MatComponent - setup - currentClient & Registrant Error: ', err.message);
                     throw new Error('setup - get currentClient & Registrant Error:' + err.message);
                 }
-
+                console.log('RegFormV2MatComponent - setup - before dreAgentLicenseData');
                 try {
                     this.dreLicenseData = await this.dre.checkDreLicense(this.clientLocalData.dreNumber)
-                    // @TODO Check licenseStatus if not LICENSED then abort Registration
                 } catch (err: any) {
                     throw new Error(`checkDreLicense - error - msg: ${err.message}`);
                 }
-
+                console.log('RegFormV2MatComponent - setup - before dreBrokerLicenseData');
                 try {
                     const brokerLicenseId: string = this.dreLicenseData.responsibleBrokerObj.brokerageLicenseId;
                     this.dreBrokerLicenseData = await this.dre.checkDreLicense(brokerLicenseId)
-                    // @TODO Check licenseStatus if not LICENSED then abort Registration
                 } catch (err: any) {
                     throw new Error(`checkDreLicense - error - msg: ${err.message}`);
                 }
@@ -244,10 +249,11 @@ export class RegFormV2MatComponent implements OnInit{
         this.docUploads.forEach((item) => {
             item.uploadUrl = this.storageService.makeFileUploaderUrl(bucketName, item.folder);
         });
-        console.log('docUploads - after:', this.docUploads);
+        console.log('RegFormV2MatComponent - docUploads - after:', this.docUploads);
     }
 
     populateSteps() {
+        console.log('RegFormV2MatComponent - =======> populateSteps <========');
         const contactInfoGroup = this._formBuilder.group({
             firstName: ['', Validators.required],
             middleName: [''],
@@ -266,7 +272,7 @@ export class RegFormV2MatComponent implements OnInit{
                 ]
             ]
         });
-
+        console.log('RegFormV2MatComponent - =======> populateSteps <======== - After contactInfoGroup');
         // const required = 'required';
         // contactInfoGroup.controls.middleName.addValidators(Validators['required'])
 
@@ -289,7 +295,7 @@ export class RegFormV2MatComponent implements OnInit{
             ]
             ]
         });
-
+        console.log('RegFormV2MatComponent - =======> populateSteps <======== - After addressInfoGroup');
         const dreInfoGroup = this._formBuilder.group({
             dreNumber: ['', [
                     Validators.required,
@@ -311,7 +317,7 @@ export class RegFormV2MatComponent implements OnInit{
                 ]
             ],
         });
-
+        console.log('RegFormV2MatComponent - =======> populateSteps <======== - After dreInfoGroup');
         const brokerageInfoGroup = this._formBuilder.group({
             brokerageName: ['', Validators.required],
             brokerageDreNumber: ['', [
@@ -350,7 +356,7 @@ export class RegFormV2MatComponent implements OnInit{
                 ]
             ],
         });
-
+        console.log('RegFormV2MatComponent - =======> populateSteps <======== - After brokerageInfoGroup');
         const performanceInfoGroup = this._formBuilder.group({
             productionVolume: ['', [
                     Validators.required,
@@ -378,7 +384,7 @@ export class RegFormV2MatComponent implements OnInit{
                 ]
             ],
         });
-
+        console.log('RegFormV2MatComponent - =======> populateSteps <======== - After performanceInfoGroup');
         this.steps.push({
             stepControl: contactInfoGroup,
             formGroup: contactInfoGroup,
@@ -428,6 +434,7 @@ export class RegFormV2MatComponent implements OnInit{
                 }
             ]
         });
+        console.log('RegFormV2MatComponent - =======> populateSteps <======== - After contactInfoGroup - steps');
         this.steps.push({
             stepControl: addressInfoGroup,
             formGroup: addressInfoGroup,
@@ -483,6 +490,7 @@ export class RegFormV2MatComponent implements OnInit{
                 }
             ]
         });
+        console.log('RegFormV2MatComponent - =======> populateSteps <======== - After addressInfoGroup - steps');
         this.steps.push({
             stepControl: dreInfoGroup,
             formGroup: dreInfoGroup,
@@ -534,6 +542,7 @@ export class RegFormV2MatComponent implements OnInit{
                 }
             ]
         });
+        console.log('RegFormV2MatComponent - =======> populateSteps <======== - After dreInfoGroup - steps');
         this.steps.push({
             stepControl: brokerageInfoGroup,
             formGroup: brokerageInfoGroup,
@@ -597,6 +606,7 @@ export class RegFormV2MatComponent implements OnInit{
                 }
             ]
         });
+        console.log('RegFormV2MatComponent - =======> populateSteps <======== - After brokerageInfoGroup - steps');
         this.steps.push({
             stepControl: performanceInfoGroup,
             formGroup: performanceInfoGroup,
@@ -647,6 +657,7 @@ export class RegFormV2MatComponent implements OnInit{
                 }
             ]
         });
+        console.log('RegFormV2MatComponent - =======> populateSteps <======== - After performanceInfoGroup - steps');
     }
 
     populateFormWithRegistrantData() {
@@ -665,7 +676,7 @@ export class RegFormV2MatComponent implements OnInit{
                 this.registrant.brokerDreData = this.dreBrokerLicenseData;
             }
             const response = await this.regService.saveRegForm(this.registrant);
-            console.log('saveRegistrantData - response: ', response);
+            console.log('RegFormV2MatComponent - saveRegistrantData - response: ', response);
             return response;
         } catch (e: any) {
             throw new Error(e.message);
@@ -674,16 +685,22 @@ export class RegFormV2MatComponent implements OnInit{
 
     populateRegistrantUploadData(dir: string): any {
         if(dir === 'to') {
+            console.log('******** RegFormV2MatComponent - populateRegistrantUploadData - to - docUploadMap: ', this.docUploadMap);
             return Object.fromEntries(this.docUploadMap);
         } else {
-            this.docUploadMap = new Map(Object.entries( this.registrant.docUploadInfo));
+            // @ts-ignore
+            if(!this.helpers.isEmpty(this.registrant.docUploadInfo)) {
+                console.log('******** RegFormV2MatComponent - populateRegistrantUploadData - to - registrant.docUploadInfo: ', this.registrant.docUploadInfo);
+                this.docUploadMap = new Map(Object.entries( this.registrant.docUploadInfo));
+            }
+            console.log('******** RegFormV2MatComponent - populateRegistrantUploadData - FROM - docUploadMap: ', this.docUploadMap);
             for(let key of this.docUploadMap.keys()) {
-                console.log('populateRegistrantUploadData - from - key: ', key);
+                console.log('RegFormV2MatComponent - populateRegistrantUploadData - from - key: ', key);
                 const item = this.docUploadMap.get(key);
-                if(!!item && item.uploaded) {
+                if(item && item.uploaded) {
                     this.docUploadGroup.controls[key].setValue('true');
                     const di = this.findDocUploadIndex(key);
-                    console.log(`>>>>>>> populateRegistrantUploadData - di: ${di}`);
+                    console.log(`RegFormV2MatComponent - >>>>>>> populateRegistrantUploadData - di: ${di}`);
                     if(di !== -1) {
                         this.docUploads[di].uploaded = true;
                     }
@@ -720,13 +737,13 @@ export class RegFormV2MatComponent implements OnInit{
                     if(field.type === 'date' && field.storedFormat === 'ISO Local') {
                         // @ts-ignore
                         const formDate = controls[keyToUse].value; // date Object
-                        // console.log('>>>>>>> updateData formDate: ', formDate);
-                        // console.log('>>>>>>> updateData formDate - typeof', typeof formDate);
+                        // console.log('RegFormV2MatComponent - >>>>>>> updateData formDate: ', formDate);
+                        // console.log('RegFormV2MatComponent - >>>>>>> updateData formDate - typeof', typeof formDate);
                         if(typeof formDate === 'object') {
                             const localDate = formDate.toLocaleDateString();
-                            // console.log('******* >>> onDateChange - date: ', localDate);
+                            // console.log('RegFormV2MatComponent - ******* >>> onDateChange - date: ', localDate);
                             const isoDate = this.helpers.makeIsoDate(localDate);
-                            // console.log('******* >>> onDateChange - isoDate: ', isoDate);
+                            // console.log('RegFormV2MatComponent - ******* >>> onDateChange - isoDate: ', isoDate);
                             // @ts-ignore
                             this.registrant[objKeyToUse][keyToUse] = isoDate.split('T')[0];
                         } else {
@@ -793,35 +810,34 @@ export class RegFormV2MatComponent implements OnInit{
             updateData(dir, keyToUse, objKeyToUse, controls);
         });
 
-        console.log('populateRegistrantData - registrant: ', this.registrant);
-        console.log('populateRegistrantData - form controls: ', controls);
+        console.log('RegFormV2MatComponent - populateRegistrantData - registrant: ', this.registrant);
+        console.log('RegFormV2MatComponent - populateRegistrantData - form controls: ', controls);
     }
 
     findDocUploadIndex(ctrlName: string): number {
         return this.docUploads.findIndex((item) => item.ctrlName === ctrlName);
     }
 
-
     async onFileUploaded(response: ApiResponse) {
         // DO NOT handle  file upload in UI only in API use data to set the docUploadComplete flag
-        console.log('>>>>>>> onFileUploaded - response: ', response);
+        console.log('RegFormV2MatComponent - >>>>>>> onFileUploaded - response: ', response);
         if(response.statusCode !== 201) {
             throw new Error(response.msg);
         } else {
             const ctrlName: string = response.data.ctrlName;
-            console.log(`>>>>>>> onFileUploaded - ctrlName: ${ctrlName}`);
+            console.log(`RegFormV2MatComponent - >>>>>>> onFileUploaded - ctrlName: ${ctrlName}`);
             // @ts-ignore
             this.docUploadGroup.controls[ctrlName].setValue('true');
-            console.log('>>>>>>> onFileUploaded - docUploadMap: ', this.docUploadMap);
+            console.log('RegFormV2MatComponent - >>>>>>> onFileUploaded - docUploadMap: ', this.docUploadMap);
             const item = this.docUploadMap.get(ctrlName);
-            console.log('>>>>>>> onFileUploaded - BEFORE - item: ', item);
+            console.log('RegFormV2MatComponent - >>>>>>> onFileUploaded - BEFORE - item: ', item);
             if(item) {
                 item.uploaded = true;
                 item.fullFileName = response.data.fileName;
-                console.log('>>>>>>> onFileUploaded - item: ', item);
+                console.log('RegFormV2MatComponent - >>>>>>> onFileUploaded - item: ', item);
                 this.docUploadMap.set(ctrlName, item);
                 const di: number = this.findDocUploadIndex(ctrlName);
-                console.log(`>>>>>>> onFileUploaded - di: ${di}`);
+                console.log(`RegFormV2MatComponent - >>>>>>> onFileUploaded - di: ${di}`);
                 if(di !== -1) {
                     this.docUploads[di].uploaded = true;
                 }
@@ -833,20 +849,20 @@ export class RegFormV2MatComponent implements OnInit{
     }
 
     onDocSubmit(event:any) {
-        console.log('onDocSubmit - event: ', event);
+        console.log('RegFormV2MatComponent - onDocSubmit - event: ', event);
     }
 
     async onStepChange(event: any) {
-        console.log('onStepChange - event: ', event);
+        console.log('RegFormV2MatComponent - onStepChange - event: ', event);
         const allValid: boolean = this.checkGroupsAreValid();
-        console.log(`onStepChange - ${allValid?'All groups are VALID': 'Some groups are INVALID'}`);
-        console.log(`onStepChange - docUploadGroup ${this.checkDocUploadGroupIsValid()? 'is VALID': 'Is NOT valid'}`);
+        console.log(`RegFormV2MatComponent - onStepChange - ${allValid?'All groups are VALID': 'Some groups are INVALID'}`);
+        console.log(`RegFormV2MatComponent - onStepChange - docUploadGroup ${this.checkDocUploadGroupIsValid()? 'is VALID': 'Is NOT valid'}`);
         const stepIndex: number = event.previouslySelectedIndex;
         if(stepIndex < this.steps.length) {
             const isDirty = this.checkForDirtyControls(stepIndex);
             const isValid = this.checkGroupIsValid(stepIndex);
-            console.log(`onStepChange previous step ${stepIndex} - ${this.steps[stepIndex].stepId} - ${isValid? 'is VALID ': 'is NOT Valid '} and ${isDirty ? 'has': 'does not have'} dirty controls:` , this.f(stepIndex));
-            console.log('onStepChange previous controls: ', this.f(stepIndex));
+            console.log(`RegFormV2MatComponent - onStepChange previous step ${stepIndex} - ${this.steps[stepIndex].stepId} - ${isValid? 'is VALID ': 'is NOT Valid '} and ${isDirty ? 'has': 'does not have'} dirty controls:` , this.f(stepIndex));
+            console.log('RegFormV2MatComponent - onStepChange previous controls: ', this.f(stepIndex));
             if(isValid) {
                 this.populateRegistrantDataByStep(stepIndex);
                 this.populateRegistrantUploadData('to');
@@ -856,10 +872,10 @@ export class RegFormV2MatComponent implements OnInit{
     }
 
     async onSubmit(event: any){
-        console.log('onSubmit event: ', event);
-        console.log('onSubmit button id: ', event.submitter.id);
-        console.log(`onSubmit - ${this.checkGroupsAreValid()?'All groups are VALID': 'Some groups are INVALID'}`);
-        console.log(`onSubmit - docUploadGroup ${this.checkDocUploadGroupIsValid()? 'is VALID': 'Is NOT valid'}`);
+        console.log('RegFormV2MatComponent - onSubmit event: ', event);
+        console.log('RegFormV2MatComponent - onSubmit button id: ', event.submitter.id);
+        console.log(`RegFormV2MatComponent - onSubmit - ${this.checkGroupsAreValid()?'All groups are VALID': 'Some groups are INVALID'}`);
+        console.log(`RegFormV2MatComponent - onSubmit - docUploadGroup ${this.checkDocUploadGroupIsValid()? 'is VALID': 'Is NOT valid'}`);
         if(event.submitter.id === 'reg-form-save') {
             // Client Role and status need to change to CLIENT-PENDING-VERIFICATION & Client Pending Verification
             // Client default page needs to change to /reg/pending-verification
@@ -875,11 +891,11 @@ export class RegFormV2MatComponent implements OnInit{
                 agentData: this.registrant.agentDreData,
                 brokerage: this.registrant.brokerageInfo
             };
-            // console.log('onSubmit - client: ', client);
+            // console.log('RegFormV2MatComponent - onSubmit - client: ', client);
             this.authService.setLocalClientDataProp('roles', ['CLIENT-PENDING-VERIFICATION']);
             this.authService.setLocalClientDataProp('status', 'Client Pending Verification');
             this.authService.setLocalClientDataProp('defaultPage', '/reg/pending-verification');
-            console.log('onSubmit - local client data: ', this.authService.getLocalClientData());
+            console.log('RegFormV2MatComponent - onSubmit - local client data: ', this.authService.getLocalClientData());
             clientLocalData = this.authService.getLocalClientData();
             this.clientLocalData = clientLocalData;
             try {
@@ -888,9 +904,9 @@ export class RegFormV2MatComponent implements OnInit{
                     const regResp = await this.saveRegistrantData();
                     if(regResp) {
                         try {
-                            console.log('-------> onSubmit - about to update client');
+                            console.log('RegFormV2MatComponent -------> onSubmit - about to update client');
                             const clientResp = await this.clientService.update(clientLocalData.uid, client); // <--------
-                            console.log('-------> onSubmit - clientResp: ', clientResp);
+                            console.log('RegFormV2MatComponent -------> onSubmit - clientResp: ', clientResp);
                             if(clientResp.statusCode === 200) {
                                 this.authService.setLocalClientData({client: clientResp.data }, 'client');
                                 return this.router.navigate([client.defaultPage]);
@@ -910,21 +926,21 @@ export class RegFormV2MatComponent implements OnInit{
             if(stepIndex !== -1){
                 const isDirty = this.checkForDirtyControls(stepIndex);
                 const isValid = this.checkGroupIsValid(stepIndex);
-                console.log(`onSubmit for step ${stepIndex} - ${event.submitter.id} Group ${isValid? 'is VALID ': 'is NOT Valid '} and ${isDirty ? 'has': 'does not have'} dirty controls:` , this.f(stepIndex));
-                console.log(`onSubmit for step ${stepIndex} - controls: `, this.f(stepIndex));
+                console.log(`RegFormV2MatComponent - onSubmit for step ${stepIndex} - ${event.submitter.id} Group ${isValid? 'is VALID ': 'is NOT Valid '} and ${isDirty ? 'has': 'does not have'} dirty controls:` , this.f(stepIndex));
+                console.log(`RegFormV2MatComponent - onSubmit for step ${stepIndex} - controls: `, this.f(stepIndex));
                 if(isValid) {
                     this.populateRegistrantDataByStep(stepIndex);
                     this.registrant.docUploadInfo =  this.populateRegistrantUploadData('to');
                     await this.saveRegistrantData();
                 }
             } else {
-                console.log('No entry for stepId: ', event.submitter.id);
+                console.log('RegFormV2MatComponent - No entry for stepId: ', event.submitter.id);
             }
         }
     }
 
     onPrevious(event: any) {
-        console.log('onPrevious event: ', event);
+        console.log('RegFormV2MatComponent - onPrevious event: ', event);
     }
 
     checkGroupIsValid(step: number): boolean {
@@ -954,7 +970,7 @@ export class RegFormV2MatComponent implements OnInit{
 
     checkForDirtyControls(stepIndex:number): boolean{
         const controls = this.f(stepIndex);
-        console.log('checkForDirtyControls - controls: ', controls)
+        console.log('RegFormV2MatComponent - checkForDirtyControls - controls: ', controls)
         let isDirty: boolean = false;
         const ctrlKeys = Object.keys(controls);
         for(let i=0; i<ctrlKeys.length; i++){
@@ -963,7 +979,7 @@ export class RegFormV2MatComponent implements OnInit{
                 break;
             }
         }
-        console.log('checkForDirtyControls -isDirty: ', isDirty);
+        console.log('RegFormV2MatComponent - checkForDirtyControls -isDirty: ', isDirty);
         return isDirty;
     }
 
@@ -980,7 +996,7 @@ export class RegFormV2MatComponent implements OnInit{
 
     findFieldIndex(stepIndex: number, fcn: string): number {
         for(let x = 0; x < this.steps[stepIndex].fields.length; x++) {
-            console.log(`>>>> ***** >>> findFieldIndex - fcn: ${fcn} - field fcn: ${this.steps[stepIndex].fields[x].fcn}`);
+            console.log(`RegFormV2MatComponent - >>>> ***** >>> findFieldIndex - fcn: ${fcn} - field fcn: ${this.steps[stepIndex].fields[x].fcn}`);
             if(this.steps[stepIndex].fields[x].fcn === fcn) {
                 return x;
             }
@@ -989,8 +1005,8 @@ export class RegFormV2MatComponent implements OnInit{
     }
 
     fieldChange(event: any) {
-        console.log('***** >>>>> fieldChange - event: ', event);
-        console.log(`***** >>>>> fieldChange - id: ${event.target.id} - value: ${event.target.value}`);
+        console.log('RegFormV2MatComponent - ***** >>>>> fieldChange - event: ', event);
+        console.log(`RegFormV2MatComponent - ***** >>>>> fieldChange - id: ${event.target.id} - value: ${event.target.value}`);
         const text = event.target.value;
         const ctrlId = event.target.id;
         const ctrlNameParts = ctrlId.split('-');
@@ -999,10 +1015,10 @@ export class RegFormV2MatComponent implements OnInit{
         const stepIndex = this.findStepIndex(formGroup);
         if(stepIndex !== -1) {
             const fieldIndex = this.findFieldIndex(stepIndex, formControlName);
-            console.log('***** >>>>> fieldChange - fieldIndex: ', fieldIndex);
+            console.log('RegFormV2MatComponent - ***** >>>>> fieldChange - fieldIndex: ', fieldIndex);
             if(fieldIndex !== -1) {
                 const doAutoCap: boolean = (!!this.steps[stepIndex].fields[fieldIndex].autoCapitalize);
-                console.log('***** >>>>> fieldChange - doAutoCap: ', doAutoCap);
+                console.log('RegFormV2MatComponent - ***** >>>>> fieldChange - doAutoCap: ', doAutoCap);
                 if(doAutoCap) {
                     const capFirst = this.helpers.autoCapitalize(text);
                     this.steps[stepIndex].formGroup.controls[formControlName].setValue(capFirst);
@@ -1012,25 +1028,25 @@ export class RegFormV2MatComponent implements OnInit{
     }
 
     onDateChange(event: any) {
-        // console.log('******* >>> onDateChange - event: ', event);
+        // console.log('RegFormV2MatComponent - ******* >>> onDateChange - event: ', event);
         const date = event.value;
         // const : string = event.target._formField.ngControl.control.name;
         // const ngControl = event.target.
         const ctrlId: string = event.targetElement.id;
-        // console.log('******* >>> onDateChange - ctrlId: ', ctrlId);
+        // console.log('RegFormV2MatComponent - ******* >>> onDateChange - ctrlId: ', ctrlId);
         const ctrlNameParts = ctrlId.split('-');
         const formGroup = ctrlNameParts[0];
         const formControlName = ctrlNameParts[1];
-        // console.log(`******* >>> onDateChange - formGroup: ${formGroup} - control: ${formControlName}`);
+        // console.log(`RegFormV2MatComponent - ******* >>> onDateChange - formGroup: ${formGroup} - control: ${formControlName}`);
         const stepIndex = this.findStepIndex(formGroup);
-        // console.log(`******* >>> onDateChange - stepIndex: ${stepIndex}`);
+        // console.log(`RegFormV2MatComponent - ******* >>> onDateChange - stepIndex: ${stepIndex}`);
         if(stepIndex !== -1) {
             const localDate = date.toLocaleDateString();
-            // console.log('******* >>> onDateChange - date: ', localDate);
+            // console.log('RegFormV2MatComponent - ******* >>> onDateChange - date: ', localDate);
             const isoDate = this.helpers.makeIsoDate(localDate);
-            // console.log('******* >>> onDateChange - isoDate: ', isoDate);
+            // console.log('RegFormV2MatComponent - ******* >>> onDateChange - isoDate: ', isoDate);
             this.steps[stepIndex].formGroup.controls[formControlName].setValue(isoDate);
-            // console.log('onDateChange controls: ', this.f(stepIndex));
+            // console.log('RegFormV2MatComponent - onDateChange controls: ', this.f(stepIndex));
         }
     }
 

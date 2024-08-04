@@ -8,16 +8,25 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../components/confirm-dialog/confirm-dialog.component';
 import { ConfirmDialogDto } from '../dtos/confirm-dialog.dto';
 
+type IsEmptyObject<Obj extends Record<PropertyKey, unknown>> =
+  [keyof Obj] extends [never] ? true : false
+
 @Injectable({
   providedIn: 'root'
 })
 export class HelpersService {
+
   private boolWords: string[] = [];
   private trueWords: string[] = [ 'true','yes',];
   private falseWords: string[] = ['false','no'];
 
   constructor(private dialog: MatDialog) {
     this.boolWords = this.trueWords.concat(this.falseWords);
+  }
+
+  isEmpty<Obj extends Record<PropertyKey, unknown>>(obj: Obj): IsEmptyObject<Obj>
+  isEmpty<Obj extends Record<PropertyKey, unknown>>(obj: Obj) {
+    return Object.keys(obj).length === 0
   }
 
   percentCalc(amount: number, percent: number): number {

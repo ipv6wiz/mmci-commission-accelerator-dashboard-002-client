@@ -7,5 +7,4 @@ export interface AgentData {
     lastname: string;
     respBroker: string;
     homeAddress: Address
-
 }
