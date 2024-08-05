@@ -122,23 +122,28 @@ export class AuthenticationService {
                return this.SetClientData(user)
                  .then((data: any) => {
                    this.getCurrentClientDocument(data.clientId)
-                     .then((clientDoc) => {
-                       console.log('login - before - clientData:', this.clientData);
-                       console.log('login -  doc:', clientDoc);
-                       // @TODO Handle missing returnUrl and/or defaultPage
-                       // const clientDoc = doc;
-                       const { defaultPage, dreNumber, firstName, lastName } = clientDoc;
-                       this.clientData.dreNumber = dreNumber;
-                       this.clientData.firstName = firstName;
-                       this.clientData.lastName = lastName;
-                       console.log('login - After - clientData:', this.clientData);
-                       // localStorage.setItem('client', JSON.stringify(this.clientData));
-                       sessionStorage.setItem('client', JSON.stringify(this.clientData))
-                       if (!this.returnUrl) {
-                         this.returnUrl = defaultPage;
+                     .then((clientDoc: Client | undefined) => {
+                       if(clientDoc) {
+                         console.log('login - before - clientData:', this.clientData);
+                         console.log('login -  doc:', clientDoc);
+                         // @TODO Handle missing returnUrl and/or defaultPage
+                         // const clientDoc = doc;
+                         const { defaultPage, dreNumber, firstName, lastName } = clientDoc;
+                         this.clientData.dreNumber = dreNumber;
+                         this.clientData.firstName = firstName;
+                         this.clientData.lastName = lastName;
+                         console.log('login - After - clientData:', this.clientData);
+                         // localStorage.setItem('client', JSON.stringify(this.clientData));
+                         sessionStorage.setItem('client', JSON.stringify(this.clientData))
+                         if (!this.returnUrl) {
+                           this.returnUrl = defaultPage;
+                         }
+                         console.log(`Login - returnUrl = ${this.returnUrl}`);
+                         return this.router.navigate([this.returnUrl]);
+                       } else {
+                         throw new Error('Client not found.')
                        }
-                       console.log(`Login - returnUrl = ${this.returnUrl}`);
-                       return this.router.navigate([this.returnUrl]);
+
                      })
                      .catch((err) => {
                        throw new Error('login - getCurrentClientDocument - error:' + err.message);
@@ -370,12 +375,13 @@ export class AuthenticationService {
           console.log(`======> getCurrentClientDocument - getOne - for uid: ${uid} `);
             const response = await this.clientService.getOne(uid, true);
           console.log(`======> getCurrentClientDocument - getOne - for uid: ${uid} response: `, response);
+          if(response) {
             return response;
-        } else {
-            console.log('getCurrentClientDocument - Client not found in LocalData');
-            // this.logoutViaApi().then();
-        }
+          }
 
+        }
+        console.log('getCurrentClientDocument - Client not found in LocalData');
+        this.logoutViaApi().then();
     }
 
     async getLocalClientRoles(clientData: any): Promise<string[]> {
@@ -390,7 +396,7 @@ export class AuthenticationService {
     async getCurrentClientRoles(uid: string = ''): Promise<string[]> {
         const clientDoc = await this.getCurrentClientDocument(uid);
         if(clientDoc) {
-            return clientDoc.roles;
+            return clientDoc.roles || [];
         } else  {
             return ['guest'];
         }

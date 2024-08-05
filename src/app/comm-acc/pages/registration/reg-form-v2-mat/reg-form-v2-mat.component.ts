@@ -33,6 +33,7 @@ import {ThemePalette} from "@angular/material/core";
 import { HelpersService } from '../../../../theme/shared/service/helpers.service';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { FileManagerComponent } from '../../../../theme/shared/components/file-manager/file-manager.component';
+import { ClientUpdateDto } from '../../../../theme/shared/dtos/client-update.dto';
 
 @Component({
   selector: 'app-reg-form-v2-mat',
@@ -820,7 +821,7 @@ export class RegFormV2MatComponent implements OnInit{
 
     async onFileUploaded(response: ApiResponse) {
         // DO NOT handle  file upload in UI only in API use data to set the docUploadComplete flag
-        console.log('RegFormV2MatComponent - >>>>>>> onFileUploaded - response: ', response);
+        console.debug('RegFormV2MatComponent - >>>>>>> onFileUploaded - response: ', response);
         if(response.statusCode !== 201) {
             throw new Error(response.msg);
         } else {
@@ -877,18 +878,16 @@ export class RegFormV2MatComponent implements OnInit{
         console.log(`RegFormV2MatComponent - onSubmit - ${this.checkGroupsAreValid()?'All groups are VALID': 'Some groups are INVALID'}`);
         console.log(`RegFormV2MatComponent - onSubmit - docUploadGroup ${this.checkDocUploadGroupIsValid()? 'is VALID': 'Is NOT valid'}`);
         if(event.submitter.id === 'reg-form-save') {
-            // Client Role and status need to change to CLIENT-PENDING-VERIFICATION & Client Pending Verification
-            // Client default page needs to change to /reg/pending-verification
             let clientLocalData = this.authService.getLocalClientData();
             this.clientLocalData = clientLocalData;
-            const client: Client = {
+            const client: ClientUpdateDto = {
                 uid: clientLocalData.uid,
                 roles: ['CLIENT-PENDING-VERIFICATION'],
                 status: 'Client Pending Verification',
                 defaultPage: '/reg/pending-verification',
                 clientDocs: this.populateRegistrantUploadData('to'),
                 cellPhone: this.registrant.contactInfo.cellPhone,
-                agentData: this.registrant.agentDreData,
+                agentDreData: this.registrant.agentDreData,
                 brokerage: this.registrant.brokerageInfo
             };
             // console.log('RegFormV2MatComponent - onSubmit - client: ', client);

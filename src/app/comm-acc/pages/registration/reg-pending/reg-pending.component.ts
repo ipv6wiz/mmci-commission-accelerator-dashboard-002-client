@@ -33,12 +33,23 @@ export class RegPendingComponent implements OnInit{
 
         console.log('RegPendingComponent - ngOnInit - local Client Data: ', this.clientLocalData);
         console.log('RegPendingComponent - ngOnInit - Client Doc Data: ', this.clientDocData);
-        this.status = this.clientDocData.status;
+        if(this.clientDocData.status) {
+            this.status = this.clientDocData.status;
+        } else {
+            this.status = 'UNKNOWN';
+        }
+
         this.statusMsg = this.makeStatusMsg(this.status);
     }
 
     async getClientDoc() {
-        this.clientDocData = await this.authService.getCurrentClientDocument();
+        const response = await this.authService.getCurrentClientDocument();
+        if(response) {
+            this.clientDocData = response;
+        } else {
+            throw new Error('getClientDoc failed')
+        }
+
     }
 
     makeStatusMsg(status:string ): string {
