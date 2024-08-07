@@ -58,7 +58,8 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
     this.formConfig = [
       {key: 'fieldIdPrefix', value: 'advance'},
       {key: 'dataTypeTag', value: 'advances'},
-      {key: 'formTag', value: 'Commission Advance'},
+      {key: 'formTag', value: 'Commission Advance Request/Property Details'},
+      {key: 'justTag', value: 'true'},
       {key: 'formUUID', value: this.formUUID}
     ];
     this.chipListArr = [];
