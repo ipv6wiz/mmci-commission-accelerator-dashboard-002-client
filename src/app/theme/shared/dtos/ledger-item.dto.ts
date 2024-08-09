@@ -6,6 +6,7 @@ export interface LedgerItemDto {
   advanceId: string;
   advanceName: string;
   description: string;
+  advanceAgreementNumber: string;
   amount: number; // $0.00
   balance: number; // updated on the fly
 }
